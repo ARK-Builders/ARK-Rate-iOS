@@ -1,0 +1,40 @@
+# Specify directories or files to ignore
+excluded:
+  - .build        # Ignore Swift Package Manager build artifacts
+  - Generated     # Ignore auto-generated files
+  - **/Generated/
+  - **/*.pb.swift # Ignore protobuf-generated Swift files
+
+# Specify directories or files to be checked
+included:
+  - Sources       # Include the main source code directory
+  - Tests         # Include test files
+
+# Disable specific rules
+disabled_rules:
+  - force_cast          # Do not warn about forced casting (as!)
+  - force_try           # Do not warn about force try (!)
+  - todo                # Do not warn about TODO comments
+  - trailing_whitespace # Do not warn about trailing spaces
+
+# Configure key linting rules
+line_length: 120 # Maximum allowed characters per line
+type_body_length:
+  warning: 300   # Show warning if class/struct body exceeds 300 lines
+  error: 400     # Show error if body exceeds 400 lines
+identifier_name:
+  min_length: 3  # Variable and function names must have at least 3 characters
+  max_length: 40 # Maximum identifier length is 40 characters
+
+# Enable rules that SwiftLint does not enforce by default
+opt_in_rules:
+  - empty_count       # Prefer `.isEmpty` instead of `.count == 0`
+  - closure_spacing   # Ensure proper spacing in closures
+  - trailing_comma    # Enforce trailing commas in multi-line collections
+  - unused_import     # Remove unused imports
+  - sorted_imports    # Enforce alphabetically sorted imports
+  - explicit_self     # Require `self.` when accessing instance properties
+
+# SwiftLint configuration for Swift Package Manager
+swiftlint:
+  enable_sourcekit: true # Enable SourceKit for better linting support
