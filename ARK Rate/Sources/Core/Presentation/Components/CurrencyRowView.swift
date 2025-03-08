@@ -4,16 +4,17 @@ struct CurrencyRowView: View {
 
     // MARK: - Properties
 
-    let currency: CurrencyDisplayModel
+    let currencyName: String
+    let currencyRate: String
 
     // MARK: - Body
 
     var body: some View {
         HStack {
-            Text(currency.id)
+            Text(currencyName)
                 .font(.headline)
             Spacer()
-            Text("\(currency.formattedRate)")
+            Text(currencyRate)
                 .font(.subheadline)
         }
         .padding()

@@ -28,7 +28,7 @@ private extension CurrenciesView {
 
     var list: some View {
         List(store.fiatCurrencies, id: \.id) { currency in
-            CurrencyRowView(currency: currency)
+            CurrencyRowView(currencyName: currency.id, currencyRate: currency.formattedRate)
         }
         .refreshable {
             store.send(.fetchFiatCurrencies)
