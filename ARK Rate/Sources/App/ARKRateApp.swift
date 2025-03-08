@@ -6,12 +6,25 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct ARKRateApp: App {
+
+    // MARK: - Properties
+
+    let store = Store(
+        initialState: CurrenciesFeature.State(),
+        reducer: {
+            CurrenciesFeature()
+        }
+    )
+
+    // MARK: - Body
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CurrenciesView(store: store)
         }
     }
 }
