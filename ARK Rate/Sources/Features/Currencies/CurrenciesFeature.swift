@@ -11,7 +11,7 @@ struct CurrenciesFeature {
 
     enum Action {
         case fetchCurrencies
-        case currenciesLoaded([Currency])
+        case currenciesUpdated([Currency])
     }
 
     // MARK: - Properties
@@ -23,7 +23,7 @@ struct CurrenciesFeature {
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .fetchCurrencies: fetchCurrencies(&state)
-        case .currenciesLoaded(let currencies): currenciesLoaded(&state, currencies)
+        case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
         }
     }
 }
@@ -35,12 +35,13 @@ private extension CurrenciesFeature {
     func fetchCurrencies(_ state: inout State) -> Effect<Action> {
         state.isLoading = true
         return Effect.run { send in
-            let currencies = try await fetchCurrenciesUseCase.execute()
-            await send(Action.currenciesLoaded(currencies))
+            for await currencies in fetchCurrenciesUseCase.execute() {
+                await send(Action.currenciesUpdated(currencies))
+            }
         }
     }
 
-    func currenciesLoaded(_ state: inout State, _ currencies: [Currency]) -> Effect<Action> {
+    func currenciesUpdated(_ state: inout State, _ currencies: [Currency]) -> Effect<Action> {
         let displayModels = currencies.map { CurrencyDisplayModel(from: $0) }
         state.currencies = displayModels
         state.isLoading = false

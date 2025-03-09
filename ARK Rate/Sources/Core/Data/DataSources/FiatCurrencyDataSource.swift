@@ -1,6 +1,6 @@
 import Alamofire
 
-final class FiatCurrencyDataSource: CurrencyDataSource {
+final class FiatCurrencyDataSource: CurrencyRemoteDataSource {
 
     // MARK: - Properties
 
@@ -14,7 +14,7 @@ final class FiatCurrencyDataSource: CurrencyDataSource {
 
     // MARK: - Conformance
 
-    func get() async throws -> [CurrencyDTO] {
+    func fetch() async throws -> [CurrencyDTO] {
         try await apiClient.fetch().rates.map {
             CurrencyDTO(id: $0.key, rate: $0.value, category: CurrencyDTO.Category.fiat)
         }

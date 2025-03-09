@@ -12,7 +12,17 @@ struct FetchCurrenciesUseCase {
 
     // MARK: - Methods
 
-    func execute() async throws -> [Currency] {
-        try await currencyRepository.get()
+    func execute() -> AsyncStream<[Currency]> {
+        AsyncStream { continuation in
+            Task { @MainActor in
+                let localCurrencies = try currencyRepository.getLocal()
+                continuation.yield(localCurrencies)
+
+                let remoteCurrencies = try await currencyRepository.fetchRemote()
+                continuation.yield(remoteCurrencies)
+
+                continuation.finish()
+            }
+        }
     }
 }

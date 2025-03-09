@@ -1,4 +1,5 @@
 protocol CurrencyRepository {
 
-    func get() async throws -> [Currency]
+    func getLocal() throws -> [Currency]
+    func fetchRemote() async throws -> [Currency]
 }
