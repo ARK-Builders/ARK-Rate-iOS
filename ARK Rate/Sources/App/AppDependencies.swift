@@ -41,7 +41,5 @@ private enum FiatCurrenciesRateAPIKey: DependencyKey {
 
 private enum CurrencyLocalDataSourceKey: DependencyKey {
 
-    static var liveValue: CurrencyLocalDataSource {
-        return CurrencySwiftDataDataSource()
-    }
+    static let liveValue: CurrencyLocalDataSource = CurrencySwiftDataDataSource()
 }
