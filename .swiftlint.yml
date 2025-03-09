@@ -1,0 +1,22 @@
+# Configure key linting rules
+line_length: 150 # Maximum allowed characters per line
+type_body_length:
+  warning: 300   # Show warning if class/struct body exceeds 300 lines
+  error: 400     # Show error if body exceeds 400 lines
+identifier_name:
+  min_length: 3  # Variable and function names must have at least 3 characters
+  max_length: 40 # Maximum identifier length is 40 characters
+
+# Enable rules that SwiftLint does not enforce by default
+opt_in_rules:
+  - empty_count       # Prefer `.isEmpty` instead of `.count == 0`
+  - closure_spacing   # Ensure proper spacing in closures
+
+# Disable specific rules
+disabled_rules:
+  - force_cast          # Do not warn about forced casting (as!)
+  - force_try           # Do not warn about force try (!)
+
+analyzer_rules:
+  - explicit_self     # Require `self.` when accessing instance properties
+  - unused_import     # Remove unused imports
