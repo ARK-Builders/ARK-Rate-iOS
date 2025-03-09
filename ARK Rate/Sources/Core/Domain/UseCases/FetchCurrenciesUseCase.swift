@@ -14,7 +14,7 @@ struct FetchCurrenciesUseCase {
 
     func execute() -> AsyncStream<[Currency]> {
         AsyncStream { continuation in
-            Task { @MainActor in
+            Task {
                 let localCurrencies = try currencyRepository.getLocal()
                 continuation.yield(localCurrencies)
 
