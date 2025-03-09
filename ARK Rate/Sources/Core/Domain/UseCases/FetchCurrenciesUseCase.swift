@@ -4,12 +4,6 @@ struct FetchCurrenciesUseCase {
 
     let currencyRepository: CurrencyRepository
 
-    // MARK: - Initialization
-
-    init(currencyRepository: CurrencyRepository) {
-        self.currencyRepository = currencyRepository
-    }
-
     // MARK: - Methods
 
     func execute() -> AsyncStream<[Currency]> {
