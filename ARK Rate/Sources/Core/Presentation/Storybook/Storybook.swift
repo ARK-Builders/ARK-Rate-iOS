@@ -3,7 +3,7 @@ import SwiftUI
 struct Storybook: PreviewProvider {
 
     static var previews: some View {
-        VStack {
+        ScrollView {
             Text("CurrencyRowView")
             CurrencyRowView(currencyName: "USD", currencyRate: "1.00")
             CurrencyRowView(currencyName: "VND", currencyRate: "25515.16")
