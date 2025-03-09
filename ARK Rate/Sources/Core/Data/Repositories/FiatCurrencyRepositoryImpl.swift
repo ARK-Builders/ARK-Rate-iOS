@@ -1,20 +1,18 @@
-final class FiatCurrencyRepositoryImpl {
+final class CurrencyRepositoryImpl: CurrencyRepository {
 
     // MARK: - Properties
 
-    private let service: FiatCurrencyService
+    private let fiatCurrencyDataSource: FiatCurrencyDataSource
 
     // MARK: - Initialization
 
-    init(service: FiatCurrencyService) {
-        self.service = service
+    init(fiatCurrencyDataSource: FiatCurrencyDataSource) {
+        self.fiatCurrencyDataSource = fiatCurrencyDataSource
     }
-}
 
-extension FiatCurrencyRepositoryImpl: FiatCurrencyRepository {
+    // MARK: - Conformance
 
-    func get() async throws -> [FiatCurrency] {
-        try await service.fetchRates().toDomain()
-        // Handle fallback value
+    func get() async throws -> [Currency] {
+        try await fiatCurrencyDataSource.get().map { Currency(id: $0.id, rate: $0.rate, category: Currency.Category.fiat) }
     }
 }

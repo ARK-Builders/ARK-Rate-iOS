@@ -2,18 +2,17 @@ struct FetchCurrenciesUseCase {
 
     // MARK: - Properties
 
-    let fiatCurrencyRepository: FiatCurrencyRepository
-    // let cryptoCurrencyRepository: CryptoCurrencyRepository
+    let currencyRepository: CurrencyRepository
 
     // MARK: - Initialization
 
-    init(fiatCurrencyRepository: FiatCurrencyRepository) {
-        self.fiatCurrencyRepository = fiatCurrencyRepository
+    init(currencyRepository: CurrencyRepository) {
+        self.currencyRepository = currencyRepository
     }
 
     // MARK: - Methods
 
-    func fetchFiatCurrencies() async throws -> [FiatCurrency] {
-        try await fiatCurrencyRepository.get()
+    func execute() async throws -> [Currency] {
+        try await currencyRepository.get()
     }
 }

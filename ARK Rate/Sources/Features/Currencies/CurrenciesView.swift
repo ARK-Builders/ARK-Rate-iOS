@@ -17,7 +17,7 @@ struct CurrenciesView: View {
             }
             .loadingOverlay(store.isLoading)
             .onAppear {
-                store.send(.fetchFiatCurrencies)
+                store.send(.fetchCurrencies)
             }
             .navigationTitle("Currencies")
         }
@@ -27,11 +27,11 @@ struct CurrenciesView: View {
 private extension CurrenciesView {
 
     var list: some View {
-        List(store.fiatCurrencies, id: \.id) { currency in
+        List(store.currencies, id: \.id) { currency in
             CurrencyRowView(currencyName: currency.id, currencyRate: currency.formattedRate)
         }
         .refreshable {
-            store.send(.fetchFiatCurrencies)
+            store.send(.fetchCurrencies)
         }
     }
 }
