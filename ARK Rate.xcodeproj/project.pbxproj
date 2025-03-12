@@ -24,6 +24,11 @@
 			path = "ARK Rate";
 			sourceTree = "<group>";
 		};
+		9CE303742D81CF3100B08096 /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				9C7D5FE02D75D2CD008A4555 /* ARK Rate */,
+				9CE303742D81CF3100B08096 /* Resources */,
 				9C7D5FDF2D75D2CD008A4555 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -69,6 +75,7 @@
 				9C7D5FDA2D75D2CD008A4555 /* Sources */,
 				9C7D5FDB2D75D2CD008A4555 /* Frameworks */,
 				9C7D5FDC2D75D2CD008A4555 /* Resources */,
+				9CE303722D81C8EB00B08096 /* Copy fallback exchange rates */,
 			);
 			buildRules = (
 			);
@@ -76,6 +83,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				9C7D5FE02D75D2CD008A4555 /* ARK Rate */,
+				9CE303742D81CF3100B08096 /* Resources */,
 			);
 			name = "ARK Rate";
 			packageProductDependencies = (
@@ -159,6 +167,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]\nthen\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+		9CE303722D81C8EB00B08096 /* Copy fallback exchange rates */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy fallback exchange rates";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).app/fiat-rates.json",
+				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).app/crypto-rates.json",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nRESOURCE=\"${SRCROOT}/Resources\"\nDESTINATION=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\n\nif [ -d \"$DESTINATION\" ]; then\n    echo \"Copying fallback exchange rates files from $RESOURCE to $DESTINATION\"\n    cp -R \"$RESOURCE/\" \"$DESTINATION\"\nelse\n    echo \"🚨 Warning: App bundle $DESTINATION does not exist yet. Skipping copy.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

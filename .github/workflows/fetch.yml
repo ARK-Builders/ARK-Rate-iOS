@@ -27,7 +27,7 @@ jobs:
         run: |-
           git config --global user.email "bot@ark-builders.dev"
           git config --global user.name "ARK Builders Bot"
-          git add fiat-rates.json # ADJUST PATH HERE
-          git add crypto-rates.json # ADJUST PATH HERE
+          git add Resources/fiat-rates.json
+          git add Resources/crypto-rates.json
           git commit -m "Automated update of rates"
           git push
