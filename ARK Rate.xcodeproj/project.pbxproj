@@ -186,7 +186,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nRESOURCE=\"${SRCROOT}/Resources\"\nDESTINATION=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\n\nif [ -d \"$DESTINATION\" ]; then\n    echo \"Copying fallback exchange rates files from $RESOURCE to $DESTINATION\"\n    cp -R \"$RESOURCE/\" \"$DESTINATION\"\nelse\n    echo \"🚨 Warning: App bundle $DESTINATION does not exist yet. Skipping copy.\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nRESOURCES=\"${SRCROOT}/Resources\"\nDESTINATION=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\n\nmkdir -p \"$RESOURCES\"\n\nif [ -d \"$DESTINATION\" ]; then\n    echo \"Copying fallback exchange rates files from $RESOURCES to $DESTINATION\"\n    cp -R \"$RESOURCES/\" \"$DESTINATION\"\nelse\n    echo \"🚨 Warning: App bundle $DESTINATION does not exist yet. Skipping copy.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
