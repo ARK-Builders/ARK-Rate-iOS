@@ -41,6 +41,19 @@ extension FiatCurrenciesRateResponse {
 
 // MARK: -
 
+extension CryptoCurrencyRateResponse {
+
+    var toCurrencyDTO: CurrencyDTO {
+        CurrencyDTO(
+            code: symbol,
+            rate: currentPrice,
+            category: CurrencyDTO.Category.crypto
+        )
+    }
+}
+
+// MARK: -
+
 extension CurrencyModel {
 
     var toCurrencyDTO: CurrencyDTO {
