@@ -15,8 +15,6 @@ final class FiatCurrencyDataSource: CurrencyRemoteDataSource {
     // MARK: - Conformance
 
     func fetch() async throws -> [CurrencyDTO] {
-        try await apiClient.fetch().rates.map {
-            CurrencyDTO(id: $0.key, rate: $0.value, category: CurrencyDTO.Category.fiat)
-        }
+        try await apiClient.fetch().toCurrencyDTOs
     }
 }

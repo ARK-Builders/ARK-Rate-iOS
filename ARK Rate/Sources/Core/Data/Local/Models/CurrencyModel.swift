@@ -1,12 +1,15 @@
+import Foundation
 import SwiftData
 
 @Model
 final class CurrencyModel {
-    @Attribute(.unique) var id: String
-    var rate: Double
+    @Attribute(.unique) var code: String
+    var rate: Decimal
+    var categoryRaw: String
 
-    init(id: String, rate: Double) {
-        self.id = id
+    init(code: String, rate: Decimal, categoryRaw: String) {
+        self.code = code
         self.rate = rate
+        self.categoryRaw = categoryRaw
     }
 }

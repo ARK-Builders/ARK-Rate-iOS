@@ -7,11 +7,11 @@ struct CurrencySwiftDataDataSource: CurrencyLocalDataSource {
 
     func get() throws -> [CurrencyDTO] {
         let models = try SwiftDataManager.shared.get()
-        return models.map { CurrencyDTO(id: $0.id, rate: $0.rate, category: CurrencyDTO.Category.fiat) }
+        return models.map { $0.toCurrencyDTO }
     }
 
     func save(_ currencies: [CurrencyDTO]) throws {
-        let models = currencies.map { CurrencyModel(id: $0.id, rate: $0.rate) }
+        let models = currencies.map { $0.toCurrencyModel }
         try SwiftDataManager.shared.insert(models)
     }
 }

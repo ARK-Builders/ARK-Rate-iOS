@@ -8,7 +8,7 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
     // MARK: - Initialization
 
     init(from fiatCurrency: Currency) {
-        self.id = fiatCurrency.id
-        self.formattedRate = String(format: "%.2f", fiatCurrency.rate)
+        self.id = fiatCurrency.code
+        self.formattedRate = fiatCurrency.rate.formattedRate
     }
 }
