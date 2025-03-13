@@ -4,12 +4,18 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
 
     private let localDataSource: CurrencyLocalDataSource
     private let fiatCurrencyDataSource: CurrencyRemoteDataSource
+    private let cryptoCurrencyDataSource: CurrencyRemoteDataSource
 
     // MARK: - Initialization
 
-    init(localDataSource: CurrencyLocalDataSource, fiatCurrencyDataSource: CurrencyRemoteDataSource) {
+    init(
+        localDataSource: CurrencyLocalDataSource,
+        fiatCurrencyDataSource: CurrencyRemoteDataSource,
+        cryptoCurrencyDataSource: CurrencyRemoteDataSource
+    ) {
         self.localDataSource = localDataSource
         self.fiatCurrencyDataSource = fiatCurrencyDataSource
+        self.cryptoCurrencyDataSource = cryptoCurrencyDataSource
     }
 
     // MARK: - Conformance
@@ -21,7 +27,9 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
     }
 
     func fetchRemote() async throws -> [Currency] {
-        let currencies = try await fiatCurrencyDataSource.fetch()
+        async let fiatCurrencies = fiatCurrencyDataSource.fetch()
+        async let cryptoCurrencies = cryptoCurrencyDataSource.fetch()
+        let currencies = try await fiatCurrencies + cryptoCurrencies
         try localDataSource.save(currencies)
         return currencies
             .map { $0.toCurrency }

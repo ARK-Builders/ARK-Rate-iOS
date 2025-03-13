@@ -12,6 +12,11 @@ extension DependencyValues {
         set { self[FiatCurrenciesRateAPIKey.self] = newValue }
     }
 
+    var cryptoCurrenciesRateAPI: CryptoCurrenciesRateAPI {
+        get { self[CryptoCurrenciesRateAPIKey.self] }
+        set { self[CryptoCurrenciesRateAPIKey.self] = newValue }
+    }
+
     var currencyLocalDataSource: CurrencyLocalDataSource {
         get { self[CurrencyLocalDataSourceKey.self] }
         set { self[CurrencyLocalDataSourceKey.self] = newValue }
@@ -25,7 +30,12 @@ private enum FetchCurrenciesUseCaseKey: DependencyKey {
     static let liveValue: FetchCurrenciesUseCase = {
         let localDataSource = DependencyValues._current.currencyLocalDataSource
         let fiatCurrencyDataSource = FiatCurrencyDataSource(apiClient: DependencyValues._current.fiatCurrenciesRateAPI)
-        let currencyRepository = CurrencyRepositoryImpl(localDataSource: localDataSource, fiatCurrencyDataSource: fiatCurrencyDataSource)
+        let cryptoCurrencyDataSource = CryptoCurrencyDataSource(apiClient: DependencyValues._current.cryptoCurrenciesRateAPI)
+        let currencyRepository = CurrencyRepositoryImpl(
+            localDataSource: localDataSource,
+            fiatCurrencyDataSource: fiatCurrencyDataSource,
+            cryptoCurrencyDataSource: cryptoCurrencyDataSource
+        )
         return FetchCurrenciesUseCase(currencyRepository: currencyRepository)
     }()
 }
@@ -35,6 +45,13 @@ private enum FetchCurrenciesUseCaseKey: DependencyKey {
 private enum FiatCurrenciesRateAPIKey: DependencyKey {
 
     static let liveValue: FiatCurrenciesRateAPI = FiatCurrenciesRateAPIClient()
+}
+
+// MARK: - CryptoCurrenciesRateAPI
+
+private enum CryptoCurrenciesRateAPIKey: DependencyKey {
+
+    static let liveValue: CryptoCurrenciesRateAPI = CryptoCurrenciesRateAPIClient()
 }
 
 // MARK: - CurrencyLocalDataSource

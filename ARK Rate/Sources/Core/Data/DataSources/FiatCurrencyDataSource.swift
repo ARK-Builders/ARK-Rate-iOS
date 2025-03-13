@@ -1,5 +1,3 @@
-import Alamofire
-
 final class FiatCurrencyDataSource: CurrencyRemoteDataSource {
 
     // MARK: - Properties
