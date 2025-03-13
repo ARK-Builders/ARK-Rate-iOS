@@ -1,3 +1,5 @@
+import Foundation
+
 struct Currency {
 
     enum Category {
@@ -7,7 +9,7 @@ struct Currency {
 
     // MARK: - Properties
 
-    let id: String
-    let rate: Double
+    let code: String
+    let rate: Decimal
     let category: Category
 }

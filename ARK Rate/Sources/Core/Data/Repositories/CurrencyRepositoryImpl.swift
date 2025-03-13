@@ -16,15 +16,15 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
 
     func getLocal() throws -> [Currency] {
         try localDataSource.get()
-            .map { Currency(id: $0.id, rate: $0.rate, category: Currency.Category.fiat) }
-            .sorted { $0.id < $1.id }
+            .map { $0.toCurrency }
+            .sorted { $0.code < $1.code }
     }
 
     func fetchRemote() async throws -> [Currency] {
         let currencies = try await fiatCurrencyDataSource.fetch()
         try localDataSource.save(currencies)
         return currencies
-            .map { Currency(id: $0.id, rate: $0.rate, category: Currency.Category.fiat) }
-            .sorted { $0.id < $1.id }
+            .map { $0.toCurrency }
+            .sorted { $0.code < $1.code }
     }
 }

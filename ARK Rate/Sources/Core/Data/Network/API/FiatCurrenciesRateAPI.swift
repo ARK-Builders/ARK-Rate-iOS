@@ -5,11 +5,13 @@ protocol FiatCurrenciesRateAPI {
     func fetch() async throws -> FiatCurrenciesRateResponse
 }
 
+// MARK: -
+
 final class FiatCurrenciesRateAPIClient: FiatCurrenciesRateAPI {
 
     // MARK: - Constants
 
-    private let endpoint = "https://open.er-api.com/v6/latest/USD"
+    private let endpoint = "https://raw.githubusercontent.com/ARK-Builders/ark-exchange-rates/main/fiat-rates.json"
 
     // MARK: - Conformance
 

@@ -1,13 +1,15 @@
+import Foundation
+
 struct CurrencyDTO {
 
-    enum Category {
+    enum Category: String {
         case fiat
         case crypto
     }
 
     // MARK: - Properties
 
-    let id: String
-    let rate: Double
+    let code: String
+    let rate: Decimal
     let category: Category
 }
