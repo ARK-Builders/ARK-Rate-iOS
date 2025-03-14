@@ -18,9 +18,22 @@
 		9C7D5FDE2D75D2CD008A4555 /* ARK Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ARK Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9C8BBBD82D8471800082ED70 /* Exceptions for "ARK Rate" folder in "ARK Rate" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"ARK-Rate-Info.plist",
+			);
+			target = 9C7D5FDD2D75D2CD008A4555 /* ARK Rate */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9C7D5FE02D75D2CD008A4555 /* ARK Rate */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9C8BBBD82D8471800082ED70 /* Exceptions for "ARK Rate" folder in "ARK Rate" target */,
+			);
 			path = "ARK Rate";
 			sourceTree = "<group>";
 		};
@@ -302,6 +315,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"ARK Rate/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ARK-Rate-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -334,6 +348,7 @@
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = "FLEX*";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ARK-Rate-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
