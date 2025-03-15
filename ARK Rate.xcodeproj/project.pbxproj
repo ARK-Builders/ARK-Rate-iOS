@@ -18,22 +18,9 @@
 		9C7D5FDE2D75D2CD008A4555 /* ARK Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ARK Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		9C8BBBD82D8471800082ED70 /* Exceptions for "ARK Rate" folder in "ARK Rate" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"ARK-Rate-Info.plist",
-			);
-			target = 9C7D5FDD2D75D2CD008A4555 /* ARK Rate */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9C7D5FE02D75D2CD008A4555 /* ARK Rate */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				9C8BBBD82D8471800082ED70 /* Exceptions for "ARK Rate" folder in "ARK Rate" target */,
-			);
 			path = "ARK Rate";
 			sourceTree = "<group>";
 		};
@@ -245,6 +232,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -301,6 +289,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
