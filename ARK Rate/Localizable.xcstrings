@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Currencies" : {
+
+    },
     "quick_title" : {
       "extractionState" : "manual",
       "localizations" : {
