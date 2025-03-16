@@ -52,6 +52,7 @@ private struct CustomTabbarView: View {
                 }
             }
         }
+        .background(Color.backgroundPrimary)
     }
 
     func tabbarItemView(_ item: TabbarItem) -> some View {
@@ -59,19 +60,18 @@ private struct CustomTabbarView: View {
         let selectedTabIndex = store.selectedTabIndex
         let isSelected = tabIndex == selectedTabIndex
         let appearance = item.appearance(isSelected)
-        return Button(
-            action: { store.send(.tabIndexChanged(tabIndex)) },
-            label: {
-                VStack(spacing: 4) {
-                    Image(uiImage: appearance.icon)
-                        .padding(.top, 8)
-                        .padding(.horizontal, 8)
-                    Text(item.title)
-                        .foregroundColor(appearance.textColor)
-                        .font(Font.customInterSemiBold(size: 12))
-                        .padding(.bottom, 8)
-                }
-        })
+        return Button(action: { store.send(.tabIndexChanged(tabIndex)) }) {
+            VStack(spacing: 4) {
+                Image(uiImage: appearance.icon)
+                    .padding(.top, 8)
+                    .padding(.horizontal, 8)
+                Text(item.title)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(appearance.textColor)
+                    .font(Font.customInterSemiBold(size: 12))
+                    .padding(.bottom, 8)
+            }
+        }
         .frame(maxWidth: .infinity)
     }
 }

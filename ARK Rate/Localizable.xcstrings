@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "calculate" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculate"
+          }
+        }
+      }
+    },
     "Currencies" : {
 
     },
@@ -11,6 +21,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quick"
+          }
+        }
+      }
+    },
+    "ready_for_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready for calculation!"
+          }
+        }
+      }
+    },
+    "ready_for_calculation_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select your currencies and enter an amount to start converting. Your exchange results will appear here."
           }
         }
       }

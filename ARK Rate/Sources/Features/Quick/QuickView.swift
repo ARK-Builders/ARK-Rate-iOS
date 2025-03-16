@@ -11,7 +11,7 @@ struct QuickView: View {
 
     var body: some View {
         VStack {
-            Text(StringResource.title.localized)
+            CalculationEmptyStateView()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.backgroundPrimary)
