@@ -8,10 +8,8 @@ struct ARKRateApp: App {
     // MARK: - Properties
 
     let store = Store(
-        initialState: CurrenciesFeature.State(),
-        reducer: {
-            CurrenciesFeature()
-        }
+        initialState: AppFeature.State(),
+        reducer: { AppFeature() }
     )
 
     private var sharedModelContainer: ModelContainer = {
@@ -36,7 +34,7 @@ struct ARKRateApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CurrenciesView(store: store)
+            AppMainView(store: store)
         }
     }
 }
