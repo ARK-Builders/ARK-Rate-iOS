@@ -60,18 +60,20 @@ private struct CustomTabbarView: View {
         let selectedTabIndex = store.selectedTabIndex
         let isSelected = tabIndex == selectedTabIndex
         let appearance = item.appearance(isSelected)
-        return Button(action: { store.send(.tabIndexChanged(tabIndex)) }) {
-            VStack(spacing: 4) {
-                Image(uiImage: appearance.icon)
-                    .padding(.top, 8)
-                    .padding(.horizontal, 8)
-                Text(item.title)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(appearance.textColor)
-                    .font(Font.customInterSemiBold(size: 12))
-                    .padding(.bottom, 8)
-            }
-        }
+        return Button(
+            action: { store.send(.tabIndexChanged(tabIndex)) },
+            label: {
+                VStack(spacing: 4) {
+                    appearance.icon
+                        .padding(.top, 8)
+                        .padding(.horizontal, 8)
+                    Text(item.title)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(appearance.textColor)
+                        .font(Font.customInterSemiBold(size: 12))
+                        .padding(.bottom, 8)
+                }
+        })
         .frame(maxWidth: .infinity)
     }
 }
@@ -90,14 +92,14 @@ private enum TabbarItem: Int, CaseIterable {
     }
 
     func appearance(_ isSelected: Bool) -> Appearance {
-        let icon: UIImage
+        let icon: Image
         let textColor = isSelected ? Color.tabActive : Color.tabInactive
         switch self {
-        case .quick: icon = UIImage(resource: isSelected ? ImageResource.icNavQuickEnabled : ImageResource.icNavQuickDisabled)
-        case .settings: icon = UIImage(resource: isSelected ? ImageResource.icNavSettingsEnabled : ImageResource.icNavSettingsDisabled)
+        case .quick: icon = Image(isSelected ? ImageResource.icNavQuickEnabled : ImageResource.icNavQuickDisabled)
+        case .settings: icon = Image(isSelected ? ImageResource.icNavSettingsEnabled : ImageResource.icNavSettingsDisabled)
         }
         return Appearance(icon: icon, textColor: textColor)
     }
 
-    typealias Appearance = (icon: UIImage, textColor: Color)
+    typealias Appearance = (icon: Image, textColor: Color)
 }
