@@ -6,7 +6,7 @@ struct CalculationEmptyStateView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Image(ImageResource.coinsSwap.rawValue)
+            Image(ImageResource.coinsSwap)
                 .padding(.bottom, 16)
             Text(StringResource.title.localized)
                 .multilineTextAlignment(.center)
@@ -40,9 +40,5 @@ private extension CalculationEmptyStateView {
         var localized: String {
             String(localized: rawValue)
         }
-    }
-
-    enum ImageResource: String {
-        case coinsSwap = "coins-swap"
     }
 }
