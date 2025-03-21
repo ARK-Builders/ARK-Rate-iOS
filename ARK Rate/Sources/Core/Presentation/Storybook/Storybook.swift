@@ -12,6 +12,10 @@ struct Storybook: PreviewProvider {
             Text("PrimaryButton")
             PrimaryButton(title: "Calculate", icon: Image(systemName: "plus")) {}
             PrimaryButton(title: "Calculate") {}
+
+            Text("CurrencyInputView")
+            CurrencyInputView(label: "From", name: .constant("USD"), amount: .constant(""), placeHolder: "Input Value", action: {})
+            CurrencyInputView(label: "To", name: .constant("USD"), amount: .constant(""), placeHolder: "Input Value", action: {}, deleteButtonAction: {})
         }
     }
 }
