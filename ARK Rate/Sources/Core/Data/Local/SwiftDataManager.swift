@@ -1,3 +1,4 @@
+import Foundation
 import SwiftData
 
 final class SwiftDataManager {
@@ -10,10 +11,30 @@ final class SwiftDataManager {
 
     // MARK: - Methods
 
-    func insert(_ models: [CurrencyModel]) throws {
+    func insertOrUpdate(_ models: [CurrencyModel]) throws {
         guard let modelContext else { return }
-        models.forEach { modelContext.insert($0) }
-        try modelContext.save()
+
+        let ids = Set(models.map { $0.code })
+        let fetchDescriptor = FetchDescriptor<CurrencyModel>(predicate: #Predicate { ids.contains($0.code) })
+        let fetchedModels = try modelContext.fetch(fetchDescriptor)
+        let fetchedModelsMap = Dictionary(uniqueKeysWithValues: fetchedModels.map { ($0.code, $0) })
+
+        var hasChanges = false
+        models.forEach { model in
+            if let fetchedModel = fetchedModelsMap[model.code] {
+                if fetchedModel.rate != model.rate {
+                    fetchedModel.rate = model.rate
+                    hasChanges = true
+                }
+            } else {
+                modelContext.insert(model)
+                hasChanges = true
+            }
+        }
+
+        if hasChanges {
+            try modelContext.save()
+        }
     }
 
     func get() throws -> [CurrencyModel] {

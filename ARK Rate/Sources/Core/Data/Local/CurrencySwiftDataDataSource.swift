@@ -12,6 +12,6 @@ struct CurrencySwiftDataDataSource: CurrencyLocalDataSource {
 
     func save(_ currencies: [CurrencyDTO]) throws {
         let models = currencies.map { $0.toCurrencyModel }
-        try SwiftDataManager.shared.insert(models)
+        try SwiftDataManager.shared.insertOrUpdate(models)
     }
 }
