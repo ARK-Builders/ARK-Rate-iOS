@@ -15,7 +15,13 @@ struct Storybook: PreviewProvider {
 
             Text("CurrencyInputView")
             CurrencyInputView(label: "From", name: .constant("USD"), amount: .constant(""), placeHolder: "Input Value", action: {})
+                .padding(.horizontal, 16)
             CurrencyInputView(label: "To", name: .constant("USD"), amount: .constant(""), placeHolder: "Input Value", action: {}, deleteButtonAction: {})
+                .padding(.horizontal, 16)
+
+            Text("GroupMenuView")
+            GroupMenuView(groups: .constant([]), addGroupAction: {})
+                .padding(.horizontal, 16)
         }
     }
 }

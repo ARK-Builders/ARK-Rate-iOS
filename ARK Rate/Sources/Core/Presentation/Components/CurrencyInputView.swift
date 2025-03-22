@@ -42,7 +42,6 @@ struct CurrencyInputView: View {
                 deleteButton
             }
         }
-        .padding(.horizontal, Constants.horizontalSpacing)
     }
 }
 

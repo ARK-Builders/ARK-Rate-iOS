@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "add_group" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Group"
+          }
+        }
+      }
+    },
     "calculate" : {
       "localizations" : {
         "en" : {
@@ -13,6 +24,17 @@
     },
     "Currencies" : {
 
+    },
+    "new_group" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Group"
+          }
+        }
+      }
     },
     "quick_title" : {
       "extractionState" : "manual",
