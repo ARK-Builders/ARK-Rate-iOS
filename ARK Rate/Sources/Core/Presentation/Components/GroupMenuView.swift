@@ -12,6 +12,7 @@ struct GroupMenuView: View {
     var body: some View {
         Menu {
             newGroupItem
+            groupItems
         } label: {
             HStack(spacing: Constants.itemSpacing) {
                 Image.folder
@@ -36,13 +37,25 @@ private extension GroupMenuView {
 
     var newGroupItem: some View {
         Button(action: addGroupAction) {
-            HStack(spacing: Constants.itemSpacing) {
-                Image.folderBadgePlus
-                    .foregroundColor(Color.foregroundQuarterary)
-                Text(StringResource.newGroup.localized)
-                    .foregroundColor(Color.textPrimary)
-                    .font(Font.customInterMedium(size: 16))
+            item(name: StringResource.newGroup.localized)
+        }
+    }
+
+    var groupItems: some View {
+        ForEach(groups, id: \.self) { group in
+            Button(action: {}) {
+                item(name: group)
             }
+        }
+    }
+
+    func item(name: String) -> some View {
+        HStack(spacing: Constants.itemSpacing) {
+            Image.folderBadgePlus
+                .foregroundColor(Color.foregroundQuarterary)
+            Text(name)
+                .foregroundColor(Color.textPrimary)
+                .font(Font.customInterMedium(size: 16))
         }
     }
 }

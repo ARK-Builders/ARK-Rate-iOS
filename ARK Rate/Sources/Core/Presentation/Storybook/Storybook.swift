@@ -34,6 +34,12 @@ struct Storybook: PreviewProvider {
             Text("GroupMenuView")
             GroupMenuView(groups: .constant([]), addGroupAction: {})
                 .padding(.horizontal, 16)
+            GroupMenuView(groups: .constant([
+                "Group 1",
+                "Group 2",
+                "Group 3",
+            ]), addGroupAction: {})
+                .padding(.horizontal, 16)
         }
     }
 }
