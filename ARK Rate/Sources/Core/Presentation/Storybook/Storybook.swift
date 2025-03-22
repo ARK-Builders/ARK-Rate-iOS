@@ -9,15 +9,27 @@ struct Storybook: PreviewProvider {
             CurrencyRowView(currencyName: "VND", currencyRate: "25515.16")
             CurrencyRowView(currencyName: "KRW", currencyRate: "1446.19")
 
+            LineDivider()
+
             Text("PrimaryButton")
             PrimaryButton(title: "Calculate", icon: Image(systemName: "plus")) {}
             PrimaryButton(title: "Calculate") {}
+
+            LineDivider()
+
+            Text("SecondaryButton")
+            SecondaryButton(title: "New Currency", icon: Image(systemName: "plus")) {}
+            SecondaryButton(title: "New Currency") {}
+
+            LineDivider()
 
             Text("CurrencyInputView")
             CurrencyInputView(label: "From", name: .constant("USD"), amount: .constant(""), placeHolder: "Input Value", action: {})
                 .padding(.horizontal, 16)
             CurrencyInputView(label: "To", name: .constant("USD"), amount: .constant(""), placeHolder: "Input Value", action: {}, deleteButtonAction: {})
                 .padding(.horizontal, 16)
+
+            LineDivider()
 
             Text("GroupMenuView")
             GroupMenuView(groups: .constant([]), addGroupAction: {})

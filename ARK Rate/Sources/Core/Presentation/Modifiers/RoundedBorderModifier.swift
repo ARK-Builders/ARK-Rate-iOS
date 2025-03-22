@@ -16,7 +16,7 @@ struct RoundedBorderModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .background(
+            .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(color, lineWidth: 1)
             )

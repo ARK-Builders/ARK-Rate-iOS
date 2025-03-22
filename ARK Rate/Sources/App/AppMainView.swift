@@ -43,9 +43,7 @@ private struct CustomTabbarView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Divider()
-                .frame(height: 1)
-                .background(Color.borderSecondary)
+            LineDivider()
             HStack(spacing: 0) {
                 ForEach(TabbarItem.allCases, id: \.self) {
                     tabbarItemView($0)
