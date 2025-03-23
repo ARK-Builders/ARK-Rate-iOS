@@ -2,6 +2,10 @@ import SwiftUI
 
 struct CalculationEmptyStateView: View {
 
+    // MARK: - Properties
+
+    let action: ButtonAction
+
     // MARK: - Body
 
     var body: some View {
@@ -21,7 +25,7 @@ struct CalculationEmptyStateView: View {
             PrimaryButton(
                 title: StringResource.calculate.localized,
                 icon: Image.plus,
-                action: {}
+                action: action
             )
         }
         .padding(.horizontal, 8)
