@@ -12,6 +12,20 @@
         }
       }
     },
+    "add_new_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add new calculation"
+          }
+        }
+      }
+    },
+    "back" : {
+
+    },
     "calculate" : {
       "localizations" : {
         "en" : {
@@ -24,6 +38,39 @@
     },
     "Currencies" : {
 
+    },
+    "from" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From"
+          }
+        }
+      }
+    },
+    "input_value" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input Value"
+          }
+        }
+      }
+    },
+    "new_currency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Currency"
+          }
+        }
+      }
     },
     "new_group" : {
       "extractionState" : "manual",
@@ -76,6 +123,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "to" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To"
           }
         }
       }

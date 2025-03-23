@@ -10,11 +10,20 @@ struct QuickView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack {
-            CalculationEmptyStateView()
+        NavigationStack {
+            VStack {
+                CalculationEmptyStateView() {
+                    store.send(.addNewCalculationButtonTapped)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.backgroundPrimary)
+            .navigationDestination(
+                item: $store.scope(state: \.destination?.addNewCalculation, action: \.destination.addNewCalculation)
+            ) { store in
+                AddNewCalculationView(store: store)
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.backgroundPrimary)
     }
 }
 

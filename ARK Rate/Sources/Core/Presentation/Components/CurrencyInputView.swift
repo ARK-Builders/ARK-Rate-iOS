@@ -1,12 +1,11 @@
 import SwiftUI
-import SwiftUIX
 
 struct CurrencyInputView: View {
 
     // MARK: - Properties
 
-    let label: String
-    @Binding var name: String
+    let label: String?
+    let name: String
     @Binding var amount: String
     let placeHolder: String
     let action: ButtonAction
@@ -15,15 +14,15 @@ struct CurrencyInputView: View {
     // MARK: - Initialization
 
     init(
-        label: String,
-        name: Binding<String>,
+        label: String? = nil,
+        name: String,
         amount: Binding<String>,
         placeHolder: String,
         action: @escaping ButtonAction,
         deleteButtonAction: ButtonAction? = nil
     ) {
         self.label = label
-        self._name = name
+        self.name = name
         self._amount = amount
         self.placeHolder = placeHolder
         self.action = action
@@ -34,13 +33,16 @@ struct CurrencyInputView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(label)
-                .foregroundColor(Color.textSecondary)
-                .font(Font.customInterMedium(size: 14))
+            if let label {
+                Text(label)
+                    .foregroundColor(Color.textSecondary)
+                    .font(Font.customInterMedium(size: 14))
+            }
             HStack(spacing: 16) {
                 textField
                 deleteButton
             }
+            .frame(height: Constants.height)
         }
     }
 }
@@ -77,10 +79,10 @@ private extension CurrencyInputView {
         if let deleteButtonAction {
             Button(action: deleteButtonAction) {
                 Image(ImageResource.trash)
+                    .aspectRatio(contentMode: ContentMode.fit)
                     .padding(.vertical, Constants.verticalSpacing)
                     .padding(.horizontal, 16)
             }
-            .frame(maxHeight: .infinity)
             .modifier(RoundedBorderModifier(color: Color.error))
         } else {
             EmptyView()
@@ -93,6 +95,7 @@ private extension CurrencyInputView {
 private extension CurrencyInputView {
 
     enum Constants {
+        static let height: CGFloat = 44
         static let verticalSpacing: CGFloat = 10
         static let horizontalSpacing: CGFloat = 14
     }

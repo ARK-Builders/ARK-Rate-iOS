@@ -18,7 +18,9 @@ struct AppMainView: View {
                         .tag(tabbarItem.rawValue)
                 }
             }
-            CustomTabbarView(store: store)
+            if !store.tabbarIsHidden {
+                CustomTabbarView(store: store)
+            }
         }
     }
 
@@ -78,7 +80,7 @@ private struct CustomTabbarView: View {
 
 // MARK: - TabbarItem
 
-private enum TabbarItem: Int, CaseIterable {
+private enum TabbarItem: UInt, CaseIterable {
     case quick
     case settings
 

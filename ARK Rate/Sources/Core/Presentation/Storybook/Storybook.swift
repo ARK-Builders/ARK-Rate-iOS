@@ -24,9 +24,11 @@ struct Storybook: PreviewProvider {
             LineDivider()
 
             Text("CurrencyInputView")
-            CurrencyInputView(label: "From", name: .constant("USD"), amount: .constant(""), placeHolder: "Input Value", action: {})
+            CurrencyInputView(label: "From", name: "USD", amount: .constant(""), placeHolder: "Input Value", action: {})
                 .padding(.horizontal, 16)
-            CurrencyInputView(label: "To", name: .constant("USD"), amount: .constant(""), placeHolder: "Input Value", action: {}, deleteButtonAction: {})
+            CurrencyInputView(label: "To", name: "USD", amount: .constant(""), placeHolder: "Input Value", action: {}, deleteButtonAction: {})
+                .padding(.horizontal, 16)
+            CurrencyInputView(name: "USD", amount: .constant(""), placeHolder: "Input Value", action: {}, deleteButtonAction: {})
                 .padding(.horizontal, 16)
 
             LineDivider()
