@@ -83,6 +83,7 @@ private extension CurrencyInputView {
                     .padding(.vertical, Constants.verticalSpacing)
                     .padding(.horizontal, 16)
             }
+            .frame(maxHeight: .infinity)
             .modifier(RoundedBorderModifier(color: Color.error))
         } else {
             EmptyView()

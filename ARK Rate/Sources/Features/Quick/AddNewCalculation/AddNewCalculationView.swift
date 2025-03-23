@@ -13,6 +13,7 @@ struct AddNewCalculationView: View {
         ScrollView {
             content
         }
+        .background(Color.backgroundPrimary)
         .modifier(
             NavigationBarModifier(
                 title: StringResource.title.localized,
