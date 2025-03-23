@@ -35,6 +35,7 @@ private extension AddNewCalculationView {
                 placeHolder: StringResource.inputValue.localized,
                 action: {}
             )
+            LineDivider()
             addingCurrenciesView
             SecondaryButton(
                 title: StringResource.newCurrency.localized,
