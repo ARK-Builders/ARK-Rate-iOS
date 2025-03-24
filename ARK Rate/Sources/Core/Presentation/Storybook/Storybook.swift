@@ -39,7 +39,7 @@ struct Storybook: PreviewProvider {
             GroupMenuView(groups: .constant([
                 "Group 1",
                 "Group 2",
-                "Group 3",
+                "Group 3"
             ]), addGroupAction: {})
                 .padding(.horizontal, 16)
         }
