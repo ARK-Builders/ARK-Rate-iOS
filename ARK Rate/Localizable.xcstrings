@@ -457,12 +457,6 @@
     "Currencies" : {
 
     },
-    "CurrencyInputView" : {
-
-    },
-    "CurrencyRowView" : {
-
-    },
     "CVE" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -693,9 +687,6 @@
           }
         }
       }
-    },
-    "GroupMenuView" : {
-
     },
     "GTQ" : {
       "extractionState" : "manual",
@@ -1390,9 +1381,6 @@
         }
       }
     },
-    "PrimaryButton" : {
-
-    },
     "PYG" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1557,9 +1545,6 @@
           }
         }
       }
-    },
-    "SecondaryButton" : {
-
     },
     "SEK" : {
       "extractionState" : "manual",
