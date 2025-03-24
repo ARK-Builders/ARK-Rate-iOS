@@ -1,15 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "sei.pdf",
+      "filename" : "SEI.pdf",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

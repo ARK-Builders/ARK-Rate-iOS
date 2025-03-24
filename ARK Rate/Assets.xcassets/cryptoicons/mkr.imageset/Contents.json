@@ -1,15 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "mkr.pdf",
+      "filename" : "MKR.pdf",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

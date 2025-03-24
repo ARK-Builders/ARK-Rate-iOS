@@ -28,8 +28,11 @@ private extension CurrenciesView {
 
     var list: some View {
         List(store.currencies, id: \.id) { currency in
-            CurrencyRowView(currencyName: currency.id, currencyRate: currency.formattedRate)
+            CurrencyRowView(code: currency.id, rate: currency.formattedRate)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
         }
+        .listStyle(.plain)
         .refreshable {
             store.send(.fetchCurrencies)
         }
