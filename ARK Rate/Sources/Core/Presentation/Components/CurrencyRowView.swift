@@ -4,19 +4,56 @@ struct CurrencyRowView: View {
 
     // MARK: - Properties
 
-    let currencyName: String
-    let currencyRate: String
+    let code: String
+    let name: String?
+    let rate: String
+
+    // MARK: - Initialization
+
+    init(
+        code: String,
+        name: String? = nil,
+        rate: String
+    ) {
+        self.code = code
+        self.name = name
+        self.rate = rate
+    }
 
     // MARK: - Body
 
     var body: some View {
-        HStack {
-            Text(currencyName)
-                .font(.headline)
-            Spacer()
-            Text(currencyRate)
-                .font(.subheadline)
+        VStack(spacing: 0) {
+            LineDivider()
+            HStack(spacing: 12) {
+                Image(code)
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(code)
+                        .foregroundColor(Color.textPrimary)
+                        .font(Font.customInterMedium(size: 14))
+                    if let name {
+                        Text(name)
+                            .foregroundColor(Color.textTertiary)
+                            .font(Font.customInterRegular(size: 14))
+                    }
+                }
+                Spacer()
+            }
+            .padding(.vertical, Constants.verticalSpacing)
         }
-        .padding()
+        .padding(.horizontal, Constants.horizontalSpacing)
+    }
+}
+
+// MARK: - Constants
+
+private extension CurrencyRowView {
+
+    enum Constants {
+        static let verticalSpacing: CGFloat = 16
+        static let horizontalSpacing: CGFloat = 24
     }
 }
