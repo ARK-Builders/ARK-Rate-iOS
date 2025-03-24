@@ -7,6 +7,7 @@ struct AppFeature {
     struct State: Equatable {
         var selectedTabIndex: UInt = 0
         var tabbarIsHidden: Bool = false
+        var currenciesState = CurrenciesFeature.State()
         var quickState = QuickFeature.State()
         var settingsState = SettingsFeature.State()
     }
@@ -14,6 +15,7 @@ struct AppFeature {
     enum Action {
         case tabIndexChanged(UInt)
         case tabbarIsHiddenToggled(Bool)
+        case currenciesAction(CurrenciesFeature.Action)
         case quickAction(QuickFeature.Action)
         case settingsAction(SettingsFeature.Action)
     }
@@ -21,6 +23,9 @@ struct AppFeature {
     // MARK: - Reducer
 
     var body: some ReducerOf<Self> {
+        Scope(state: \.currenciesState, action: \.currenciesAction) {
+            CurrenciesFeature()
+        }
         Scope(state: \.quickState, action: \.quickAction) {
             QuickFeature()
         }

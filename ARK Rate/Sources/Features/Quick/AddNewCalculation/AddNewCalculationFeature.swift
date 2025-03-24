@@ -21,6 +21,8 @@ struct AddNewCalculationFeature {
         }
     }
 
+    // MARK: - Properties
+
     @Dependency(\.dismiss) var back
 
     // MARK: - Reducer
@@ -41,7 +43,7 @@ struct AddNewCalculationFeature {
 private extension AddNewCalculationFeature {
 
     func backButtonTapped() -> Effect<Action> {
-        .run { send in
+        Effect.run { send in
             await send(.delegate(.back))
             await back()
         }
