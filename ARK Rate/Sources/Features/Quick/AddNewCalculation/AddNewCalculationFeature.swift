@@ -7,7 +7,7 @@ struct AddNewCalculationFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var fromCurrency = AddingCurrencyDisplayModel(code: Constants.defaultFromCurrencyCode)
-        var toCurriences: [AddingCurrencyDisplayModel] = []
+        var toCurrencies: [AddingCurrencyDisplayModel] = []
     }
 
     enum Action {
@@ -68,12 +68,12 @@ private extension AddNewCalculationFeature {
     }
 
     func updateToCurrencyAmount(_ state: inout State, _ amount: String, _ index: Int) -> Effect<Action> {
-        state.toCurriences[index].amount = amount
+        state.toCurrencies[index].amount = amount
         return Effect.none
     }
 
     func addNewCurrencyButtonTapped(_ state: inout State) -> Effect<Action> {
-        state.toCurriences.append(AddingCurrencyDisplayModel())
+        state.toCurrencies.append(AddingCurrencyDisplayModel())
         return Effect.none
     }
 }

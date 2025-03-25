@@ -6,7 +6,8 @@ struct SearchACurrencyFeature {
     @ObservableState
     struct State: Equatable {
         var searchText = ""
-        var curriences: [CurrencyDisplayModel] = []
+        var currencies: [CurrencyDisplayModel] = []
+        var allCurrencies: [CurrencyDisplayModel] = []
     }
 
     enum Action {
@@ -49,17 +50,28 @@ private extension SearchACurrencyFeature {
     }
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        var curriences: [CurrencyDisplayModel] = []
+        var currencies: [CurrencyDisplayModel] = []
         do {
-            curriences = try currencyRepository.getLocal()
+            currencies = try currencyRepository.getLocal()
                 .map { CurrencyDisplayModel(from: $0) }
         } catch {}
-        state.curriences = curriences
+        state.currencies = currencies
+        state.allCurrencies = currencies
         return Effect.none
     }
 
     func searchTextUpdated(_ state: inout State, _ searchText: String) -> Effect<Action> {
         state.searchText = searchText
+
+        if searchText.isEmpty {
+            state.currencies = state.allCurrencies
+        } else {
+            state.currencies = state.allCurrencies.filter {
+                $0.id.localizedCaseInsensitiveContains(searchText) ||
+                $0.name.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+
         return Effect.none
     }
 }

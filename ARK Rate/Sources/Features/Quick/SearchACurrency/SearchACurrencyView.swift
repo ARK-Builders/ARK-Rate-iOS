@@ -53,7 +53,7 @@ private extension SearchACurrencyView {
             .foregroundColor(Color.textTertiary)
             .font(Font.customInterMedium(size: 14))
         ) {
-            ForEach(store.curriences, id: \.id) { currency in
+            ForEach(store.currencies, id: \.id) { currency in
                 CurrencyRowView(
                     code: currency.id,
                     name: currency.name,
