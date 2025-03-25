@@ -26,9 +26,10 @@ struct CurrencyRowView: View {
         VStack(spacing: 0) {
             LineDivider()
             HStack(spacing: 12) {
-                Image(code)
+                Image.image(code)
                     .resizable()
                     .frame(width: 40, height: 40)
+                    .background(Color.white)
                     .clipShape(Circle())
                 VStack(alignment: .leading, spacing: 4) {
                     Text(code)
@@ -45,6 +46,7 @@ struct CurrencyRowView: View {
             .padding(.vertical, Constants.verticalSpacing)
         }
         .padding(.horizontal, Constants.horizontalSpacing)
+        .background(Color.backgroundPrimary)
     }
 }
 

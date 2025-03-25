@@ -6,9 +6,11 @@ struct QuickFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
+        var currencies: [CurrencyDisplayModel] = []
     }
 
     enum Action {
+        case currenciesUpdated([CurrencyDisplayModel])
         case addNewCalculationButtonTapped
         case hideTabbar
         case showTabbar
@@ -20,6 +22,7 @@ struct QuickFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .destination(.presented(.addNewCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
@@ -32,6 +35,11 @@ struct QuickFeature {
 // MARK: - Implementation
 
 private extension QuickFeature {
+
+    func currenciesUpdated(_ state: inout State, _ currencies: [CurrencyDisplayModel]) -> Effect<Action> {
+        state.currencies = currencies
+        return Effect.none
+    }
 
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
         state.destination = .addNewCalculation(AddNewCalculationFeature.State())

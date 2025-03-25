@@ -12,7 +12,7 @@ struct QuickView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                CalculationEmptyStateView() {
+                CalculationEmptyStateView {
                     store.send(.addNewCalculationButtonTapped)
                 }
             }

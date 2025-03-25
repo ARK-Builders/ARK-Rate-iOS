@@ -5,34 +5,44 @@ struct AddNewCalculationFeature {
 
     @ObservableState
     struct State: Equatable {
-        var fromCurrency = AddingCurrencyDisplayModel()
-        var toCurriences: [AddingCurrencyDisplayModel] = [AddingCurrencyDisplayModel()]
+        @Presents var destination: Destination.State?
+        var fromCurrency = AddingCurrencyDisplayModel(code: Constants.defaultFromCurrencyCode)
+        var toCurriences: [AddingCurrencyDisplayModel] = []
     }
 
     enum Action {
         case backButtonTapped
         case delegate(Delegate)
+        case selectFromCurrency
         case updateFromCurrencyAmount(amount: String)
+        case selectToCurrency(index: Int)
         case updateToCurrencyAmount(index: Int, amount: String)
         case addNewCurrencyButtonTapped
+        case destination(PresentationAction<Destination.Action>)
 
         enum Delegate: Equatable {
             case back
         }
     }
 
+    // MARK: - Properties
+
     @Dependency(\.dismiss) var back
 
     // MARK: - Reducer
 
-    func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .backButtonTapped: backButtonTapped()
-        case .updateFromCurrencyAmount(let amount): updateFromCurrencyAmount(&state, amount)
-        case .updateToCurrencyAmount(let index, let amount): updateToCurrencyAmount(&state, amount, index)
-        case .addNewCurrencyButtonTapped: addNewCurrencyButtonTapped(&state)
-        default: Effect.none
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .backButtonTapped: backButtonTapped()
+            case .selectFromCurrency: selectFromCurrency(&state)
+            case .updateFromCurrencyAmount(let amount): updateFromCurrencyAmount(&state, amount)
+            case .updateToCurrencyAmount(let index, let amount): updateToCurrencyAmount(&state, amount, index)
+            case .addNewCurrencyButtonTapped: addNewCurrencyButtonTapped(&state)
+            default: Effect.none
+            }
         }
+        .ifLet(\.$destination, action: \.destination)
     }
 }
 
@@ -41,10 +51,15 @@ struct AddNewCalculationFeature {
 private extension AddNewCalculationFeature {
 
     func backButtonTapped() -> Effect<Action> {
-        .run { send in
+        Effect.run { send in
             await send(.delegate(.back))
             await back()
         }
+    }
+
+    func selectFromCurrency(_ state: inout State) -> Effect<Action> {
+        state.destination = .searchACurrency(SearchACurrencyFeature.State())
+        return Effect.none
     }
 
     func updateFromCurrencyAmount(_ state: inout State, _ amount: String) -> Effect<Action> {
@@ -60,5 +75,28 @@ private extension AddNewCalculationFeature {
     func addNewCurrencyButtonTapped(_ state: inout State) -> Effect<Action> {
         state.toCurriences.append(AddingCurrencyDisplayModel())
         return Effect.none
+    }
+}
+
+// MARK: -
+
+extension AddNewCalculationFeature {
+
+    @Reducer
+    enum Destination {
+        case searchACurrency(SearchACurrencyFeature)
+    }
+}
+
+// MARK: -
+
+extension AddNewCalculationFeature.Destination.State: Equatable {}
+
+// MARK: - Constants
+
+private extension AddNewCalculationFeature {
+
+    enum Constants {
+        static let defaultFromCurrencyCode = "USD"
     }
 }

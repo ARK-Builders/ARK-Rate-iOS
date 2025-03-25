@@ -4,7 +4,7 @@ type_body_length:
   warning: 300   # Show warning if class/struct body exceeds 300 lines
   error: 400     # Show error if body exceeds 400 lines
 identifier_name:
-  min_length: 3  # Variable and function names must have at least 3 characters
+  min_length: 2  # Variable and function names must have at least 2 characters
   max_length: 40 # Maximum identifier length is 40 characters
 
 # Enable rules that SwiftLint does not enforce by default
@@ -16,6 +16,7 @@ opt_in_rules:
 disabled_rules:
   - force_cast          # Do not warn about forced casting (as!)
   - force_try           # Do not warn about force try (!)
+  - nesting
 
 analyzer_rules:
   - explicit_self     # Require `self.` when accessing instance properties

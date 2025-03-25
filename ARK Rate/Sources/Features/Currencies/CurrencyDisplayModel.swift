@@ -5,6 +5,10 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
     let id: String
     let formattedRate: String
 
+    var name: String {
+        String(localized: String.LocalizationValue(id))
+    }
+
     // MARK: - Initialization
 
     init(from fiatCurrency: Currency) {

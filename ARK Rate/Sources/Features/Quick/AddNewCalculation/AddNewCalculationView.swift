@@ -20,6 +20,11 @@ struct AddNewCalculationView: View {
                 backButtonAction: { store.send(.backButtonTapped) }
             )
         )
+        .navigationDestination(
+            item: $store.scope(state: \.destination?.searchACurrency, action: \.destination.searchACurrency)
+        ) { store in
+            SearchACurrencyView(store: store)
+        }
     }
 }
 
@@ -34,7 +39,7 @@ private extension AddNewCalculationView {
                 name: store.fromCurrency.code,
                 amount: $store.fromCurrency.amount.sending(\.updateFromCurrencyAmount),
                 placeHolder: StringResource.inputValue.localized,
-                action: {}
+                action: { store.send(.selectFromCurrency) }
             )
             LineDivider()
             addingCurrenciesView
