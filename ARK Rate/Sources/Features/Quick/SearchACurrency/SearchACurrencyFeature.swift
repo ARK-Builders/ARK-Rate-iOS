@@ -5,6 +5,7 @@ struct SearchACurrencyFeature {
 
     @ObservableState
     struct State: Equatable {
+        var searchText = ""
         var curriences: [CurrencyDisplayModel] = []
     }
 
@@ -12,6 +13,7 @@ struct SearchACurrencyFeature {
         case backButtonTapped
         case delegate(Delegate)
         case loadCurrencies
+        case searchTextUpdated(String)
 
         enum Delegate: Equatable {
             case back
@@ -29,6 +31,7 @@ struct SearchACurrencyFeature {
         switch action {
         case .backButtonTapped: backButtonTapped()
         case .loadCurrencies: loadCurrencies(&state)
+        case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
         default: Effect.none
         }
     }
@@ -52,6 +55,11 @@ private extension SearchACurrencyFeature {
                 .map { CurrencyDisplayModel(from: $0) }
         } catch {}
         state.curriences = curriences
+        return Effect.none
+    }
+
+    func searchTextUpdated(_ state: inout State, _ searchText: String) -> Effect<Action> {
+        state.searchText = searchText
         return Effect.none
     }
 }

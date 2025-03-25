@@ -1,16 +1,20 @@
 import SwiftUI
+import SwiftUIX
 import ComposableArchitecture
 
 struct SearchACurrencyView: View {
 
     // MARK: - Properties
 
-    let store: StoreOf<SearchACurrencyFeature>
+    @State var isSearching = false
+
+    @Binding var store: StoreOf<SearchACurrencyFeature>
 
     // MARK: - Body
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+            searchBar
             List {
                 allCurrenciesSection
             }
@@ -32,6 +36,17 @@ struct SearchACurrencyView: View {
 // MARK: -
 
 private extension SearchACurrencyView {
+
+    var searchBar: some View {
+        SearchBar(
+            StringResource.search.localized,
+            text: $store.searchText.sending(\.searchTextUpdated),
+            isEditing: $isSearching
+        )
+        .showsCancelButton(isSearching)
+        .textFieldBackgroundColor(Color.backgroundPrimary)
+        .padding(.horizontal, Constants.spacing)
+    }
 
     var allCurrenciesSection: some View {
         Section(header: Text(StringResource.allCurrencies.localized)
@@ -61,6 +76,7 @@ private extension SearchACurrencyView {
 
     enum StringResource: String.LocalizationValue {
         case title = "search_a_currency"
+        case search = "Search"
         case allCurrencies = "all_currencies"
 
         var localized: String {

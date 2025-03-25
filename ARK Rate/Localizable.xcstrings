@@ -1532,6 +1532,9 @@
         }
       }
     },
+    "Search" : {
+
+    },
     "search_a_currency" : {
       "extractionState" : "manual",
       "localizations" : {

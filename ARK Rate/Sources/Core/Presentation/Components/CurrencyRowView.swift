@@ -46,6 +46,7 @@ struct CurrencyRowView: View {
             .padding(.vertical, Constants.verticalSpacing)
         }
         .padding(.horizontal, Constants.horizontalSpacing)
+        .background(Color.backgroundPrimary)
     }
 }
 
