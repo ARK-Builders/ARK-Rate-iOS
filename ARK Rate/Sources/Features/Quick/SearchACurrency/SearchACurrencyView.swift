@@ -11,7 +11,10 @@ struct SearchACurrencyView: View {
 
     var body: some View {
         VStack {
-            list
+            List {
+                allCurrenciesSection
+            }
+            .listStyle(.plain)
         }
         .background(Color.backgroundPrimary)
         .modifier(
@@ -30,17 +33,21 @@ struct SearchACurrencyView: View {
 
 private extension SearchACurrencyView {
 
-    var list: some View {
-        List(store.curriences, id: \.id) { currency in
-            CurrencyRowView(
-                code: currency.id,
-                name: currency.name,
-                rate: currency.formattedRate
-            )
-            .listRowInsets(EdgeInsets())
-            .listRowSeparator(.hidden)
+    var allCurrenciesSection: some View {
+        Section(header: Text(StringResource.allCurrencies.localized)
+            .foregroundColor(Color.textTertiary)
+            .font(Font.customInterMedium(size: 14))
+        ) {
+            ForEach(store.curriences, id: \.id) { currency in
+                CurrencyRowView(
+                    code: currency.id,
+                    name: currency.name,
+                    rate: currency.formattedRate
+                )
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+            }
         }
-        .listStyle(.plain)
     }
 }
 
@@ -54,6 +61,7 @@ private extension SearchACurrencyView {
 
     enum StringResource: String.LocalizationValue {
         case title = "search_a_currency"
+        case allCurrencies = "all_currencies"
 
         var localized: String {
             String(localized: rawValue)

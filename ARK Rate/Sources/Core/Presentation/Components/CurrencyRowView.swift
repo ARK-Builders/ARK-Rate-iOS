@@ -29,6 +29,7 @@ struct CurrencyRowView: View {
                 Image.image(code)
                     .resizable()
                     .frame(width: 40, height: 40)
+                    .background(Color.white)
                     .clipShape(Circle())
                 VStack(alignment: .leading, spacing: 4) {
                     Text(code)
