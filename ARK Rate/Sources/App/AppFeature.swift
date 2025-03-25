@@ -36,6 +36,7 @@ struct AppFeature {
             switch action {
             case .tabIndexChanged(let tabIndex): return tabIndexChanged(&state, tabIndex)
             case .tabbarIsHiddenToggled(let isHidden): return tabbarIsHiddenToggled(&state, isHidden)
+            case .currenciesAction(.currenciesUpdated(let currencies)): return .send(.quickAction(.currenciesUpdated(currencies)))
             case .quickAction(.hideTabbar): return tabbarIsHiddenToggled(&state, true)
             case .quickAction(.showTabbar): return tabbarIsHiddenToggled(&state, false)
             default: return Effect.none

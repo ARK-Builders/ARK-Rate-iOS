@@ -31,7 +31,7 @@ extension FiatCurrenciesRateResponse {
     var toCurrencyDTOs: [CurrencyDTO] {
         rates.map {
             CurrencyDTO(
-                code: $0.key,
+                code: $0.key.uppercased(),
                 rate: $0.value,
                 category: CurrencyDTO.Category.fiat
             )
@@ -45,7 +45,7 @@ extension CryptoCurrencyRateResponse {
 
     var toCurrencyDTO: CurrencyDTO {
         CurrencyDTO(
-            code: symbol,
+            code: symbol.uppercased(),
             rate: currentPrice,
             category: CurrencyDTO.Category.crypto
         )

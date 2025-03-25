@@ -11,7 +11,7 @@ struct SearchACurrencyView: View {
 
     var body: some View {
         VStack {
-
+            list
         }
         .background(Color.backgroundPrimary)
         .modifier(
@@ -20,6 +20,27 @@ struct SearchACurrencyView: View {
                 backButtonAction: { store.send(.backButtonTapped) }
             )
         )
+        .onAppear {
+            store.send(.loadCurrencies)
+        }
+    }
+}
+
+// MARK: -
+
+private extension SearchACurrencyView {
+
+    var list: some View {
+        List(store.curriences, id: \.id) { currency in
+            CurrencyRowView(
+                code: currency.id,
+                name: currency.name,
+                rate: currency.formattedRate
+            )
+            .listRowInsets(EdgeInsets())
+            .listRowSeparator(.hidden)
+        }
+        .listStyle(.plain)
     }
 }
 

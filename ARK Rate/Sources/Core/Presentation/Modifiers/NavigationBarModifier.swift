@@ -21,7 +21,7 @@ struct NavigationBarModifier: ViewModifier {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text(title)
                         .foregroundColor(Color.textPrimary)
-                        .font(Font.customInterSemiBold(size: 24))
+                        .font(Font.customInterSemiBold(size: 20))
                 }
             }
             .navigationBarBackButtonHidden(true)

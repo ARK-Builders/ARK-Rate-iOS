@@ -454,9 +454,6 @@
         }
       }
     },
-    "Currencies" : {
-
-    },
     "CVE" : {
       "extractionState" : "manual",
       "localizations" : {

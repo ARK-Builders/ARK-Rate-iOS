@@ -26,7 +26,7 @@ struct CurrencyRowView: View {
         VStack(spacing: 0) {
             LineDivider()
             HStack(spacing: 12) {
-                Image(code)
+                Image.image(code)
                     .resizable()
                     .frame(width: 40, height: 40)
                     .clipShape(Circle())
