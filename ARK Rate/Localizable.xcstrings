@@ -1433,6 +1433,17 @@
         }
       }
     },
+    "result" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Result"
+          }
+        }
+      }
+    },
     "RON" : {
       "extractionState" : "manual",
       "localizations" : {

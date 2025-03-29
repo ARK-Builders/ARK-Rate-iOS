@@ -66,7 +66,8 @@ private extension AddNewCalculationView {
                     get: { currency.amount },
                     set: { newValue in store.send(.updateToCurrencyAmount(newValue, currency.id)) }
                 ),
-                placeHolder: StringResource.inputValue.localized,
+                placeHolder: StringResource.result.localized,
+                isEditingEnabled: false,
                 action: { store.send(.selectToCurrency(currency.id)) },
                 deleteButtonAction: { store.send(.deleteCurrencyButtonTapped(currency.id)) }
             )
@@ -88,6 +89,7 @@ private extension AddNewCalculationView {
         case from
         case to
         case inputValue = "input_value"
+        case result
         case newCurrency = "new_currency"
 
         var localized: String {

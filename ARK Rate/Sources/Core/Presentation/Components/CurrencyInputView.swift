@@ -8,6 +8,7 @@ struct CurrencyInputView: View {
     let name: String
     @Binding var amount: String
     let placeHolder: String
+    let isEditingEnabled: Bool
     let action: ButtonAction
     let deleteButtonAction: ButtonAction?
 
@@ -18,6 +19,7 @@ struct CurrencyInputView: View {
         name: String,
         amount: Binding<String>,
         placeHolder: String,
+        isEditingEnabled: Bool = true,
         action: @escaping ButtonAction,
         deleteButtonAction: ButtonAction? = nil
     ) {
@@ -25,6 +27,7 @@ struct CurrencyInputView: View {
         self.name = name
         self._amount = amount
         self.placeHolder = placeHolder
+        self.isEditingEnabled = isEditingEnabled
         self.action = action
         self.deleteButtonAction = deleteButtonAction
     }
@@ -64,6 +67,7 @@ private extension CurrencyInputView {
             }
             .padding(.leading, Constants.horizontalSpacing)
             TextField(placeHolder, text: $amount)
+                .disabled(!isEditingEnabled)
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(Color.textPrimary)

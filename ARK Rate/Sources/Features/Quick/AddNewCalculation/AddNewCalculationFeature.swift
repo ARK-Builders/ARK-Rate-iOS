@@ -14,6 +14,7 @@ struct AddNewCalculationFeature {
 
         enum SelectionMode: Equatable {
             case fromCurrency
+            case addingToCurrency
             case toCurrency(id: UUID)
         }
     }
@@ -106,7 +107,8 @@ private extension AddNewCalculationFeature {
     }
 
     func addNewCurrencyButtonTapped(_ state: inout State) -> Effect<Action> {
-        state.toCurrencies.append(AddingCurrencyDisplayModel(code: Constants.defaultFromCurrencyCode))
+        state.selectionMode = .addingToCurrency
+        state.destination = .searchACurrency(SearchACurrencyFeature.State())
         return Effect.none
     }
 
@@ -120,6 +122,8 @@ private extension AddNewCalculationFeature {
             switch selectionMode {
             case .fromCurrency:
                 state.fromCurrency.code = code
+            case .addingToCurrency:
+                state.toCurrencies.append(AddingCurrencyDisplayModel(code: code))
             case .toCurrency(let id):
                 if let index = state.toCurrencies.index(id: id) {
                     state.toCurrencies[index].code = code
