@@ -8,11 +8,13 @@ struct AddNewCalculationFeature {
         @Presents var destination: Destination.State?
         var fromCurrency = AddingCurrencyDisplayModel(code: Constants.defaultFromCurrencyCode)
         var toCurrencies: [AddingCurrencyDisplayModel] = []
+        var currencies: [Currency] = []
     }
 
     enum Action {
         case backButtonTapped
         case delegate(Delegate)
+        case loadCurrencies
         case selectFromCurrency
         case updateFromCurrencyAmount(amount: String)
         case selectToCurrency(index: Int)
@@ -28,6 +30,7 @@ struct AddNewCalculationFeature {
     // MARK: - Properties
 
     @Dependency(\.dismiss) var back
+    @Dependency(\.currencyRepository) var currencyRepository
 
     // MARK: - Reducer
 
@@ -35,6 +38,7 @@ struct AddNewCalculationFeature {
         Reduce { state, action in
             switch action {
             case .backButtonTapped: backButtonTapped()
+            case .loadCurrencies: loadCurrencies(&state)
             case .selectFromCurrency: selectFromCurrency(&state)
             case .updateFromCurrencyAmount(let amount): updateFromCurrencyAmount(&state, amount)
             case .updateToCurrencyAmount(let index, let amount): updateToCurrencyAmount(&state, amount, index)
@@ -55,6 +59,16 @@ private extension AddNewCalculationFeature {
             await send(.delegate(.back))
             await back()
         }
+    }
+
+    func loadCurrencies(_ state: inout State) -> Effect<Action> {
+        var currencies: [Currency] = []
+        do {
+            currencies = try currencyRepository
+                .getLocal()
+        } catch {}
+        state.currencies = currencies
+        return Effect.none
     }
 
     func selectFromCurrency(_ state: inout State) -> Effect<Action> {

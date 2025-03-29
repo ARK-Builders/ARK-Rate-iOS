@@ -52,7 +52,8 @@ private extension SearchACurrencyFeature {
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
         var currencies: [CurrencyDisplayModel] = []
         do {
-            currencies = try currencyRepository.getLocal()
+            currencies = try currencyRepository
+                .getLocal()
                 .map { CurrencyDisplayModel(from: $0) }
         } catch {}
         state.currencies = currencies
