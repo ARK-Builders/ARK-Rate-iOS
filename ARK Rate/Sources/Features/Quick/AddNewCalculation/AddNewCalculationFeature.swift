@@ -1,3 +1,4 @@
+import Foundation
 import ComposableArchitecture
 
 @Reducer
@@ -7,8 +8,14 @@ struct AddNewCalculationFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var fromCurrency = AddingCurrencyDisplayModel(code: Constants.defaultFromCurrencyCode)
-        var toCurrencies: [AddingCurrencyDisplayModel] = []
+        var toCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
         var currencies: [Currency] = []
+        var selectionMode: SelectionMode?
+
+        enum SelectionMode: Equatable {
+            case fromCurrency
+            case toCurrency(id: UUID)
+        }
     }
 
     enum Action {
@@ -16,10 +23,11 @@ struct AddNewCalculationFeature {
         case delegate(Delegate)
         case loadCurrencies
         case selectFromCurrency
-        case updateFromCurrencyAmount(amount: String)
-        case selectToCurrency(index: Int)
-        case updateToCurrencyAmount(index: Int, amount: String)
+        case updateFromCurrencyAmount(String)
+        case selectToCurrency(UUID)
+        case updateToCurrencyAmount(String, UUID)
         case addNewCurrencyButtonTapped
+        case deleteCurrencyButtonTapped(UUID)
         case destination(PresentationAction<Destination.Action>)
 
         enum Delegate: Equatable {
@@ -41,8 +49,11 @@ struct AddNewCalculationFeature {
             case .loadCurrencies: loadCurrencies(&state)
             case .selectFromCurrency: selectFromCurrency(&state)
             case .updateFromCurrencyAmount(let amount): updateFromCurrencyAmount(&state, amount)
-            case .updateToCurrencyAmount(let index, let amount): updateToCurrencyAmount(&state, amount, index)
+            case .selectToCurrency(let id): selectToCurrency(&state, id)
+            case .updateToCurrencyAmount(let amount, let id): updateToCurrencyAmount(&state, amount, id)
             case .addNewCurrencyButtonTapped: addNewCurrencyButtonTapped(&state)
+            case .deleteCurrencyButtonTapped(let id): deleteCurrencyButtonTapped(&state, id)
+            case let .destination(.presented(.searchACurrency(.currencyCodeSelected(code)))): currencyCodeSelected(&state, code)
             default: Effect.none
             }
         }
@@ -64,14 +75,14 @@ private extension AddNewCalculationFeature {
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
         var currencies: [Currency] = []
         do {
-            currencies = try currencyRepository
-                .getLocal()
+            currencies = try currencyRepository.getLocal()
         } catch {}
         state.currencies = currencies
         return Effect.none
     }
 
     func selectFromCurrency(_ state: inout State) -> Effect<Action> {
+        state.selectionMode = .fromCurrency
         state.destination = .searchACurrency(SearchACurrencyFeature.State())
         return Effect.none
     }
@@ -81,13 +92,41 @@ private extension AddNewCalculationFeature {
         return Effect.none
     }
 
-    func updateToCurrencyAmount(_ state: inout State, _ amount: String, _ index: Int) -> Effect<Action> {
-        state.toCurrencies[index].amount = amount
+    func selectToCurrency(_ state: inout State, _ id: UUID) -> Effect<Action> {
+        state.selectionMode = .toCurrency(id: id)
+        state.destination = .searchACurrency(SearchACurrencyFeature.State())
+        return Effect.none
+    }
+
+    func updateToCurrencyAmount(_ state: inout State, _ amount: String, _ id: UUID) -> Effect<Action> {
+        if let index = state.toCurrencies.index(id: id) {
+            state.toCurrencies[index].amount = amount
+        }
         return Effect.none
     }
 
     func addNewCurrencyButtonTapped(_ state: inout State) -> Effect<Action> {
-        state.toCurrencies.append(AddingCurrencyDisplayModel())
+        state.toCurrencies.append(AddingCurrencyDisplayModel(code: Constants.defaultFromCurrencyCode))
+        return Effect.none
+    }
+
+    func deleteCurrencyButtonTapped(_ state: inout State, _ id: UUID) -> Effect<Action> {
+        state.toCurrencies.remove(id: id)
+        return Effect.none
+    }
+
+    func currencyCodeSelected(_ state: inout State, _ code: String) -> Effect<Action> {
+        if let selectionMode = state.selectionMode {
+            switch selectionMode {
+            case .fromCurrency:
+                state.fromCurrency.code = code
+            case .toCurrency(let id):
+                if let index = state.toCurrencies.index(id: id) {
+                    state.toCurrencies[index].code = code
+                }
+            }
+            state.selectionMode = nil
+        }
         return Effect.none
     }
 }

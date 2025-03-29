@@ -57,17 +57,18 @@ private extension AddNewCalculationView {
     }
 
     var addingCurrenciesView: some View {
-        ForEach(store.toCurrencies.indices, id: \.self) { index in
+        ForEach(store.toCurrencies) { currency in
+            let isFirstItem = currency.id == store.toCurrencies.first?.id
             CurrencyInputView(
-                label: index == 0 ? StringResource.to.localized : nil,
-                name: store.toCurrencies[index].code,
+                label: isFirstItem ? StringResource.to.localized : nil,
+                name: currency.code,
                 amount: Binding(
-                    get: { store.toCurrencies[index].amount },
-                    set: { newValue in store.send(.updateToCurrencyAmount(index: index, amount: newValue)) }
+                    get: { currency.amount },
+                    set: { newValue in store.send(.updateToCurrencyAmount(newValue, currency.id)) }
                 ),
                 placeHolder: StringResource.inputValue.localized,
-                action: {},
-                deleteButtonAction: {}
+                action: { store.send(.selectToCurrency(currency.id)) },
+                deleteButtonAction: { store.send(.deleteCurrencyButtonTapped(currency.id)) }
             )
         }
     }
