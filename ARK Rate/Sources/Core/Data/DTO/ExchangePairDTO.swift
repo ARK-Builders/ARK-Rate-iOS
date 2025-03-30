@@ -6,5 +6,5 @@ struct ExchangePairDTO {
 
     let inputCurrencyCode: String
     let inputCurrencyAmount: Decimal
-    let outputCurrenciesCode: Set<String>
+    let outputCurrenciesCode: [String]
 }

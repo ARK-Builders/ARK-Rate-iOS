@@ -7,6 +7,7 @@ struct QuickFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var currencies: [CurrencyDisplayModel] = []
+        var exchangePairs: [ExchangePair] = []
     }
 
     enum Action {
@@ -14,8 +15,13 @@ struct QuickFeature {
         case addNewCalculationButtonTapped
         case hideTabbar
         case showTabbar
+        case loadExchangePairs
         case destination(PresentationAction<Destination.Action>)
     }
+
+    // MARK: - Properties
+
+    @Dependency(\.exchangePairRepository) var exchangePairRepository
 
     // MARK: - Reducer
 
@@ -24,6 +30,7 @@ struct QuickFeature {
             switch action {
             case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
+            case .loadExchangePairs: loadExchangePairs(&state)
             case .destination(.presented(.addNewCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
             }
@@ -44,6 +51,14 @@ private extension QuickFeature {
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
         state.destination = .addNewCalculation(AddNewCalculationFeature.State())
         return .send(.hideTabbar)
+    }
+
+    func loadExchangePairs(_ state: inout State) -> Effect<Action> {
+        do {
+            state.exchangePairs = try exchangePairRepository.get()
+            print(state.exchangePairs)
+        } catch {}
+        return Effect.none
     }
 }
 

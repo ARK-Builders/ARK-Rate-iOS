@@ -15,4 +15,9 @@ final class ExchangePairRepositoryImpl: ExchangePairRepository {
     func save(_ pair: ExchangePair) throws {
         try localDataSource.save(pair.toExchangePairDTO)
     }
+
+    func get() throws -> [ExchangePair] {
+        try localDataSource.get()
+            .map { $0.toExchangePair }
+    }
 }
