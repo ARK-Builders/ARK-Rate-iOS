@@ -19,7 +19,7 @@ struct SearchACurrencyFeature {
 
         enum Delegate: Equatable {
             case back
-            case currencyCodeSelected(String)
+            case currencyCodeDidSelect(String)
         }
     }
 
@@ -80,7 +80,7 @@ private extension SearchACurrencyFeature {
 
     func currencyCodeSelected(_ state: inout State, _ code: String) -> Effect<Action> {
         Effect.run { send in
-            await send(.delegate(.currencyCodeSelected(code)))
+            await send(.delegate(.currencyCodeDidSelect(code)))
             await back()
         }
     }

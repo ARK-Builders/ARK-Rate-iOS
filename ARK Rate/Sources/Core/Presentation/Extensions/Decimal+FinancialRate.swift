@@ -2,15 +2,35 @@ import Foundation
 
 extension Decimal {
 
-    private static let formatter: NumberFormatter = {
+    // MARK: - Properties
+
+    static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 6
+        formatter.minimumFractionDigits = 0
+        formatter.locale = Locale(identifier: "en_US")
         return formatter
     }()
 
     var formattedRate: String {
+        let fractionSize = self > Decimal(10) ? 2 : 8
+        Decimal.formatter.maximumFractionDigits = fractionSize
         return Decimal.formatter.string(from: self as NSDecimalNumber) ?? "\(self)"
+    }
+
+    // MARK: - Methods
+
+    func divideArk(
+        _ divisor: Decimal,
+        scale: Int = 50,
+        roundingMode: NSDecimalNumber.RoundingMode = .bankers
+    ) -> Decimal {
+        var result = Decimal()
+        var dividend = self
+        var divisor = divisor
+        NSDecimalDivide(&result, &dividend, &divisor, roundingMode)
+        var roundedResult = Decimal()
+        NSDecimalRound(&roundedResult, &result, scale, roundingMode)
+        return roundedResult
     }
 }

@@ -1,3 +1,5 @@
+import Foundation
+
 // MARK: -
 
 extension CurrencyDTO {
@@ -32,7 +34,7 @@ extension FiatCurrenciesRateResponse {
         rates.map {
             CurrencyDTO(
                 code: $0.key.uppercased(),
-                rate: $0.value,
+                rate: Decimal(1).divideArk($0.value),
                 category: CurrencyDTO.Category.fiat
             )
         }

@@ -20,10 +20,14 @@ struct AddNewCalculationView: View {
                 backButtonAction: { store.send(.backButtonTapped) }
             )
         )
+        .modifier(HideKeyboardModifier())
         .navigationDestination(
             item: $store.scope(state: \.destination?.searchACurrency, action: \.destination.searchACurrency)
         ) { store in
             SearchACurrencyView(store: store)
+        }
+        .onAppear {
+            store.send(.loadCurrencies)
         }
     }
 }
@@ -34,19 +38,13 @@ private extension AddNewCalculationView {
 
     var content: some View {
         VStack(alignment: .leading, spacing: Constants.spacing) {
-            CurrencyInputView(
-                label: StringResource.from.localized,
-                name: store.fromCurrency.code,
-                amount: $store.fromCurrency.amount.sending(\.updateFromCurrencyAmount),
-                placeHolder: StringResource.inputValue.localized,
-                action: { store.send(.selectFromCurrency) }
-            )
+            inputCurrencyView
             LineDivider()
-            addingCurrenciesView
+            outputCurrenciesView
             SecondaryButton(
                 title: StringResource.newCurrency.localized,
                 icon: Image.plus,
-                action: { store.send(.addNewCurrencyButtonTapped) }
+                action: { store.send(.addOutputCurrencyButtonTapped) }
             )
             GroupMenuView(
                 groups: .constant([]),
@@ -56,20 +54,30 @@ private extension AddNewCalculationView {
         .padding(Constants.spacing)
     }
 
-    var addingCurrenciesView: some View {
-        ForEach(store.toCurrencies) { currency in
-            let isFirstItem = currency.id == store.toCurrencies.first?.id
+    var inputCurrencyView: some View {
+        CurrencyInputView(
+            label: StringResource.from.localized,
+            name: store.inputCurrency.code,
+            amount: $store.inputCurrency.amount.sending(\.updateInputCurrencyAmount),
+            placeHolder: StringResource.inputValue.localized,
+            action: { store.send(.selectInputCurrency) }
+        )
+    }
+
+    var outputCurrenciesView: some View {
+        ForEach(store.outputCurrencies) { currency in
+            let isFirstItem = currency.id == store.outputCurrencies.first?.id
             CurrencyInputView(
                 label: isFirstItem ? StringResource.to.localized : nil,
                 name: currency.code,
                 amount: Binding(
                     get: { currency.amount },
-                    set: { newValue in store.send(.updateToCurrencyAmount(newValue, currency.id)) }
+                    set: { newValue in store.send(.updateOutputCurrencyAmount(newValue, currency.id)) }
                 ),
                 placeHolder: StringResource.result.localized,
                 isEditingEnabled: false,
-                action: { store.send(.selectToCurrency(currency.id)) },
-                deleteButtonAction: { store.send(.deleteCurrencyButtonTapped(currency.id)) }
+                action: { store.send(.selectOutputCurrency(currency.id)) },
+                deleteButtonAction: { store.send(.deleteOutputCurrencyButtonTapped(currency.id)) }
             )
         }
     }

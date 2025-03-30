@@ -7,6 +7,11 @@ extension DependencyValues {
         set { self[FetchCurrenciesUseCaseKey.self] = newValue }
     }
 
+    var currencyExchangeUseCase: CurrencyExchangeUseCase {
+        get { self[CurrencyExchangeUseCaseKey.self] }
+        set { self[CurrencyExchangeUseCaseKey.self] = newValue }
+    }
+
     var currencyRepository: CurrencyRepository {
         get { self[CurrencyRepositoryKey.self] }
         set { self[CurrencyRepositoryKey.self] = newValue }
@@ -33,6 +38,13 @@ extension DependencyValues {
 private enum FetchCurrenciesUseCaseKey: DependencyKey {
 
     static let liveValue: FetchCurrenciesUseCase = FetchCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
+}
+
+// MARK: - CurrencyExchangeUseCase
+
+private enum CurrencyExchangeUseCaseKey: DependencyKey {
+
+    static let liveValue: CurrencyExchangeUseCase = CurrencyExchangeUseCaseImpl()
 }
 
 // MARK: - CurrencyRepository
