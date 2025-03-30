@@ -19,27 +19,26 @@ final class SwiftDataManager {
         let fetchedModels = try modelContext.fetch(fetchDescriptor)
         let fetchedModelsMap = Dictionary(uniqueKeysWithValues: fetchedModels.map { ($0.code, $0) })
 
-        var hasChanges = false
         models.forEach { model in
             if let fetchedModel = fetchedModelsMap[model.code] {
-                if fetchedModel.rate != model.rate {
-                    fetchedModel.rate = model.rate
-                    hasChanges = true
-                }
+                fetchedModel.rate = model.rate
             } else {
                 modelContext.insert(model)
-                hasChanges = true
             }
         }
-
-        if hasChanges {
-            try modelContext.save()
-        }
+        try modelContext.save()
     }
 
-    func get() throws -> [CurrencyModel] {
+    func insertOrUpdate(_ model: ExchangePairModel) throws {
+        guard let modelContext else { return }
+
+        modelContext.insert(model)
+        try modelContext.save()
+    }
+
+    func get<T: PersistentModel>(_ type: T.Type) throws -> [T] {
         guard let modelContext else { return [] }
-        let fetchDescriptor = FetchDescriptor<CurrencyModel>()
+        let fetchDescriptor = FetchDescriptor<T>()
         return try modelContext.fetch(fetchDescriptor)
     }
 }

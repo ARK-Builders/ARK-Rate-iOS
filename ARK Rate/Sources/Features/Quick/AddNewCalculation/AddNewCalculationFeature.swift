@@ -7,6 +7,7 @@ struct AddNewCalculationFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
+        var exchangePair: ExchangePair?
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
         var currencies: [Currency] = []
@@ -29,6 +30,7 @@ struct AddNewCalculationFeature {
         case updateOutputCurrencyAmount(String, UUID)
         case addOutputCurrencyButtonTapped
         case deleteOutputCurrencyButtonTapped(UUID)
+        case saveButtonTapped
         case destination(PresentationAction<Destination.Action>)
 
         enum Delegate: Equatable {
@@ -40,6 +42,7 @@ struct AddNewCalculationFeature {
 
     @Dependency(\.dismiss) var back
     @Dependency(\.currencyRepository) var currencyRepository
+    @Dependency(\.exchangePairRepository) var exchangePairRepository
     @Dependency(\.currencyExchangeUseCase) var currencyExchangeUseCase
 
     // MARK: - Reducer
@@ -55,6 +58,7 @@ struct AddNewCalculationFeature {
             case .updateOutputCurrencyAmount(let amount, let id): updateOutputCurrencyAmount(&state, amount, id)
             case .addOutputCurrencyButtonTapped: addOutputCurrencyButtonTapped(&state)
             case .deleteOutputCurrencyButtonTapped(let id): deleteOutputCurrencyButtonTapped(&state, id)
+            case .saveButtonTapped: saveButtonTapped(&state)
             case let .destination(.presented(.searchACurrency(.delegate(.currencyCodeDidSelect(code))))): currencyCodeDidSelect(&state, code)
             default: Effect.none
             }
@@ -91,6 +95,7 @@ private extension AddNewCalculationFeature {
 
     func updateInputCurrencyAmount(_ state: inout State, _ amount: String) -> Effect<Action> {
         state.inputCurrency.amount = amount
+        updateExchangePair(&state)
         updateExchangeOutputCurrenciesAmount(&state)
         return Effect.none
     }
@@ -116,6 +121,7 @@ private extension AddNewCalculationFeature {
 
     func deleteOutputCurrencyButtonTapped(_ state: inout State, _ id: UUID) -> Effect<Action> {
         state.outputCurrencies.remove(id: id)
+        updateExchangePair(&state)
         return Effect.none
     }
 
@@ -124,34 +130,64 @@ private extension AddNewCalculationFeature {
             switch selectionMode {
             case .inputCurrency:
                 state.inputCurrency.code = code
-                updateExchangeOutputCurrenciesAmount(&state)
             case .addingOutputCurrency:
                 state.outputCurrencies.append(AddingCurrencyDisplayModel(code: code))
-                updateExchangeOutputCurrenciesAmount(&state)
             case .outputCurrency(let id):
                 if let index = state.outputCurrencies.index(id: id) {
                     state.outputCurrencies[index].code = code
-                    updateExchangeOutputCurrenciesAmount(&state)
                 }
             }
             state.selectionMode = nil
         }
+        updateExchangePair(&state)
+        updateExchangeOutputCurrenciesAmount(&state)
         return Effect.none
     }
 
+    func saveButtonTapped(_ state: inout State) -> Effect<Action> {
+        if let pair = state.exchangePair {
+            do {
+                try exchangePairRepository.save(pair)
+            } catch {}
+        }
+        return Effect.run { send in
+            await send(.delegate(.back))
+            await back()
+        }
+    }
+}
+
+// MARK: - Helpers
+
+private extension AddNewCalculationFeature {
+
     func updateExchangeOutputCurrenciesAmount(_ state: inout State) {
-        guard let inputCurrency = state.currencies.first(where: { $0.code == state.inputCurrency.code }) else { return }
+        guard let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount),
+        let inputCurrency = state.currencies.first(where: { $0.code == state.inputCurrency.code }),
+        !state.outputCurrencies.isEmpty else { return }
         let outputCurrencies = state.currencies.filter { currency in
             state.outputCurrencies.contains(where: { $0.code == currency.code })
         }
         guard !outputCurrencies.isEmpty else { return }
         let currencyAmounts = currencyExchangeUseCase.execute(
             inputCurrency: inputCurrency,
-            inputCurrencyAmount: state.inputCurrency.amount,
+            inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencies: outputCurrencies
         )
         for (index, currency) in state.outputCurrencies.enumerated() {
             state.outputCurrencies[index].amount = currencyAmounts[currency.code]?.formattedRate ?? ""
+        }
+    }
+
+    func updateExchangePair(_ state: inout State) {
+        state.exchangePair = if let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount), !state.outputCurrencies.isEmpty {
+            ExchangePair(
+                inputCurrencyCode: state.inputCurrency.code,
+                inputCurrencyAmount: inputCurrencyAmount,
+                outputCurrenciesCode: state.outputCurrencies.map { $0.code }
+            )
+        } else {
+            nil
         }
     }
 }

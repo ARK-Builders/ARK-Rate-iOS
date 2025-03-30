@@ -4,7 +4,7 @@ extension Decimal {
 
     // MARK: - Properties
 
-    static let formatter: NumberFormatter = {
+    private static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 0

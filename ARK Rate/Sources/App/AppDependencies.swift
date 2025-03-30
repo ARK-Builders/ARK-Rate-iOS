@@ -17,6 +17,11 @@ extension DependencyValues {
         set { self[CurrencyRepositoryKey.self] = newValue }
     }
 
+    var exchangePairRepository: ExchangePairRepository {
+        get { self[ExchangePairRepositoryKey.self] }
+        set { self[ExchangePairRepositoryKey.self] = newValue }
+    }
+
     var fiatCurrenciesRateAPI: FiatCurrenciesRateAPI {
         get { self[FiatCurrenciesRateAPIKey.self] }
         set { self[FiatCurrenciesRateAPIKey.self] = newValue }
@@ -30,6 +35,11 @@ extension DependencyValues {
     var currencyLocalDataSource: CurrencyLocalDataSource {
         get { self[CurrencyLocalDataSourceKey.self] }
         set { self[CurrencyLocalDataSourceKey.self] = newValue }
+    }
+
+    var exchangePairLocalDataSource: ExchangePairLocalDataSource {
+        get { self[ExchangePairLocalDataSourceKey.self] }
+        set { self[ExchangePairLocalDataSourceKey.self] = newValue }
     }
 }
 
@@ -63,6 +73,13 @@ private enum CurrencyRepositoryKey: DependencyKey {
     }()
 }
 
+// MARK: - ExchangePairRepository
+
+private enum ExchangePairRepositoryKey: DependencyKey {
+
+    static let liveValue: ExchangePairRepository = ExchangePairRepositoryImpl(localDataSource: DependencyValues._current.exchangePairLocalDataSource)
+}
+
 // MARK: - FiatCurrenciesRateAPI
 
 private enum FiatCurrenciesRateAPIKey: DependencyKey {
@@ -82,4 +99,11 @@ private enum CryptoCurrenciesRateAPIKey: DependencyKey {
 private enum CurrencyLocalDataSourceKey: DependencyKey {
 
     static let liveValue: CurrencyLocalDataSource = CurrencySwiftDataDataSource()
+}
+
+// MARK: - ExchangePairLocalDataSource
+
+private enum ExchangePairLocalDataSourceKey: DependencyKey {
+
+    static let liveValue: ExchangePairLocalDataSource = ExchangePairSwiftDataDataSource()
 }

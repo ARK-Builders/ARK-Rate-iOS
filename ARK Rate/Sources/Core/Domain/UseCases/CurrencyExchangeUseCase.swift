@@ -6,7 +6,7 @@ protocol CurrencyExchangeUseCase {
 
     func execute(
         inputCurrency: Currency,
-        inputCurrencyAmount: String,
+        inputCurrencyAmount: Decimal,
         outputCurrencies: [Currency]
     ) -> CurrencyAmounts
 }
@@ -17,14 +17,13 @@ struct CurrencyExchangeUseCaseImpl: CurrencyExchangeUseCase {
 
     func execute(
         inputCurrency: Currency,
-        inputCurrencyAmount: String,
+        inputCurrencyAmount: Decimal,
         outputCurrencies: [Currency]
     ) -> CurrencyAmounts {
         var currencyAmounts: CurrencyAmounts = [:]
-        guard let amount = Decimal(string: inputCurrencyAmount) else { return currencyAmounts }
         outputCurrencies.forEach { outputCurrency in
             let rate = inputCurrency.rate.divideArk(outputCurrency.rate)
-            currencyAmounts[outputCurrency.code] = amount * rate
+            currencyAmounts[outputCurrency.code] = inputCurrencyAmount * rate
         }
         return currencyAmounts
     }

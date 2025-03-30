@@ -13,6 +13,9 @@ struct AddNewCalculationView: View {
         ScrollView {
             content
         }
+        .safeAreaInset(edge: .bottom) {
+            footer
+        }
         .background(Color.backgroundPrimary)
         .modifier(
             NavigationBarModifier(
@@ -81,6 +84,19 @@ private extension AddNewCalculationView {
             )
         }
     }
+
+    var footer: some View {
+        VStack {
+            PrimaryButton(
+                title: StringResource.save.localized,
+                disabled: store.exchangePair == nil,
+                expandHorizontally: true,
+                action: { store.send(.saveButtonTapped) }
+            )
+            .padding(Constants.spacing)
+        }
+        .background(Color.backgroundPrimary)
+    }
 }
 
 // MARK: - Constants
@@ -99,6 +115,7 @@ private extension AddNewCalculationView {
         case inputValue = "input_value"
         case result
         case newCurrency = "new_currency"
+        case save
 
         var localized: String {
             String(localized: rawValue)
