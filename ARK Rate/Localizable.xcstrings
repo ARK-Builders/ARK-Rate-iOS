@@ -1433,6 +1433,17 @@
         }
       }
     },
+    "result" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Result"
+          }
+        }
+      }
+    },
     "RON" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1484,6 +1495,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saudi Riyal"
+          }
+        }
+      }
+    },
+    "save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
           }
         }
       }

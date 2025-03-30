@@ -7,9 +7,19 @@ extension DependencyValues {
         set { self[FetchCurrenciesUseCaseKey.self] = newValue }
     }
 
+    var currencyExchangeUseCase: CurrencyExchangeUseCase {
+        get { self[CurrencyExchangeUseCaseKey.self] }
+        set { self[CurrencyExchangeUseCaseKey.self] = newValue }
+    }
+
     var currencyRepository: CurrencyRepository {
         get { self[CurrencyRepositoryKey.self] }
         set { self[CurrencyRepositoryKey.self] = newValue }
+    }
+
+    var exchangePairRepository: ExchangePairRepository {
+        get { self[ExchangePairRepositoryKey.self] }
+        set { self[ExchangePairRepositoryKey.self] = newValue }
     }
 
     var fiatCurrenciesRateAPI: FiatCurrenciesRateAPI {
@@ -26,6 +36,11 @@ extension DependencyValues {
         get { self[CurrencyLocalDataSourceKey.self] }
         set { self[CurrencyLocalDataSourceKey.self] = newValue }
     }
+
+    var exchangePairLocalDataSource: ExchangePairLocalDataSource {
+        get { self[ExchangePairLocalDataSourceKey.self] }
+        set { self[ExchangePairLocalDataSourceKey.self] = newValue }
+    }
 }
 
 // MARK: - FetchCurrenciesUseCase
@@ -33,6 +48,13 @@ extension DependencyValues {
 private enum FetchCurrenciesUseCaseKey: DependencyKey {
 
     static let liveValue: FetchCurrenciesUseCase = FetchCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
+}
+
+// MARK: - CurrencyExchangeUseCase
+
+private enum CurrencyExchangeUseCaseKey: DependencyKey {
+
+    static let liveValue: CurrencyExchangeUseCase = CurrencyExchangeUseCaseImpl()
 }
 
 // MARK: - CurrencyRepository
@@ -49,6 +71,13 @@ private enum CurrencyRepositoryKey: DependencyKey {
             cryptoCurrencyDataSource: cryptoCurrencyDataSource
         )
     }()
+}
+
+// MARK: - ExchangePairRepository
+
+private enum ExchangePairRepositoryKey: DependencyKey {
+
+    static let liveValue: ExchangePairRepository = ExchangePairRepositoryImpl(localDataSource: DependencyValues._current.exchangePairLocalDataSource)
 }
 
 // MARK: - FiatCurrenciesRateAPI
@@ -70,4 +99,11 @@ private enum CryptoCurrenciesRateAPIKey: DependencyKey {
 private enum CurrencyLocalDataSourceKey: DependencyKey {
 
     static let liveValue: CurrencyLocalDataSource = CurrencySwiftDataDataSource()
+}
+
+// MARK: - ExchangePairLocalDataSource
+
+private enum ExchangePairLocalDataSourceKey: DependencyKey {
+
+    static let liveValue: ExchangePairLocalDataSource = ExchangePairSwiftDataDataSource()
 }

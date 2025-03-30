@@ -15,9 +15,11 @@ struct SearchACurrencyFeature {
         case delegate(Delegate)
         case loadCurrencies
         case searchTextUpdated(String)
+        case currencyCodeSelected(String)
 
         enum Delegate: Equatable {
             case back
+            case currencyCodeDidSelect(String)
         }
     }
 
@@ -33,6 +35,7 @@ struct SearchACurrencyFeature {
         case .backButtonTapped: backButtonTapped()
         case .loadCurrencies: loadCurrencies(&state)
         case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
+        case .currencyCodeSelected(let code): currencyCodeSelected(&state, code)
         default: Effect.none
         }
     }
@@ -73,5 +76,12 @@ private extension SearchACurrencyFeature {
         }
 
         return Effect.none
+    }
+
+    func currencyCodeSelected(_ state: inout State, _ code: String) -> Effect<Action> {
+        Effect.run { send in
+            await send(.delegate(.currencyCodeDidSelect(code)))
+            await back()
+        }
     }
 }

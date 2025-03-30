@@ -1,3 +1,23 @@
+import Foundation
+
+// MARK: -
+
+extension Currency {
+
+    var toCurrencyDTO: CurrencyDTO {
+        let category: CurrencyDTO.Category
+        switch self.category {
+        case .fiat: category = .fiat
+        case .crypto: category = .crypto
+        }
+        return CurrencyDTO(
+            code: code,
+            rate: rate,
+            category: category
+        )
+    }
+}
+
 // MARK: -
 
 extension CurrencyDTO {
@@ -5,8 +25,8 @@ extension CurrencyDTO {
     var toCurrency: Currency {
         let category: Currency.Category
         switch self.category {
-        case .fiat: category = Currency.Category.fiat
-        case .crypto: category = Currency.Category.crypto
+        case .fiat: category = .fiat
+        case .crypto: category = .crypto
         }
         return Currency(
             code: code,
@@ -32,7 +52,7 @@ extension FiatCurrenciesRateResponse {
         rates.map {
             CurrencyDTO(
                 code: $0.key.uppercased(),
-                rate: $0.value,
+                rate: Decimal(1).divideArk($0.value),
                 category: CurrencyDTO.Category.fiat
             )
         }

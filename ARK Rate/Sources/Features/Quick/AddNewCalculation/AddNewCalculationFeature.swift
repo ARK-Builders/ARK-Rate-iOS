@@ -1,3 +1,4 @@
+import Foundation
 import ComposableArchitecture
 
 @Reducer
@@ -6,18 +7,30 @@ struct AddNewCalculationFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-        var fromCurrency = AddingCurrencyDisplayModel(code: Constants.defaultFromCurrencyCode)
-        var toCurrencies: [AddingCurrencyDisplayModel] = []
+        var exchangePair: ExchangePair?
+        var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
+        var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
+        var currencies: [Currency] = []
+        var selectionMode: SelectionMode?
+
+        enum SelectionMode: Equatable {
+            case inputCurrency
+            case addingOutputCurrency
+            case outputCurrency(id: UUID)
+        }
     }
 
     enum Action {
         case backButtonTapped
         case delegate(Delegate)
-        case selectFromCurrency
-        case updateFromCurrencyAmount(amount: String)
-        case selectToCurrency(index: Int)
-        case updateToCurrencyAmount(index: Int, amount: String)
-        case addNewCurrencyButtonTapped
+        case loadCurrencies
+        case selectInputCurrency
+        case updateInputCurrencyAmount(String)
+        case selectOutputCurrency(UUID)
+        case updateOutputCurrencyAmount(String, UUID)
+        case addOutputCurrencyButtonTapped
+        case deleteOutputCurrencyButtonTapped(UUID)
+        case saveButtonTapped
         case destination(PresentationAction<Destination.Action>)
 
         enum Delegate: Equatable {
@@ -28,6 +41,9 @@ struct AddNewCalculationFeature {
     // MARK: - Properties
 
     @Dependency(\.dismiss) var back
+    @Dependency(\.currencyRepository) var currencyRepository
+    @Dependency(\.exchangePairRepository) var exchangePairRepository
+    @Dependency(\.currencyExchangeUseCase) var currencyExchangeUseCase
 
     // MARK: - Reducer
 
@@ -35,10 +51,15 @@ struct AddNewCalculationFeature {
         Reduce { state, action in
             switch action {
             case .backButtonTapped: backButtonTapped()
-            case .selectFromCurrency: selectFromCurrency(&state)
-            case .updateFromCurrencyAmount(let amount): updateFromCurrencyAmount(&state, amount)
-            case .updateToCurrencyAmount(let index, let amount): updateToCurrencyAmount(&state, amount, index)
-            case .addNewCurrencyButtonTapped: addNewCurrencyButtonTapped(&state)
+            case .loadCurrencies: loadCurrencies(&state)
+            case .selectInputCurrency: selectInputCurrency(&state)
+            case .updateInputCurrencyAmount(let amount): updateInputCurrencyAmount(&state, amount)
+            case .selectOutputCurrency(let id): selectOutputCurrency(&state, id)
+            case .updateOutputCurrencyAmount(let amount, let id): updateOutputCurrencyAmount(&state, amount, id)
+            case .addOutputCurrencyButtonTapped: addOutputCurrencyButtonTapped(&state)
+            case .deleteOutputCurrencyButtonTapped(let id): deleteOutputCurrencyButtonTapped(&state, id)
+            case .saveButtonTapped: saveButtonTapped(&state)
+            case let .destination(.presented(.searchACurrency(.delegate(.currencyCodeDidSelect(code))))): currencyCodeDidSelect(&state, code)
             default: Effect.none
             }
         }
@@ -57,24 +78,117 @@ private extension AddNewCalculationFeature {
         }
     }
 
-    func selectFromCurrency(_ state: inout State) -> Effect<Action> {
+    func loadCurrencies(_ state: inout State) -> Effect<Action> {
+        var currencies: [Currency] = []
+        do {
+            currencies = try currencyRepository.getLocal()
+        } catch {}
+        state.currencies = currencies
+        return Effect.none
+    }
+
+    func selectInputCurrency(_ state: inout State) -> Effect<Action> {
+        state.selectionMode = .inputCurrency
         state.destination = .searchACurrency(SearchACurrencyFeature.State())
         return Effect.none
     }
 
-    func updateFromCurrencyAmount(_ state: inout State, _ amount: String) -> Effect<Action> {
-        state.fromCurrency.amount = amount
+    func updateInputCurrencyAmount(_ state: inout State, _ amount: String) -> Effect<Action> {
+        state.inputCurrency.amount = amount
+        updateExchangePair(&state)
+        updateExchangeOutputCurrenciesAmount(&state)
         return Effect.none
     }
 
-    func updateToCurrencyAmount(_ state: inout State, _ amount: String, _ index: Int) -> Effect<Action> {
-        state.toCurrencies[index].amount = amount
+    func selectOutputCurrency(_ state: inout State, _ id: UUID) -> Effect<Action> {
+        state.selectionMode = .outputCurrency(id: id)
+        state.destination = .searchACurrency(SearchACurrencyFeature.State())
         return Effect.none
     }
 
-    func addNewCurrencyButtonTapped(_ state: inout State) -> Effect<Action> {
-        state.toCurrencies.append(AddingCurrencyDisplayModel())
+    func updateOutputCurrencyAmount(_ state: inout State, _ amount: String, _ id: UUID) -> Effect<Action> {
+        if let index = state.outputCurrencies.index(id: id) {
+            state.outputCurrencies[index].amount = amount
+        }
         return Effect.none
+    }
+
+    func addOutputCurrencyButtonTapped(_ state: inout State) -> Effect<Action> {
+        state.selectionMode = .addingOutputCurrency
+        state.destination = .searchACurrency(SearchACurrencyFeature.State())
+        return Effect.none
+    }
+
+    func deleteOutputCurrencyButtonTapped(_ state: inout State, _ id: UUID) -> Effect<Action> {
+        state.outputCurrencies.remove(id: id)
+        updateExchangePair(&state)
+        return Effect.none
+    }
+
+    func currencyCodeDidSelect(_ state: inout State, _ code: String) -> Effect<Action> {
+        if let selectionMode = state.selectionMode {
+            switch selectionMode {
+            case .inputCurrency:
+                state.inputCurrency.code = code
+            case .addingOutputCurrency:
+                state.outputCurrencies.append(AddingCurrencyDisplayModel(code: code))
+            case .outputCurrency(let id):
+                if let index = state.outputCurrencies.index(id: id) {
+                    state.outputCurrencies[index].code = code
+                }
+            }
+            state.selectionMode = nil
+        }
+        updateExchangePair(&state)
+        updateExchangeOutputCurrenciesAmount(&state)
+        return Effect.none
+    }
+
+    func saveButtonTapped(_ state: inout State) -> Effect<Action> {
+        if let pair = state.exchangePair {
+            do {
+                try exchangePairRepository.save(pair)
+            } catch {}
+        }
+        return Effect.run { send in
+            await send(.delegate(.back))
+            await back()
+        }
+    }
+}
+
+// MARK: - Helpers
+
+private extension AddNewCalculationFeature {
+
+    func updateExchangeOutputCurrenciesAmount(_ state: inout State) {
+        guard let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount),
+        let inputCurrency = state.currencies.first(where: { $0.code == state.inputCurrency.code }),
+        !state.outputCurrencies.isEmpty else { return }
+        let outputCurrencies = state.currencies.filter { currency in
+            state.outputCurrencies.contains(where: { $0.code == currency.code })
+        }
+        guard !outputCurrencies.isEmpty else { return }
+        let currencyAmounts = currencyExchangeUseCase.execute(
+            inputCurrency: inputCurrency,
+            inputCurrencyAmount: inputCurrencyAmount,
+            outputCurrencies: outputCurrencies
+        )
+        for (index, currency) in state.outputCurrencies.enumerated() {
+            state.outputCurrencies[index].amount = currencyAmounts[currency.code]?.formattedRate ?? ""
+        }
+    }
+
+    func updateExchangePair(_ state: inout State) {
+        state.exchangePair = if let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount), !state.outputCurrencies.isEmpty {
+            ExchangePair(
+                inputCurrencyCode: state.inputCurrency.code,
+                inputCurrencyAmount: inputCurrencyAmount,
+                outputCurrenciesCode: state.outputCurrencies.map { $0.code }
+            )
+        } else {
+            nil
+        }
     }
 }
 
@@ -97,6 +211,6 @@ extension AddNewCalculationFeature.Destination.State: Equatable {}
 private extension AddNewCalculationFeature {
 
     enum Constants {
-        static let defaultFromCurrencyCode = "USD"
+        static let defaultInputCurrencyCode = "USD"
     }
 }

@@ -26,6 +26,8 @@ struct ActionButton: View {
     let title: String
     let icon: Image?
     let style: Style
+    let disabled: Bool
+    let expandHorizontally: Bool
     let action: ButtonAction
 
     // MARK: - Initialization
@@ -34,11 +36,15 @@ struct ActionButton: View {
         title: String,
         icon: Image? = nil,
         style: Style,
+        disabled: Bool = false,
+        expandHorizontally: Bool = false,
         action: @escaping ButtonAction
     ) {
         self.title = title
         self.icon = icon
         self.style = style
+        self.disabled = disabled
+        self.expandHorizontally = expandHorizontally
         self.action = action
     }
 
@@ -58,12 +64,15 @@ struct ActionButton: View {
                     .foregroundColor(style.foregroundColor)
             }
         }
+        .frame(maxWidth: expandHorizontally ? .infinity : nil)
         .padding(.vertical, Constants.verticalSpacing)
         .padding(.horizontal, Constants.horizontalSpacing)
         .background(style.backgroundColor)
         .clipShape(
             RoundedRectangle(cornerRadius: 8)
         )
+        .disabled(disabled)
+        .opacity(!disabled ? 1 : 0.5)
     }
 }
 

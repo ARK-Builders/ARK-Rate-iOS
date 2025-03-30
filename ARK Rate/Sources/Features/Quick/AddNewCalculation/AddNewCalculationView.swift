@@ -13,6 +13,9 @@ struct AddNewCalculationView: View {
         ScrollView {
             content
         }
+        .safeAreaInset(edge: .bottom) {
+            footer
+        }
         .background(Color.backgroundPrimary)
         .modifier(
             NavigationBarModifier(
@@ -20,10 +23,14 @@ struct AddNewCalculationView: View {
                 backButtonAction: { store.send(.backButtonTapped) }
             )
         )
+        .modifier(HideKeyboardModifier())
         .navigationDestination(
             item: $store.scope(state: \.destination?.searchACurrency, action: \.destination.searchACurrency)
         ) { store in
             SearchACurrencyView(store: store)
+        }
+        .onAppear {
+            store.send(.loadCurrencies)
         }
     }
 }
@@ -34,19 +41,13 @@ private extension AddNewCalculationView {
 
     var content: some View {
         VStack(alignment: .leading, spacing: Constants.spacing) {
-            CurrencyInputView(
-                label: StringResource.from.localized,
-                name: store.fromCurrency.code,
-                amount: $store.fromCurrency.amount.sending(\.updateFromCurrencyAmount),
-                placeHolder: StringResource.inputValue.localized,
-                action: { store.send(.selectFromCurrency) }
-            )
+            inputCurrencyView
             LineDivider()
-            addingCurrenciesView
+            outputCurrenciesView
             SecondaryButton(
                 title: StringResource.newCurrency.localized,
                 icon: Image.plus,
-                action: { store.send(.addNewCurrencyButtonTapped) }
+                action: { store.send(.addOutputCurrencyButtonTapped) }
             )
             GroupMenuView(
                 groups: .constant([]),
@@ -56,20 +57,45 @@ private extension AddNewCalculationView {
         .padding(Constants.spacing)
     }
 
-    var addingCurrenciesView: some View {
-        ForEach(store.toCurrencies.indices, id: \.self) { index in
+    var inputCurrencyView: some View {
+        CurrencyInputView(
+            label: StringResource.from.localized,
+            name: store.inputCurrency.code,
+            amount: $store.inputCurrency.amount.sending(\.updateInputCurrencyAmount),
+            placeHolder: StringResource.inputValue.localized,
+            action: { store.send(.selectInputCurrency) }
+        )
+    }
+
+    var outputCurrenciesView: some View {
+        ForEach(store.outputCurrencies) { currency in
+            let isFirstItem = currency.id == store.outputCurrencies.first?.id
             CurrencyInputView(
-                label: index == 0 ? StringResource.to.localized : nil,
-                name: store.toCurrencies[index].code,
+                label: isFirstItem ? StringResource.to.localized : nil,
+                name: currency.code,
                 amount: Binding(
-                    get: { store.toCurrencies[index].amount },
-                    set: { newValue in store.send(.updateToCurrencyAmount(index: index, amount: newValue)) }
+                    get: { currency.amount },
+                    set: { newValue in store.send(.updateOutputCurrencyAmount(newValue, currency.id)) }
                 ),
-                placeHolder: StringResource.inputValue.localized,
-                action: {},
-                deleteButtonAction: {}
+                placeHolder: StringResource.result.localized,
+                isEditingEnabled: false,
+                action: { store.send(.selectOutputCurrency(currency.id)) },
+                deleteButtonAction: { store.send(.deleteOutputCurrencyButtonTapped(currency.id)) }
             )
         }
+    }
+
+    var footer: some View {
+        VStack {
+            PrimaryButton(
+                title: StringResource.save.localized,
+                disabled: store.exchangePair == nil,
+                expandHorizontally: true,
+                action: { store.send(.saveButtonTapped) }
+            )
+            .padding(Constants.spacing)
+        }
+        .background(Color.backgroundPrimary)
     }
 }
 
@@ -87,7 +113,9 @@ private extension AddNewCalculationView {
         case from
         case to
         case inputValue = "input_value"
+        case result
         case newCurrency = "new_currency"
+        case save
 
         var localized: String {
             String(localized: rawValue)

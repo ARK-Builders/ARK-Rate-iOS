@@ -1,12 +1,11 @@
 import SwiftData
-import ComposableArchitecture
 
 struct CurrencySwiftDataDataSource: CurrencyLocalDataSource {
 
     // MARK: - Conformance
 
     func get() throws -> [CurrencyDTO] {
-        let models = try SwiftDataManager.shared.get()
+        let models = try SwiftDataManager.shared.get(CurrencyModel.self)
         return models.map { $0.toCurrencyDTO }
     }
 
