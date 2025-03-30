@@ -49,6 +49,8 @@ struct CurrencyRowView: View {
                 }
                 .padding(.vertical, Constants.verticalSpacing)
             }
+            .frame(maxWidth: .infinity)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .padding(.horizontal, Constants.horizontalSpacing)
