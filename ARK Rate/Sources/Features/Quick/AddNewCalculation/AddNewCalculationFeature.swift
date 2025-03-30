@@ -184,7 +184,7 @@ private extension AddNewCalculationFeature {
             ExchangePair(
                 inputCurrencyCode: state.inputCurrency.code,
                 inputCurrencyAmount: inputCurrencyAmount,
-                outputCurrenciesCode: state.outputCurrencies.map { $0.code }
+                outputCurrenciesCode: Set(state.outputCurrencies.map { $0.code })
             )
         } else {
             nil

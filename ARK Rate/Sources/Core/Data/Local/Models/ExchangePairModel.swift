@@ -9,7 +9,7 @@ final class ExchangePairModel {
     @Attribute(.unique) var id: UUID
     var inputCurrencyCode: String
     var inputCurrencyAmount: Decimal
-    var outputCurrenciesCode: [String]
+    var outputCurrenciesCode: Set<String>
 
     // MARK: - Initialization
 
@@ -17,7 +17,7 @@ final class ExchangePairModel {
         id: UUID = UUID(),
         inputCurrencyCode: String,
         inputCurrencyAmount: Decimal,
-        outputCurrenciesCode: [String]
+        outputCurrenciesCode: Set<String>
     ) {
         self.id = id
         self.inputCurrencyCode = inputCurrencyCode
