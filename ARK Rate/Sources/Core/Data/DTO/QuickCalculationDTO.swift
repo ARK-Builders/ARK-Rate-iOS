@@ -1,6 +1,6 @@
 import Foundation
 
-struct ExchangePair: Equatable {
+struct QuickCalculationDTO {
 
     // MARK: - Properties
 

@@ -7,7 +7,7 @@ struct QuickFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var currencies: [CurrencyDisplayModel] = []
-        var exchangePairs: [ExchangePair] = []
+        var quickCalculations: [QuickCalculation] = []
     }
 
     enum Action {
@@ -15,13 +15,13 @@ struct QuickFeature {
         case addNewCalculationButtonTapped
         case hideTabbar
         case showTabbar
-        case loadExchangePairs
+        case loadQuickCalculations
         case destination(PresentationAction<Destination.Action>)
     }
 
     // MARK: - Properties
 
-    @Dependency(\.exchangePairRepository) var exchangePairRepository
+    @Dependency(\.quickCalculationRepository) var quickCalculationRepository
 
     // MARK: - Reducer
 
@@ -30,8 +30,8 @@ struct QuickFeature {
             switch action {
             case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
-            case .loadExchangePairs: loadExchangePairs(&state)
-            case .destination(.presented(.addNewCalculation(.delegate(.back)))): .send(.showTabbar)
+            case .loadQuickCalculations: loadQuickCalculations(&state)
+            case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
             }
         }
@@ -49,14 +49,13 @@ private extension QuickFeature {
     }
 
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
-        state.destination = .addNewCalculation(AddNewCalculationFeature.State())
+        state.destination = .addQuickCalculation(AddQuickCalculationFeature.State())
         return .send(.hideTabbar)
     }
 
-    func loadExchangePairs(_ state: inout State) -> Effect<Action> {
+    func loadQuickCalculations(_ state: inout State) -> Effect<Action> {
         do {
-            state.exchangePairs = try exchangePairRepository.get()
-            print(state.exchangePairs)
+            state.quickCalculations = try quickCalculationRepository.get()
         } catch {}
         return Effect.none
     }
@@ -68,7 +67,7 @@ extension QuickFeature {
 
     @Reducer
     enum Destination {
-        case addNewCalculation(AddNewCalculationFeature)
+        case addQuickCalculation(AddQuickCalculationFeature)
     }
 }
 

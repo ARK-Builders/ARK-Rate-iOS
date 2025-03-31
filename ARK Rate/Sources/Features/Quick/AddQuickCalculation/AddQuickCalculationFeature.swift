@@ -2,12 +2,12 @@ import Foundation
 import ComposableArchitecture
 
 @Reducer
-struct AddNewCalculationFeature {
+struct AddQuickCalculationFeature {
 
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-        var exchangePair: ExchangePair?
+        var quickCalculation: QuickCalculation?
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
         var currencies: [Currency] = []
@@ -42,8 +42,8 @@ struct AddNewCalculationFeature {
 
     @Dependency(\.dismiss) var back
     @Dependency(\.currencyRepository) var currencyRepository
-    @Dependency(\.exchangePairRepository) var exchangePairRepository
-    @Dependency(\.currencyExchangeUseCase) var currencyExchangeUseCase
+    @Dependency(\.quickCalculationRepository) var quickCalculationRepository
+    @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
 
@@ -69,7 +69,7 @@ struct AddNewCalculationFeature {
 
 // MARK: - Implementation
 
-private extension AddNewCalculationFeature {
+private extension AddQuickCalculationFeature {
 
     func backButtonTapped() -> Effect<Action> {
         Effect.run { send in
@@ -95,8 +95,8 @@ private extension AddNewCalculationFeature {
 
     func updateInputCurrencyAmount(_ state: inout State, _ amount: String) -> Effect<Action> {
         state.inputCurrency.amount = amount
-        updateExchangePair(&state)
-        updateExchangeOutputCurrenciesAmount(&state)
+        updateQuickCalculation(&state)
+        updateOutputCurrenciesAmount(&state)
         return Effect.none
     }
 
@@ -121,7 +121,7 @@ private extension AddNewCalculationFeature {
 
     func deleteOutputCurrencyButtonTapped(_ state: inout State, _ id: UUID) -> Effect<Action> {
         state.outputCurrencies.remove(id: id)
-        updateExchangePair(&state)
+        updateQuickCalculation(&state)
         return Effect.none
     }
 
@@ -139,15 +139,15 @@ private extension AddNewCalculationFeature {
             }
             state.selectionMode = nil
         }
-        updateExchangePair(&state)
-        updateExchangeOutputCurrenciesAmount(&state)
+        updateQuickCalculation(&state)
+        updateOutputCurrenciesAmount(&state)
         return Effect.none
     }
 
     func saveButtonTapped(_ state: inout State) -> Effect<Action> {
-        if let pair = state.exchangePair {
+        if let quickCalculation = state.quickCalculation {
             do {
-                try exchangePairRepository.save(pair)
+                try quickCalculationRepository.save(quickCalculation)
             } catch {}
         }
         return Effect.run { send in
@@ -159,9 +159,9 @@ private extension AddNewCalculationFeature {
 
 // MARK: - Helpers
 
-private extension AddNewCalculationFeature {
+private extension AddQuickCalculationFeature {
 
-    func updateExchangeOutputCurrenciesAmount(_ state: inout State) {
+    func updateOutputCurrenciesAmount(_ state: inout State) {
         guard let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount),
         let inputCurrency = state.currencies.first(where: { $0.code == state.inputCurrency.code }),
         !state.outputCurrencies.isEmpty else { return }
@@ -169,7 +169,7 @@ private extension AddNewCalculationFeature {
             state.outputCurrencies.contains(where: { $0.code == currency.code })
         }
         guard !outputCurrencies.isEmpty else { return }
-        let currencyAmounts = currencyExchangeUseCase.execute(
+        let currencyAmounts = currencyCalculationUseCase.execute(
             inputCurrency: inputCurrency,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencies: outputCurrencies
@@ -179,9 +179,9 @@ private extension AddNewCalculationFeature {
         }
     }
 
-    func updateExchangePair(_ state: inout State) {
-        state.exchangePair = if let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount), !state.outputCurrencies.isEmpty {
-            ExchangePair(
+    func updateQuickCalculation(_ state: inout State) {
+        state.quickCalculation = if let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount), !state.outputCurrencies.isEmpty {
+            QuickCalculation(
                 inputCurrencyCode: state.inputCurrency.code,
                 inputCurrencyAmount: inputCurrencyAmount,
                 outputCurrenciesCode: state.outputCurrencies.map { $0.code }
@@ -194,7 +194,7 @@ private extension AddNewCalculationFeature {
 
 // MARK: -
 
-extension AddNewCalculationFeature {
+extension AddQuickCalculationFeature {
 
     @Reducer
     enum Destination {
@@ -204,11 +204,11 @@ extension AddNewCalculationFeature {
 
 // MARK: -
 
-extension AddNewCalculationFeature.Destination.State: Equatable {}
+extension AddQuickCalculationFeature.Destination.State: Equatable {}
 
 // MARK: - Constants
 
-private extension AddNewCalculationFeature {
+private extension AddQuickCalculationFeature {
 
     enum Constants {
         static let defaultInputCurrencyCode = "USD"

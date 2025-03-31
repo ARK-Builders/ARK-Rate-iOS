@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class ExchangePairModel {
+final class QuickCalculationModel {
 
     // MARK: - Properties
 

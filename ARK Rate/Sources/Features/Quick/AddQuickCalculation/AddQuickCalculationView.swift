@@ -1,11 +1,11 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct AddNewCalculationView: View {
+struct AddQuickCalculationView: View {
 
     // MARK: - Properties
 
-    @Bindable var store: StoreOf<AddNewCalculationFeature>
+    @Bindable var store: StoreOf<AddQuickCalculationFeature>
 
     // MARK: - Body
 
@@ -37,7 +37,7 @@ struct AddNewCalculationView: View {
 
 // MARK: -
 
-private extension AddNewCalculationView {
+private extension AddQuickCalculationView {
 
     var content: some View {
         VStack(alignment: .leading, spacing: Constants.spacing) {
@@ -89,7 +89,7 @@ private extension AddNewCalculationView {
         VStack {
             PrimaryButton(
                 title: StringResource.save.localized,
-                disabled: store.exchangePair == nil,
+                disabled: store.quickCalculation == nil,
                 expandHorizontally: true,
                 action: { store.send(.saveButtonTapped) }
             )
@@ -101,7 +101,7 @@ private extension AddNewCalculationView {
 
 // MARK: - Constants
 
-private extension AddNewCalculationView {
+private extension AddQuickCalculationView {
 
     enum Constants {
         static let spacing: CGFloat = 16
