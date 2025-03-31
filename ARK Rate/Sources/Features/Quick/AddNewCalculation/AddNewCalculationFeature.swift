@@ -43,7 +43,7 @@ struct AddNewCalculationFeature {
     @Dependency(\.dismiss) var back
     @Dependency(\.currencyRepository) var currencyRepository
     @Dependency(\.exchangePairRepository) var exchangePairRepository
-    @Dependency(\.currencyExchangeUseCase) var currencyExchangeUseCase
+    @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
 
@@ -169,7 +169,7 @@ private extension AddNewCalculationFeature {
             state.outputCurrencies.contains(where: { $0.code == currency.code })
         }
         guard !outputCurrencies.isEmpty else { return }
-        let currencyAmounts = currencyExchangeUseCase.execute(
+        let currencyAmounts = currencyCalculationUseCase.execute(
             inputCurrency: inputCurrency,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencies: outputCurrencies

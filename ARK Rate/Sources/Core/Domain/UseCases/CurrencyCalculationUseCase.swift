@@ -2,7 +2,7 @@ import Foundation
 
 typealias CurrencyAmounts = [String: Decimal]
 
-protocol CurrencyExchangeUseCase {
+protocol CurrencyCalculationUseCase {
 
     func execute(
         inputCurrency: Currency,
@@ -11,7 +11,7 @@ protocol CurrencyExchangeUseCase {
     ) -> CurrencyAmounts
 }
 
-struct CurrencyExchangeUseCaseImpl: CurrencyExchangeUseCase {
+struct CurrencyCalculationUseCaseImpl: CurrencyCalculationUseCase {
 
     // MARK: - Conformance
 

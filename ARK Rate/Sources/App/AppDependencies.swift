@@ -7,9 +7,9 @@ extension DependencyValues {
         set { self[FetchCurrenciesUseCaseKey.self] = newValue }
     }
 
-    var currencyExchangeUseCase: CurrencyExchangeUseCase {
-        get { self[CurrencyExchangeUseCaseKey.self] }
-        set { self[CurrencyExchangeUseCaseKey.self] = newValue }
+    var currencyCalculationUseCase: CurrencyCalculationUseCase {
+        get { self[CurrencyCalculationUseCaseKey.self] }
+        set { self[CurrencyCalculationUseCaseKey.self] = newValue }
     }
 
     var currencyRepository: CurrencyRepository {
@@ -50,11 +50,11 @@ private enum FetchCurrenciesUseCaseKey: DependencyKey {
     static let liveValue: FetchCurrenciesUseCase = FetchCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
 }
 
-// MARK: - CurrencyExchangeUseCase
+// MARK: - CurrencyCalculationUseCase
 
-private enum CurrencyExchangeUseCaseKey: DependencyKey {
+private enum CurrencyCalculationUseCaseKey: DependencyKey {
 
-    static let liveValue: CurrencyExchangeUseCase = CurrencyExchangeUseCaseImpl()
+    static let liveValue: CurrencyCalculationUseCase = CurrencyCalculationUseCaseImpl()
 }
 
 // MARK: - CurrencyRepository
