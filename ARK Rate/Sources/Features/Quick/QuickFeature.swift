@@ -31,7 +31,7 @@ struct QuickFeature {
             case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .loadQuickCalculations: loadQuickCalculations(&state)
-            case .destination(.presented(.addNewCalculation(.delegate(.back)))): .send(.showTabbar)
+            case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
             }
         }
@@ -49,7 +49,7 @@ private extension QuickFeature {
     }
 
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
-        state.destination = .addNewCalculation(AddNewCalculationFeature.State())
+        state.destination = .addQuickCalculation(AddQuickCalculationFeature.State())
         return .send(.hideTabbar)
     }
 
@@ -67,7 +67,7 @@ extension QuickFeature {
 
     @Reducer
     enum Destination {
-        case addNewCalculation(AddNewCalculationFeature)
+        case addQuickCalculation(AddQuickCalculationFeature)
     }
 }
 

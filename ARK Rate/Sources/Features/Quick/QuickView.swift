@@ -19,9 +19,9 @@ struct QuickView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.backgroundPrimary)
             .navigationDestination(
-                item: $store.scope(state: \.destination?.addNewCalculation, action: \.destination.addNewCalculation)
+                item: $store.scope(state: \.destination?.addQuickCalculation, action: \.destination.addQuickCalculation)
             ) { store in
-                AddNewCalculationView(store: store)
+                AddQuickCalculationView(store: store)
             }
             .onAppear {
                 store.send(.loadQuickCalculations)

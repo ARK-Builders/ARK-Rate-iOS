@@ -2,7 +2,7 @@ import Foundation
 import ComposableArchitecture
 
 @Reducer
-struct AddNewCalculationFeature {
+struct AddQuickCalculationFeature {
 
     @ObservableState
     struct State: Equatable {
@@ -69,7 +69,7 @@ struct AddNewCalculationFeature {
 
 // MARK: - Implementation
 
-private extension AddNewCalculationFeature {
+private extension AddQuickCalculationFeature {
 
     func backButtonTapped() -> Effect<Action> {
         Effect.run { send in
@@ -159,7 +159,7 @@ private extension AddNewCalculationFeature {
 
 // MARK: - Helpers
 
-private extension AddNewCalculationFeature {
+private extension AddQuickCalculationFeature {
 
     func updateOutputCurrenciesAmount(_ state: inout State) {
         guard let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount),
@@ -194,7 +194,7 @@ private extension AddNewCalculationFeature {
 
 // MARK: -
 
-extension AddNewCalculationFeature {
+extension AddQuickCalculationFeature {
 
     @Reducer
     enum Destination {
@@ -204,11 +204,11 @@ extension AddNewCalculationFeature {
 
 // MARK: -
 
-extension AddNewCalculationFeature.Destination.State: Equatable {}
+extension AddQuickCalculationFeature.Destination.State: Equatable {}
 
 // MARK: - Constants
 
-private extension AddNewCalculationFeature {
+private extension AddQuickCalculationFeature {
 
     enum Constants {
         static let defaultInputCurrencyCode = "USD"
