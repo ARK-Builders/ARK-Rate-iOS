@@ -17,9 +17,9 @@ extension DependencyValues {
         set { self[CurrencyRepositoryKey.self] = newValue }
     }
 
-    var exchangePairRepository: ExchangePairRepository {
-        get { self[ExchangePairRepositoryKey.self] }
-        set { self[ExchangePairRepositoryKey.self] = newValue }
+    var quickCalculationRepository: QuickCalculationRepository {
+        get { self[QuickCalculationRepositoryKey.self] }
+        set { self[QuickCalculationRepositoryKey.self] = newValue }
     }
 
     var fiatCurrenciesRateAPI: FiatCurrenciesRateAPI {
@@ -37,9 +37,9 @@ extension DependencyValues {
         set { self[CurrencyLocalDataSourceKey.self] = newValue }
     }
 
-    var exchangePairLocalDataSource: ExchangePairLocalDataSource {
-        get { self[ExchangePairLocalDataSourceKey.self] }
-        set { self[ExchangePairLocalDataSourceKey.self] = newValue }
+    var quickCalculationLocalDataSource: QuickCalculationLocalDataSource {
+        get { self[QuickCalculationLocalDataSourceKey.self] }
+        set { self[QuickCalculationLocalDataSourceKey.self] = newValue }
     }
 }
 
@@ -73,11 +73,11 @@ private enum CurrencyRepositoryKey: DependencyKey {
     }()
 }
 
-// MARK: - ExchangePairRepository
+// MARK: - QuickCalculationRepository
 
-private enum ExchangePairRepositoryKey: DependencyKey {
+private enum QuickCalculationRepositoryKey: DependencyKey {
 
-    static let liveValue: ExchangePairRepository = ExchangePairRepositoryImpl(localDataSource: DependencyValues._current.exchangePairLocalDataSource)
+    static let liveValue: QuickCalculationRepository = QuickCalculationRepositoryImpl(localDataSource: DependencyValues._current.quickCalculationLocalDataSource)
 }
 
 // MARK: - FiatCurrenciesRateAPI
@@ -101,9 +101,9 @@ private enum CurrencyLocalDataSourceKey: DependencyKey {
     static let liveValue: CurrencyLocalDataSource = CurrencySwiftDataDataSource()
 }
 
-// MARK: - ExchangePairLocalDataSource
+// MARK: - QuickCalculationLocalDataSource
 
-private enum ExchangePairLocalDataSourceKey: DependencyKey {
+private enum QuickCalculationLocalDataSourceKey: DependencyKey {
 
-    static let liveValue: ExchangePairLocalDataSource = ExchangePairSwiftDataDataSource()
+    static let liveValue: QuickCalculationLocalDataSource = QuickCalculationSwiftDataDataSource()
 }

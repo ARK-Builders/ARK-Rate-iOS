@@ -7,7 +7,7 @@ struct AddNewCalculationFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-        var exchangePair: ExchangePair?
+        var exchangePair: QuickCalculation?
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
         var currencies: [Currency] = []
@@ -42,7 +42,7 @@ struct AddNewCalculationFeature {
 
     @Dependency(\.dismiss) var back
     @Dependency(\.currencyRepository) var currencyRepository
-    @Dependency(\.exchangePairRepository) var exchangePairRepository
+    @Dependency(\.quickCalculationRepository) var quickCalculationRepository
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
@@ -147,7 +147,7 @@ private extension AddNewCalculationFeature {
     func saveButtonTapped(_ state: inout State) -> Effect<Action> {
         if let pair = state.exchangePair {
             do {
-                try exchangePairRepository.save(pair)
+                try quickCalculationRepository.save(pair)
             } catch {}
         }
         return Effect.run { send in
@@ -181,7 +181,7 @@ private extension AddNewCalculationFeature {
 
     func updateExchangePair(_ state: inout State) {
         state.exchangePair = if let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount), !state.outputCurrencies.isEmpty {
-            ExchangePair(
+            QuickCalculation(
                 inputCurrencyCode: state.inputCurrency.code,
                 inputCurrencyAmount: inputCurrencyAmount,
                 outputCurrenciesCode: state.outputCurrencies.map { $0.code }

@@ -1,9 +1,9 @@
 // MARK: -
 
-extension ExchangePair {
+extension QuickCalculation {
 
-    var toExchangePairDTO: ExchangePairDTO {
-        ExchangePairDTO(
+    var toQuickCalculationDTO: QuickCalculationDTO {
+        QuickCalculationDTO(
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrenciesCode: outputCurrenciesCode
@@ -13,18 +13,18 @@ extension ExchangePair {
 
 // MARK: -
 
-extension ExchangePairDTO {
+extension QuickCalculationDTO {
 
-    var toExchangePair: ExchangePair {
-        ExchangePair(
+    var toQuickCalculation: QuickCalculation {
+        QuickCalculation(
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrenciesCode: outputCurrenciesCode
         )
     }
 
-    var toExchangePairModel: ExchangePairModel {
-        ExchangePairModel(
+    var toQuickCalculationModel: QuickCalculationModel {
+        QuickCalculationModel(
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrenciesCode: outputCurrenciesCode
@@ -34,10 +34,10 @@ extension ExchangePairDTO {
 
 // MARK: -
 
-extension ExchangePairModel {
+extension QuickCalculationModel {
 
-    var toExchangePairDTO: ExchangePairDTO {
-        ExchangePairDTO(
+    var toQuickCalculationDTO: QuickCalculationDTO {
+        QuickCalculationDTO(
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrenciesCode: outputCurrenciesCode

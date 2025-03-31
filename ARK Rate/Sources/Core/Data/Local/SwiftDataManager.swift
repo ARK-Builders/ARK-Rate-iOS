@@ -29,7 +29,7 @@ final class SwiftDataManager {
         try modelContext.save()
     }
 
-    func insertOrUpdate(_ model: ExchangePairModel) throws {
+    func insertOrUpdate(_ model: QuickCalculationModel) throws {
         guard let modelContext else { return }
 
         modelContext.insert(model)

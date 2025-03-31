@@ -7,7 +7,7 @@ struct QuickFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var currencies: [CurrencyDisplayModel] = []
-        var exchangePairs: [ExchangePair] = []
+        var exchangePairs: [QuickCalculation] = []
     }
 
     enum Action {
@@ -21,7 +21,7 @@ struct QuickFeature {
 
     // MARK: - Properties
 
-    @Dependency(\.exchangePairRepository) var exchangePairRepository
+    @Dependency(\.quickCalculationRepository) var quickCalculationRepository
 
     // MARK: - Reducer
 
@@ -55,7 +55,7 @@ private extension QuickFeature {
 
     func loadExchangePairs(_ state: inout State) -> Effect<Action> {
         do {
-            state.exchangePairs = try exchangePairRepository.get()
+            state.exchangePairs = try quickCalculationRepository.get()
             print(state.exchangePairs)
         } catch {}
         return Effect.none
