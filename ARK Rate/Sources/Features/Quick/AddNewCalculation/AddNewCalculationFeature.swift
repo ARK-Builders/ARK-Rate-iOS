@@ -7,7 +7,7 @@ struct AddNewCalculationFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-        var exchangePair: QuickCalculation?
+        var quickCalculation: QuickCalculation?
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
         var currencies: [Currency] = []
@@ -95,8 +95,8 @@ private extension AddNewCalculationFeature {
 
     func updateInputCurrencyAmount(_ state: inout State, _ amount: String) -> Effect<Action> {
         state.inputCurrency.amount = amount
-        updateExchangePair(&state)
-        updateExchangeOutputCurrenciesAmount(&state)
+        updateQuickCalculation(&state)
+        updateOutputCurrenciesAmount(&state)
         return Effect.none
     }
 
@@ -121,7 +121,7 @@ private extension AddNewCalculationFeature {
 
     func deleteOutputCurrencyButtonTapped(_ state: inout State, _ id: UUID) -> Effect<Action> {
         state.outputCurrencies.remove(id: id)
-        updateExchangePair(&state)
+        updateQuickCalculation(&state)
         return Effect.none
     }
 
@@ -139,15 +139,15 @@ private extension AddNewCalculationFeature {
             }
             state.selectionMode = nil
         }
-        updateExchangePair(&state)
-        updateExchangeOutputCurrenciesAmount(&state)
+        updateQuickCalculation(&state)
+        updateOutputCurrenciesAmount(&state)
         return Effect.none
     }
 
     func saveButtonTapped(_ state: inout State) -> Effect<Action> {
-        if let pair = state.exchangePair {
+        if let quickCalculation = state.quickCalculation {
             do {
-                try quickCalculationRepository.save(pair)
+                try quickCalculationRepository.save(quickCalculation)
             } catch {}
         }
         return Effect.run { send in
@@ -161,7 +161,7 @@ private extension AddNewCalculationFeature {
 
 private extension AddNewCalculationFeature {
 
-    func updateExchangeOutputCurrenciesAmount(_ state: inout State) {
+    func updateOutputCurrenciesAmount(_ state: inout State) {
         guard let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount),
         let inputCurrency = state.currencies.first(where: { $0.code == state.inputCurrency.code }),
         !state.outputCurrencies.isEmpty else { return }
@@ -179,8 +179,8 @@ private extension AddNewCalculationFeature {
         }
     }
 
-    func updateExchangePair(_ state: inout State) {
-        state.exchangePair = if let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount), !state.outputCurrencies.isEmpty {
+    func updateQuickCalculation(_ state: inout State) {
+        state.quickCalculation = if let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount), !state.outputCurrencies.isEmpty {
             QuickCalculation(
                 inputCurrencyCode: state.inputCurrency.code,
                 inputCurrencyAmount: inputCurrencyAmount,

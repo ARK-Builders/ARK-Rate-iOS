@@ -24,7 +24,7 @@ struct QuickView: View {
                 AddNewCalculationView(store: store)
             }
             .onAppear {
-                store.send(.loadExchangePairs)
+                store.send(.loadQuickCalculations)
             }
         }
     }

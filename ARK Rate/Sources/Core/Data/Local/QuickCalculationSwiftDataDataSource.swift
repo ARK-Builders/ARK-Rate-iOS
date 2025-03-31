@@ -9,8 +9,8 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
         return models.map { $0.toQuickCalculationDTO }
     }
 
-    func save(_ pair: QuickCalculationDTO) throws {
-        let model = pair.toQuickCalculationModel
+    func save(_ calculation: QuickCalculationDTO) throws {
+        let model = calculation.toQuickCalculationModel
         try SwiftDataManager.shared.insertOrUpdate(model)
     }
 }

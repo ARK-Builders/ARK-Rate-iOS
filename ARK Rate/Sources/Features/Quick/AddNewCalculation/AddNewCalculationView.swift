@@ -89,7 +89,7 @@ private extension AddNewCalculationView {
         VStack {
             PrimaryButton(
                 title: StringResource.save.localized,
-                disabled: store.exchangePair == nil,
+                disabled: store.quickCalculation == nil,
                 expandHorizontally: true,
                 action: { store.send(.saveButtonTapped) }
             )

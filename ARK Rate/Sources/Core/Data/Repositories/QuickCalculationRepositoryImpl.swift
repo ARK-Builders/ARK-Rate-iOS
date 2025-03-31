@@ -12,8 +12,8 @@ final class QuickCalculationRepositoryImpl: QuickCalculationRepository {
 
     // MARK: - Conformance
 
-    func save(_ pair: QuickCalculation) throws {
-        try localDataSource.save(pair.toQuickCalculationDTO)
+    func save(_ calculation: QuickCalculation) throws {
+        try localDataSource.save(calculation.toQuickCalculationDTO)
     }
 
     func get() throws -> [QuickCalculation] {

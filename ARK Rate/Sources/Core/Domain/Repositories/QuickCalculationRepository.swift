@@ -1,5 +1,5 @@
 protocol QuickCalculationRepository {
 
-    func save(_ pair: QuickCalculation) throws
+    func save(_ calculation: QuickCalculation) throws
     func get() throws -> [QuickCalculation]
 }
