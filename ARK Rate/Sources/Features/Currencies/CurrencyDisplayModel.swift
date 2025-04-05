@@ -3,16 +3,23 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
     // MARK: - Properties
 
     let id: String
-    let formattedRate: String
+    let amount: String
 
     var name: String {
         String(localized: String.LocalizationValue(id))
     }
 
+    var formattedAmount: String {
+        "\(amount) \(id)"
+    }
+
     // MARK: - Initialization
 
-    init(from fiatCurrency: Currency) {
-        self.id = fiatCurrency.code
-        self.formattedRate = fiatCurrency.rate.formattedRate
+    init(
+        from currency: Currency,
+        amount: String = "0"
+    ) {
+        self.id = currency.code
+        self.amount = amount
     }
 }

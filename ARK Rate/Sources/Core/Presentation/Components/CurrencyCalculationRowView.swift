@@ -1,0 +1,174 @@
+import SwiftUI
+
+struct CurrencyCalculationRowView: View {
+
+    // MARK: - Properties
+
+    let from: CurrencyDisplayModel
+    let to: [CurrencyDisplayModel]
+    let refreshTime: String
+    let action: ButtonAction
+
+    @State private var isExpanded: Bool = false
+
+    // MARK: - Initialization
+
+    init?(
+        from: CurrencyDisplayModel,
+        to: [CurrencyDisplayModel],
+        refreshTime: String,
+        action: @escaping ButtonAction
+    ) {
+        guard !to.isEmpty else { return nil }
+
+        self.from = from
+        self.to = to
+        self.refreshTime = refreshTime
+        self.action = action
+    }
+
+    // MARK: - Body
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 0) {
+                LineDivider()
+                HStack(alignment: .top, spacing: 12) {
+                    badge
+                    content
+                    Spacer()
+                    toggleExpandButton
+                }
+                .padding(.vertical, Constants.verticalSpacing)
+            }
+            .frame(maxWidth: .infinity)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, Constants.horizontalSpacing)
+        .background(Color.backgroundPrimary)
+    }
+}
+
+// MARK: -
+
+private extension CurrencyCalculationRowView {
+
+    var badge: some View {
+        ZStack(alignment: .leading) {
+            makeImage(code: from.id, size: Constants.badgeImageSize)
+            additionalBadgeContent {
+                if isGroup {
+                    Text("\(to.count - 1)+")
+                        .foregroundColor(Color.textTertiary)
+                        .font(Font.customInterSemiBold(size: 16))
+                        .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
+                        .modifier(CircleBorderModifier())
+                } else if let to = to.first {
+                    makeImage(code: to.id, size: Constants.badgeImageSize)
+                }
+            }
+        }
+    }
+
+    var content: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .foregroundColor(Color.textPrimary)
+                .font(Font.customInterMedium(size: 14))
+            Text(subtitle)
+                .foregroundColor(Color.textTertiary)
+                .font(Font.customInterRegular(size: 14))
+            if isExpanded {
+                ForEach(to, id: \.id) { currency in
+                    HStack(spacing: 8) {
+                        makeImage(code: currency.id, size: Constants.currencyImageSize)
+                        Text(currency.formattedAmount)
+                            .foregroundColor(Color.textTertiary)
+                            .font(Font.customInterRegular(size: 14))
+                    }
+                }
+            }
+            Text(refreshTime)
+                .foregroundColor(Color.textTertiary)
+                .font(Font.customInterRegular(size: 12))
+        }
+    }
+
+    @ViewBuilder
+    var toggleExpandButton: some View {
+        if isGroup {
+            Button(
+                action: { isExpanded.toggle() },
+                label: {
+                    (isExpanded ? Image.chevronUp : Image.chevronDown)
+                        .foregroundColor(Color.grayNeutral)
+                        .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+                        .contentShape(Rectangle())
+                }
+            )
+            .buttonStyle(.plain)
+        }
+    }
+
+    func makeImage(code: String, size: CGFloat) -> some View {
+        Image.image(code)
+            .resizable()
+            .frame(width: size, height: size)
+            .modifier(CircleBorderModifier())
+    }
+
+    @ViewBuilder
+    private func additionalBadgeContent<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        if !isExpanded {
+            content()
+                .offset(x: Constants.badgeImageOffset)
+                .padding(.trailing, Constants.badgeImageOffset)
+        }
+    }
+}
+
+// MARK: - Helpers
+
+private extension CurrencyCalculationRowView {
+
+    var isGroup: Bool {
+        to.count > 1
+    }
+
+    var title: String {
+        let take = 2
+        let ids = to.map(\.id)
+        let prefixIds = ids.prefix(take).joined(separator: ", ")
+        let remaining = to.count > take ? ", \(StringResource.and.localized) \(to.count - take)+" : ""
+        return "\(from.id) \(StringResource.to.localized.lowercased()) \(prefixIds)\(remaining)"
+    }
+
+    var subtitle: String {
+        let remaining = isExpanded ? "" : "\(to.first?.formattedAmount ?? "")"
+        return "\(from.formattedAmount) = \(remaining)"
+    }
+}
+
+// MARK: - Constants
+
+private extension CurrencyCalculationRowView {
+
+    enum Constants {
+        static let verticalSpacing: CGFloat = 16
+        static let horizontalSpacing: CGFloat = 24
+        static let buttonSize: CGFloat = 44
+        static let badgeImageSize: CGFloat = 40
+        static let badgeImageOffset: CGFloat = 28
+        static let currencyImageSize: CGFloat = 20
+    }
+
+    enum StringResource: String.LocalizationValue {
+        case to
+        case and
+
+        var localized: String {
+            String(localized: rawValue)
+        }
+    }
+}

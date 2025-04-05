@@ -78,6 +78,17 @@
         }
       }
     },
+    "and" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "and"
+          }
+        }
+      }
+    },
     "ANG" : {
       "extractionState" : "manual",
       "localizations" : {
