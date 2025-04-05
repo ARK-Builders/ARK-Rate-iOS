@@ -57,7 +57,6 @@ private extension SearchACurrencyView {
                 CurrencyRowView(
                     code: currency.id,
                     name: currency.name,
-                    rate: currency.formattedRate,
                     action: { store.send(.currencyCodeSelected(currency.id)) }
                 )
                 .listRowInsets(EdgeInsets())

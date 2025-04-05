@@ -6,7 +6,6 @@ struct CurrencyRowView: View {
 
     let code: String
     let name: String?
-    let rate: String
     let action: ButtonAction
 
     // MARK: - Initialization
@@ -14,12 +13,10 @@ struct CurrencyRowView: View {
     init(
         code: String,
         name: String? = nil,
-        rate: String,
         action: @escaping ButtonAction = {}
     ) {
         self.code = code
         self.name = name
-        self.rate = rate
         self.action = action
     }
 
@@ -33,7 +30,7 @@ struct CurrencyRowView: View {
                     Image.image(code)
                         .resizable()
                         .frame(width: 40, height: 40)
-                        .background(Color.white)
+                        .background(Color.backgroundTertiary)
                         .clipShape(Circle())
                     VStack(alignment: .leading, spacing: 4) {
                         Text(code)

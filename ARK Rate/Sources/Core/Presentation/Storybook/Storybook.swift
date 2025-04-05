@@ -4,44 +4,89 @@ struct Storybook: PreviewProvider {
 
     static var previews: some View {
         ScrollView {
-            Text("CurrencyRowView")
-            CurrencyRowView(code: "USD", name: "Vietnamese Dong", rate: "1.00")
-            CurrencyRowView(code: "VND", name: "United States Dollar", rate: "25515.16")
-            CurrencyRowView(code: "KRW", rate: "1446.19")
+            VStack {
+                Text("CurrencyRowView")
+                CurrencyRowView(code: "USD", name: "United States Dollar")
+                CurrencyRowView(code: "KRW")
 
-            LineDivider()
+                LineDivider()
 
-            Text("PrimaryButton")
-            PrimaryButton(title: "Calculate", icon: Image(systemName: "plus")) {}
-            PrimaryButton(title: "Calculate") {}
+                Text("CurrencyCalculationRowView")
+                CurrencyCalculationRowView(
+                    title: "USD to VND",
+                    subtitle: "1 USD = 26.000 VND",
+                    refreshTime: "Just now",
+                    badgeStyle: .pair(from: "USD", to: "VND"),
+                    action: {}
+                )
+                CurrencyCalculationRowView(
+                    title: "USD to VND, BTC",
+                    subtitle: "1 USD = 26.000 VND",
+                    details: "1 USD = 0,000012 BTC",
+                    refreshTime: "Just now",
+                    badgeStyle: .pair(from: "USD", to: "VND"),
+                    action: {}
+                )
 
-            LineDivider()
+                LineDivider()
 
-            Text("SecondaryButton")
-            SecondaryButton(title: "New Currency", icon: Image(systemName: "plus")) {}
-            SecondaryButton(title: "New Currency") {}
+                Text("PrimaryButton")
+                PrimaryButton(title: "Calculate", icon: Image(systemName: "plus")) {}
+                PrimaryButton(title: "Calculate") {}
+                PrimaryButton(title: "Calculate", expandHorizontally: true) {}
+                    .padding(.horizontal, Constants.spacing)
 
-            LineDivider()
+                LineDivider()
 
-            Text("CurrencyInputView")
-            CurrencyInputView(label: "From", name: "USD", amount: .constant(""), placeHolder: "Input Value", action: {})
-                .padding(.horizontal, 16)
-            CurrencyInputView(label: "To", name: "USD", amount: .constant(""), placeHolder: "Input Value", action: {}, deleteButtonAction: {})
-                .padding(.horizontal, 16)
-            CurrencyInputView(name: "USD", amount: .constant(""), placeHolder: "Input Value", action: {}, deleteButtonAction: {})
-                .padding(.horizontal, 16)
+                Text("SecondaryButton")
+                SecondaryButton(title: "New Currency", icon: Image(systemName: "plus")) {}
+                SecondaryButton(title: "New Currency") {}
+                SecondaryButton(title: "New Currency", expandHorizontally: true) {}
+                    .padding(.horizontal, Constants.spacing)
 
-            LineDivider()
+                LineDivider()
 
-            Text("GroupMenuView")
-            GroupMenuView(groups: .constant([]), addGroupAction: {})
-                .padding(.horizontal, 16)
-            GroupMenuView(groups: .constant([
-                "Group 1",
-                "Group 2",
-                "Group 3"
-            ]), addGroupAction: {})
-                .padding(.horizontal, 16)
+                Text("CurrencyInputView")
+                CurrencyInputView(
+                    label: "From",
+                    name: "USD",
+                    amount: .constant(""),
+                    placeHolder: "Input Value",
+                    action: {}
+                )
+                    .padding(.horizontal, Constants.spacing)
+                CurrencyInputView(
+                    label: "To",
+                    name: "USD",
+                    amount: .constant(""),
+                    placeHolder: "Input Value",
+                    action: {},
+                    deleteButtonAction: {}
+                )
+                    .padding(.horizontal, Constants.spacing)
+
+                LineDivider()
+
+                Text("GroupMenuView")
+                GroupMenuView(groups: .constant([]), addGroupAction: {})
+                    .padding(.horizontal, Constants.spacing)
+                GroupMenuView(groups: .constant([
+                    "Group 1",
+                    "Group 2",
+                    "Group 3"
+                ]), addGroupAction: {})
+                .padding(.horizontal, Constants.spacing)
+            }
+            .padding(.bottom, Constants.spacing)
         }
+    }
+}
+
+// MARK: - Constants
+
+private extension Storybook {
+
+    enum Constants {
+        static let spacing: CGFloat = 16
     }
 }
