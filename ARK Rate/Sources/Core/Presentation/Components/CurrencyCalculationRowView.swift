@@ -60,6 +60,7 @@ private extension CurrencyCalculationRowView {
             additionalBadgeContent {
                 if isGroup {
                     Text("\(to.count - 1)+")
+                        .foregroundColor(Color.textTertiary)
                         .font(Font.customInterSemiBold(size: 16))
                         .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
                         .modifier(CircleBorderModifier())
