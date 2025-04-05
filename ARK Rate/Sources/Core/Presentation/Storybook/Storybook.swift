@@ -11,25 +11,6 @@ struct Storybook: PreviewProvider {
 
                 LineDivider()
 
-                Text("CurrencyCalculationRowView")
-                CurrencyCalculationRowView(
-                    title: "USD to VND",
-                    subtitle: "1 USD = 26.000 VND",
-                    refreshTime: "Just now",
-                    badgeStyle: .pair(from: "USD", to: "VND"),
-                    action: {}
-                )
-                CurrencyCalculationRowView(
-                    title: "USD to VND, BTC",
-                    subtitle: "1 USD = 26.000 VND",
-                    details: "1 USD = 0,000012 BTC",
-                    refreshTime: "Just now",
-                    badgeStyle: .pair(from: "USD", to: "VND"),
-                    action: {}
-                )
-
-                LineDivider()
-
                 Text("PrimaryButton")
                 PrimaryButton(title: "Calculate", icon: Image(systemName: "plus")) {}
                 PrimaryButton(title: "Calculate") {}

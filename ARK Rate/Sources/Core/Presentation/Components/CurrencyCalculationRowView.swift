@@ -2,37 +2,28 @@ import SwiftUI
 
 struct CurrencyCalculationRowView: View {
 
-    enum BadgeStyle: Equatable {
-        case pair(from: String, to: String)
-        case group(from: String, plus: Int)
-    }
-
     // MARK: - Properties
 
-    let title: String
-    let subtitle: String
-    let details: String?
+    let from: CurrencyDisplayModel
+    let to: [CurrencyDisplayModel]
     let refreshTime: String
-    let badgeStyle: BadgeStyle
     let action: ButtonAction
 
     @State private var isExpanded: Bool = false
 
     // MARK: - Initialization
 
-    init(
-        title: String,
-        subtitle: String,
-        details: String? = nil,
+    init?(
+        from: CurrencyDisplayModel,
+        to: [CurrencyDisplayModel],
         refreshTime: String,
-        badgeStyle: BadgeStyle,
         action: @escaping ButtonAction
     ) {
-        self.title = title
-        self.subtitle = subtitle
-        self.details = details
+        guard !to.isEmpty else { return nil }
+
+        self.from = from
+        self.to = to
         self.refreshTime = refreshTime
-        self.badgeStyle = badgeStyle
         self.action = action
     }
 
@@ -42,16 +33,11 @@ struct CurrencyCalculationRowView: View {
         Button(action: action) {
             VStack(spacing: 0) {
                 LineDivider()
-                HStack(spacing: 12) {
+                HStack(alignment: .top, spacing: 12) {
                     badge
                     content
                     Spacer()
-                    if details != nil {
-                        Button(action: { isExpanded.toggle() }) {
-                            (isExpanded ? Image.chevronUp : Image.chevronDown)
-                                .foregroundColor(Color.grayNeutral)
-                        }
-                    }
+                    toggleExpandButton
                 }
                 .padding(.vertical, Constants.verticalSpacing)
             }
@@ -70,41 +56,96 @@ private extension CurrencyCalculationRowView {
 
     var badge: some View {
         ZStack(alignment: .leading) {
-            switch badgeStyle {
-            case .pair(let from, let to):
-                makeBadgeImage(code: from)
-                makeBadgeImage(code: to)
-                    .offset(x: Constants.badgeImageOffset)
-            case .group(let from, let plus):
-                makeBadgeImage(code: from)
-                Text("\(plus)+")
-                    .font(Font.customInterSemiBold(size: 16))
-                    .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
-                    .modifier(CircleBorderModifier())
-                    .offset(x: Constants.badgeImageOffset)
+            makeImage(code: from.id, size: Constants.badgeImageSize)
+            additionalBadgeContent {
+                if isGroup {
+                    Text("\(to.count - 1)+")
+                        .font(Font.customInterSemiBold(size: 16))
+                        .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
+                        .modifier(CircleBorderModifier())
+                } else if let to = to.first {
+                    makeImage(code: to.id, size: Constants.badgeImageSize)
+                }
             }
         }
     }
 
     var content: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .foregroundColor(Color.textPrimary)
                 .font(Font.customInterMedium(size: 14))
             Text(subtitle)
                 .foregroundColor(Color.textTertiary)
                 .font(Font.customInterRegular(size: 14))
+            if isExpanded {
+                ForEach(to, id: \.id) { currency in
+                    HStack(spacing: 8) {
+                        makeImage(code: currency.id, size: Constants.currencyImageSize)
+                        Text(currency.formattedAmount)
+                            .foregroundColor(Color.textTertiary)
+                            .font(Font.customInterRegular(size: 14))
+                    }
+                }
+            }
             Text(refreshTime)
                 .foregroundColor(Color.textTertiary)
                 .font(Font.customInterRegular(size: 12))
         }
     }
 
-    func makeBadgeImage(code: String) -> some View {
+    @ViewBuilder
+    var toggleExpandButton: some View {
+        if isGroup {
+            Button(
+                action: { isExpanded.toggle() },
+                label: {
+                    (isExpanded ? Image.chevronUp : Image.chevronDown)
+                        .foregroundColor(Color.grayNeutral)
+                        .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+                        .contentShape(Rectangle())
+                }
+            )
+            .buttonStyle(.plain)
+        }
+    }
+
+    func makeImage(code: String, size: CGFloat) -> some View {
         Image.image(code)
             .resizable()
-            .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
+            .frame(width: size, height: size)
             .modifier(CircleBorderModifier())
+    }
+
+    @ViewBuilder
+    private func additionalBadgeContent<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        if !isExpanded {
+            content()
+                .offset(x: Constants.badgeImageOffset)
+                .padding(.trailing, Constants.badgeImageOffset)
+        }
+    }
+}
+
+// MARK: - Helpers
+
+private extension CurrencyCalculationRowView {
+
+    var isGroup: Bool {
+        to.count > 1
+    }
+
+    var title: String {
+        let take = 2
+        let ids = to.map(\.id)
+        let prefixIds = ids.prefix(take).joined(separator: ", ")
+        let remaining = to.count > take ? ", \(StringResource.and.localized) \(to.count - take)+" : ""
+        return "\(from.id) \(StringResource.to.localized.lowercased()) \(prefixIds)\(remaining)"
+    }
+
+    var subtitle: String {
+        let remaining = isGroup ? "" : "\(to.first?.formattedAmount ?? "")"
+        return "\(from.formattedAmount) = \(remaining)"
     }
 }
 
@@ -115,7 +156,18 @@ private extension CurrencyCalculationRowView {
     enum Constants {
         static let verticalSpacing: CGFloat = 16
         static let horizontalSpacing: CGFloat = 24
+        static let buttonSize: CGFloat = 44
         static let badgeImageSize: CGFloat = 40
-        static let badgeImageOffset: CGFloat = 0
+        static let badgeImageOffset: CGFloat = 28
+        static let currencyImageSize: CGFloat = 20
+    }
+
+    enum StringResource: String.LocalizationValue {
+        case to
+        case and
+
+        var localized: String {
+            String(localized: rawValue)
+        }
     }
 }
