@@ -1,3 +1,5 @@
+import Foundation
+
 struct CurrencyDisplayModel: Identifiable, Equatable {
 
     // MARK: - Properties
@@ -17,7 +19,7 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
 
     init(
         from currency: Currency,
-        amount: String = "0"
+        amount: String = ""
     ) {
         self.id = currency.code
         self.amount = amount

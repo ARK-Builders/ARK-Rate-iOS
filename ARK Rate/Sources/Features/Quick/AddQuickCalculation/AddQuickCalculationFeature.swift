@@ -175,7 +175,7 @@ private extension AddQuickCalculationFeature {
             outputCurrencies: outputCurrencies
         )
         for (index, currency) in state.outputCurrencies.enumerated() {
-            state.outputCurrencies[index].amount = currencyAmounts[currency.code]?.formattedRate ?? ""
+            state.outputCurrencies[index].amount = currencyAmounts[currency.code] ?? ""
         }
     }
 
