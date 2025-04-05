@@ -144,7 +144,7 @@ private extension CurrencyCalculationRowView {
     }
 
     var subtitle: String {
-        let remaining = isGroup ? "" : "\(to.first?.formattedAmount ?? "")"
+        let remaining = isExpanded ? "" : "\(to.first?.formattedAmount ?? "")"
         return "\(from.formattedAmount) = \(remaining)"
     }
 }
