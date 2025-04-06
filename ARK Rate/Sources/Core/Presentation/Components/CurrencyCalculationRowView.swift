@@ -110,22 +110,6 @@ private extension CurrencyCalculationRowView {
             .buttonStyle(.plain)
         }
     }
-
-    func makeImage(code: String, size: CGFloat) -> some View {
-        Image.image(code)
-            .resizable()
-            .frame(width: size, height: size)
-            .modifier(CircleBorderModifier())
-    }
-
-    @ViewBuilder
-    private func additionalBadgeContent<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        if !isExpanded {
-            content()
-                .offset(x: Constants.badgeImageOffset)
-                .padding(.trailing, Constants.badgeImageOffset)
-        }
-    }
 }
 
 // MARK: - Helpers
@@ -147,6 +131,22 @@ private extension CurrencyCalculationRowView {
     var subtitle: String {
         let remaining = isExpanded ? "" : "\(outputs.first?.formattedAmount ?? "")"
         return "\(input.formattedAmount) = \(remaining)"
+    }
+
+    func makeImage(code: String, size: CGFloat) -> some View {
+        Image.image(code)
+            .resizable()
+            .frame(width: size, height: size)
+            .modifier(CircleBorderModifier())
+    }
+
+    @ViewBuilder
+    func additionalBadgeContent<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        if !isExpanded {
+            content()
+                .offset(x: Constants.badgeImageOffset)
+                .padding(.trailing, Constants.badgeImageOffset)
+        }
     }
 }
 

@@ -46,17 +46,17 @@ private extension QuickView {
     }
 
     var list: some View {
-        List {
-            calculationsSection
+        ZStack(alignment: .bottomTrailing) {
+            List {
+                calculationsSection
+            }
+            .listStyle(.plain)
+            addButton
         }
-        .listStyle(.plain)
     }
 
     var calculationsSection: some View {
-        Section(header: Text(StringResource.calculations.localized)
-            .foregroundColor(Color.textTertiary)
-            .font(Font.customInterMedium(size: 14))
-        ) {
+        makeListSection(title: StringResource.calculations.localized) {
             ForEach(store.quickCalculations, id: \.id) { calculation in
                 CurrencyCalculationRowView(
                     input: calculation.input,
@@ -67,6 +67,34 @@ private extension QuickView {
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
             }
+        }
+    }
+
+    var addButton: some View {
+        Button(
+            action: { store.send(.addNewCalculationButtonTapped) },
+            label: {
+                Image.plus
+                    .foregroundColor(Color.white)
+                    .font(Font.customInterBold(size: 24))
+                    .frame(width: 56, height: 56)
+                    .modifier(CircleBorderModifier(color: Color.teal700, backgroundColor: Color.teal600))
+                    .padding(16)
+            }
+        )
+    }
+}
+
+// MARK: - Helpers
+
+private extension QuickView {
+
+    func makeListSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+        Section(header: Text(title)
+            .foregroundColor(Color.textTertiary)
+            .font(Font.customInterMedium(size: 14))
+        ) {
+            content()
         }
     }
 }
