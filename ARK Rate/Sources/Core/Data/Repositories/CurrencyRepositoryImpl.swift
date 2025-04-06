@@ -27,9 +27,14 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
     }
 
     func fetchRemote() async throws -> [Currency] {
-        async let fiatCurrencies = fiatCurrencyDataSource.fetch()
-        async let cryptoCurrencies = cryptoCurrencyDataSource.fetch()
-        let currencies = try await fiatCurrencies + cryptoCurrencies
+        async let fiatTask = fiatCurrencyDataSource.fetch()
+        async let cryptoTask = cryptoCurrencyDataSource.fetch()
+        let (fiatCurrencies, cryptoCurrencies) = try await (fiatTask, cryptoTask)
+        let fiatCodes = Set(fiatCurrencies.map(\.code))
+        let cryptoCodes = Set(cryptoCurrencies.map(\.code))
+        let fiatDuplicateCodes = fiatCodes.intersection(cryptoCodes)
+        let fiatFilteredCurrencies = fiatCurrencies.filter { !fiatDuplicateCodes.contains($0.code) }
+        let currencies = fiatFilteredCurrencies + cryptoCurrencies
         try localDataSource.save(currencies)
         return currencies
             .map { $0.toCurrency }
