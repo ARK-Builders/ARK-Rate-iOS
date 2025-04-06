@@ -1,6 +1,6 @@
 import Foundation
 
-typealias CurrencyAmounts = [String: Decimal]
+typealias CurrencyAmounts = [String: String]
 
 protocol CurrencyCalculationUseCase {
 
@@ -23,7 +23,7 @@ struct CurrencyCalculationUseCaseImpl: CurrencyCalculationUseCase {
         var currencyAmounts: CurrencyAmounts = [:]
         outputCurrencies.forEach { outputCurrency in
             let rate = inputCurrency.rate.divideArk(outputCurrency.rate)
-            currencyAmounts[outputCurrency.code] = inputCurrencyAmount * rate
+            currencyAmounts[outputCurrency.code] = (inputCurrencyAmount * rate).formattedRate
         }
         return currencyAmounts
     }

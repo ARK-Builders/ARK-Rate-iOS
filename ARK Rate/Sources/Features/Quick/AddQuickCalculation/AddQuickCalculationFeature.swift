@@ -163,8 +163,8 @@ private extension AddQuickCalculationFeature {
 
     func updateOutputCurrenciesAmount(_ state: inout State) {
         guard let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount),
-        let inputCurrency = state.currencies.first(where: { $0.code == state.inputCurrency.code }),
-        !state.outputCurrencies.isEmpty else { return }
+              let inputCurrency = state.currencies.first(where: { $0.code == state.inputCurrency.code }),
+              !state.outputCurrencies.isEmpty else { return }
         let outputCurrencies = state.currencies.filter { currency in
             state.outputCurrencies.contains(where: { $0.code == currency.code })
         }
@@ -175,7 +175,7 @@ private extension AddQuickCalculationFeature {
             outputCurrencies: outputCurrencies
         )
         for (index, currency) in state.outputCurrencies.enumerated() {
-            state.outputCurrencies[index].amount = currencyAmounts[currency.code]?.formattedRate ?? ""
+            state.outputCurrencies[index].amount = currencyAmounts[currency.code] ?? ""
         }
     }
 

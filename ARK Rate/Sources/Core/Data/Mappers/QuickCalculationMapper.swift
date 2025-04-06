@@ -4,6 +4,8 @@ extension QuickCalculation {
 
     var toQuickCalculationDTO: QuickCalculationDTO {
         QuickCalculationDTO(
+            id: id,
+            calculatedDate: calculatedDate,
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrenciesCode: outputCurrenciesCode
@@ -17,6 +19,8 @@ extension QuickCalculationDTO {
 
     var toQuickCalculation: QuickCalculation {
         QuickCalculation(
+            id: id,
+            calculatedDate: calculatedDate,
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrenciesCode: outputCurrenciesCode
@@ -25,6 +29,8 @@ extension QuickCalculationDTO {
 
     var toQuickCalculationModel: QuickCalculationModel {
         QuickCalculationModel(
+            id: id,
+            calculatedDate: calculatedDate,
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrenciesCode: outputCurrenciesCode
@@ -38,6 +44,8 @@ extension QuickCalculationModel {
 
     var toQuickCalculationDTO: QuickCalculationDTO {
         QuickCalculationDTO(
+            id: id,
+            calculatedDate: calculatedDate,
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrenciesCode: outputCurrenciesCode

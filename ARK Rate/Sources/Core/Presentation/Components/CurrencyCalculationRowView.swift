@@ -4,9 +4,9 @@ struct CurrencyCalculationRowView: View {
 
     // MARK: - Properties
 
-    let from: CurrencyDisplayModel
-    let to: [CurrencyDisplayModel]
-    let refreshTime: String
+    let input: CurrencyDisplayModel
+    let outputs: [CurrencyDisplayModel]
+    let elapsedTime: String
     let action: ButtonAction
 
     @State private var isExpanded: Bool = false
@@ -14,16 +14,16 @@ struct CurrencyCalculationRowView: View {
     // MARK: - Initialization
 
     init?(
-        from: CurrencyDisplayModel,
-        to: [CurrencyDisplayModel],
-        refreshTime: String,
+        input: CurrencyDisplayModel,
+        outputs: [CurrencyDisplayModel],
+        elapsedTime: String,
         action: @escaping ButtonAction
     ) {
-        guard !to.isEmpty else { return nil }
+        guard !outputs.isEmpty else { return nil }
 
-        self.from = from
-        self.to = to
-        self.refreshTime = refreshTime
+        self.input = input
+        self.outputs = outputs
+        self.elapsedTime = elapsedTime
         self.action = action
     }
 
@@ -56,15 +56,15 @@ private extension CurrencyCalculationRowView {
 
     var badge: some View {
         ZStack(alignment: .leading) {
-            makeImage(code: from.id, size: Constants.badgeImageSize)
+            makeImage(code: input.id, size: Constants.badgeImageSize)
             additionalBadgeContent {
                 if isGroup {
-                    Text("\(to.count - 1)+")
+                    Text("\(outputs.count - 1)+")
                         .foregroundColor(Color.textTertiary)
                         .font(Font.customInterSemiBold(size: 16))
                         .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
                         .modifier(CircleBorderModifier())
-                } else if let to = to.first {
+                } else if let to = outputs.first {
                     makeImage(code: to.id, size: Constants.badgeImageSize)
                 }
             }
@@ -80,7 +80,7 @@ private extension CurrencyCalculationRowView {
                 .foregroundColor(Color.textTertiary)
                 .font(Font.customInterRegular(size: 14))
             if isExpanded {
-                ForEach(to, id: \.id) { currency in
+                ForEach(outputs, id: \.id) { currency in
                     HStack(spacing: 8) {
                         makeImage(code: currency.id, size: Constants.currencyImageSize)
                         Text(currency.formattedAmount)
@@ -89,7 +89,7 @@ private extension CurrencyCalculationRowView {
                     }
                 }
             }
-            Text(refreshTime)
+            Text(elapsedTime)
                 .foregroundColor(Color.textTertiary)
                 .font(Font.customInterRegular(size: 12))
         }
@@ -110,6 +110,28 @@ private extension CurrencyCalculationRowView {
             .buttonStyle(.plain)
         }
     }
+}
+
+// MARK: - Helpers
+
+private extension CurrencyCalculationRowView {
+
+    var isGroup: Bool {
+        outputs.count > 1
+    }
+
+    var title: String {
+        let take = 2
+        let ids = outputs.map(\.id)
+        let prefixIds = ids.prefix(take).joined(separator: ", ")
+        let remaining = outputs.count > take ? ", \(StringResource.and.localized) \(outputs.count - take)+" : ""
+        return "\(input.id) \(StringResource.to.localized.lowercased()) \(prefixIds)\(remaining)"
+    }
+
+    var subtitle: String {
+        let remaining = isExpanded ? "" : "\(outputs.first?.formattedAmount ?? "")"
+        return "\(input.formattedAmount) = \(remaining)"
+    }
 
     func makeImage(code: String, size: CGFloat) -> some View {
         Image.image(code)
@@ -119,34 +141,12 @@ private extension CurrencyCalculationRowView {
     }
 
     @ViewBuilder
-    private func additionalBadgeContent<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+    func additionalBadgeContent<Content: View>(@ViewBuilder content: () -> Content) -> some View {
         if !isExpanded {
             content()
                 .offset(x: Constants.badgeImageOffset)
                 .padding(.trailing, Constants.badgeImageOffset)
         }
-    }
-}
-
-// MARK: - Helpers
-
-private extension CurrencyCalculationRowView {
-
-    var isGroup: Bool {
-        to.count > 1
-    }
-
-    var title: String {
-        let take = 2
-        let ids = to.map(\.id)
-        let prefixIds = ids.prefix(take).joined(separator: ", ")
-        let remaining = to.count > take ? ", \(StringResource.and.localized) \(to.count - take)+" : ""
-        return "\(from.id) \(StringResource.to.localized.lowercased()) \(prefixIds)\(remaining)"
-    }
-
-    var subtitle: String {
-        let remaining = isExpanded ? "" : "\(to.first?.formattedAmount ?? "")"
-        return "\(from.formattedAmount) = \(remaining)"
     }
 }
 

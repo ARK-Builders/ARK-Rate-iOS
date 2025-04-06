@@ -6,22 +6,25 @@ struct QuickFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-        var currencies: [CurrencyDisplayModel] = []
-        var quickCalculations: [QuickCalculation] = []
+        var currencies: [Currency] = []
+        var quickCalculations: [QuickCalculationDisplayModel] = []
     }
 
     enum Action {
-        case currenciesUpdated([CurrencyDisplayModel])
+        case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
         case hideTabbar
         case showTabbar
+        case loadCurrencies
         case loadQuickCalculations
         case destination(PresentationAction<Destination.Action>)
     }
 
     // MARK: - Properties
 
+    @Dependency(\.currencyRepository) var currencyRepository
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
+    @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
 
@@ -30,6 +33,7 @@ struct QuickFeature {
             switch action {
             case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
+            case .loadCurrencies: loadCurrencies(&state)
             case .loadQuickCalculations: loadQuickCalculations(&state)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
@@ -43,9 +47,9 @@ struct QuickFeature {
 
 private extension QuickFeature {
 
-    func currenciesUpdated(_ state: inout State, _ currencies: [CurrencyDisplayModel]) -> Effect<Action> {
+    func currenciesUpdated(_ state: inout State, _ currencies: [Currency]) -> Effect<Action> {
         state.currencies = currencies
-        return Effect.none
+        return .send(.loadQuickCalculations)
     }
 
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
@@ -53,9 +57,34 @@ private extension QuickFeature {
         return .send(.hideTabbar)
     }
 
+    func loadCurrencies(_ state: inout State) -> Effect<Action> {
+        var currencies: [Currency] = []
+        do {
+            currencies = try currencyRepository.getLocal()
+        } catch {}
+        state.currencies = currencies
+        return .send(.loadQuickCalculations)
+    }
+
     func loadQuickCalculations(_ state: inout State) -> Effect<Action> {
         do {
-            state.quickCalculations = try quickCalculationRepository.get()
+            let quickCalculations = try quickCalculationRepository.get()
+            state.quickCalculations = quickCalculations.compactMap { calculation in
+                guard let inputCurrency = state.currencies.first(where: { $0.code == calculation.inputCurrencyCode }) else { return nil }
+                let outputCurrencies = state.currencies.filter { calculation.outputCurrenciesCode.contains($0.code) }
+                guard !outputCurrencies.isEmpty else { return nil }
+                let currencyAmounts = currencyCalculationUseCase.execute(
+                    inputCurrency: inputCurrency,
+                    inputCurrencyAmount: calculation.inputCurrencyAmount,
+                    outputCurrencies: outputCurrencies
+                )
+                return QuickCalculationDisplayModel(
+                    id: calculation.id,
+                    calculatedDate: calculation.calculatedDate,
+                    input: CurrencyDisplayModel(from: inputCurrency, amount: "\(calculation.inputCurrencyAmount)"),
+                    outputs: outputCurrencies.map { CurrencyDisplayModel(from: $0, amount: currencyAmounts[$0.code] ?? "") }
+                )
+            }
         } catch {}
         return Effect.none
     }

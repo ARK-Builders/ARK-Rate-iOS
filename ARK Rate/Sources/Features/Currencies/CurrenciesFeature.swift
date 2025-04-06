@@ -8,7 +8,7 @@ struct CurrenciesFeature {
 
     enum Action {
         case fetchCurrencies
-        case currenciesUpdated([CurrencyDisplayModel])
+        case currenciesUpdated([Currency])
     }
 
     // MARK: - Properties
@@ -32,7 +32,6 @@ private extension CurrenciesFeature {
     func fetchCurrencies(_ state: inout State) -> Effect<Action> {
         Effect.run { send in
             for await currencies in fetchCurrenciesUseCase.execute() {
-                let currencies = currencies.map { CurrencyDisplayModel(from: $0) }
                 await send(Action.currenciesUpdated(currencies))
             }
         }
