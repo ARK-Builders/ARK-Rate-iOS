@@ -99,7 +99,9 @@ private extension CurrencyCalculationRowView {
     var toggleExpandButton: some View {
         if isGroup {
             Button(
-                action: { isExpanded.toggle() },
+                action: {
+                    withAnimation(nil) { isExpanded.toggle() }
+                },
                 label: {
                     (isExpanded ? Image.chevronUp : Image.chevronDown)
                         .foregroundColor(Color.grayNeutral)
