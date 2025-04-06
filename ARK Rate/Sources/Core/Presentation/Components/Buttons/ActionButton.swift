@@ -63,8 +63,10 @@ struct ActionButton: View {
                     .font(Font.customInterSemiBold(size: 16))
                     .foregroundColor(style.foregroundColor)
             }
+            .frame(maxWidth: expandHorizontally ? .infinity : nil)
+            .contentShape(Rectangle())
         }
-        .frame(maxWidth: expandHorizontally ? .infinity : nil)
+        .buttonStyle(.plain)
         .padding(.vertical, Constants.verticalSpacing)
         .padding(.horizontal, Constants.horizontalSpacing)
         .background(style.backgroundColor)
