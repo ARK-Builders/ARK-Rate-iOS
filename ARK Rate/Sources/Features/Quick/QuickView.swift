@@ -20,7 +20,7 @@ struct QuickView: View {
                 AddQuickCalculationView(store: store)
             }
             .onAppear {
-                store.send(.loadQuickCalculations)
+                store.send(.loadCurrencies)
             }
         }
     }

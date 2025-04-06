@@ -15,12 +15,14 @@ struct QuickFeature {
         case addNewCalculationButtonTapped
         case hideTabbar
         case showTabbar
+        case loadCurrencies
         case loadQuickCalculations
         case destination(PresentationAction<Destination.Action>)
     }
 
     // MARK: - Properties
 
+    @Dependency(\.currencyRepository) var currencyRepository
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
@@ -31,6 +33,7 @@ struct QuickFeature {
             switch action {
             case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
+            case .loadCurrencies: loadCurrencies(&state)
             case .loadQuickCalculations: loadQuickCalculations(&state)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
@@ -46,12 +49,21 @@ private extension QuickFeature {
 
     func currenciesUpdated(_ state: inout State, _ currencies: [Currency]) -> Effect<Action> {
         state.currencies = currencies
-        return Effect.none
+        return .send(.loadQuickCalculations)
     }
 
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
         state.destination = .addQuickCalculation(AddQuickCalculationFeature.State())
         return .send(.hideTabbar)
+    }
+
+    func loadCurrencies(_ state: inout State) -> Effect<Action> {
+        var currencies: [Currency] = []
+        do {
+            currencies = try currencyRepository.getLocal()
+        } catch {}
+        state.currencies = currencies
+        return .send(.loadQuickCalculations)
     }
 
     func loadQuickCalculations(_ state: inout State) -> Effect<Action> {
