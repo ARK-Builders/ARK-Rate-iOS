@@ -7,6 +7,7 @@ struct QuickFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var currencies: [Currency] = []
+        var displayingCurrencies: [CurrencyDisplayModel] = []
         var quickCalculations: [QuickCalculationDisplayModel] = []
     }
 
@@ -49,6 +50,7 @@ private extension QuickFeature {
 
     func currenciesUpdated(_ state: inout State, _ currencies: [Currency]) -> Effect<Action> {
         state.currencies = currencies
+        state.displayingCurrencies = currencies.map { CurrencyDisplayModel(from: $0) }
         return .send(.loadQuickCalculations)
     }
 
@@ -62,8 +64,7 @@ private extension QuickFeature {
         do {
             currencies = try currencyRepository.getLocal()
         } catch {}
-        state.currencies = currencies
-        return .send(.loadQuickCalculations)
+        return currenciesUpdated(&state, currencies)
     }
 
     func loadQuickCalculations(_ state: inout State) -> Effect<Action> {

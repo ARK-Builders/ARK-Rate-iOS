@@ -49,6 +49,7 @@ private extension QuickView {
         ZStack(alignment: .bottomTrailing) {
             List {
                 calculationsSection
+                allCurrenciesSection
             }
             .listStyle(.plain)
             addButton
@@ -64,8 +65,20 @@ private extension QuickView {
                     elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
                     action: {}
                 )
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
+                .modifier(PlainListRowModifier())
+            }
+        }
+    }
+
+    var allCurrenciesSection: some View {
+        makeListSection(title: StringResource.allCurrencies.localized) {
+            ForEach(store.displayingCurrencies, id: \.id) { currency in
+                CurrencyRowView(
+                    code: currency.id,
+                    name: currency.name,
+                    action: {}
+                )
+                .modifier(PlainListRowModifier())
             }
         }
     }
@@ -107,6 +120,7 @@ private extension QuickView {
         case title = "quick_title"
         case calculations
         case calculatedOnAgo = "calculated_on_ago"
+        case allCurrencies = "all_currencies"
 
         var localized: String {
             String(localized: rawValue)
