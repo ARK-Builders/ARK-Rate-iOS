@@ -59,8 +59,7 @@ private extension SearchACurrencyView {
                     name: currency.name,
                     action: { store.send(.currencyCodeSelected(currency.id)) }
                 )
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
+                .modifier(PlainListRowModifier())
             }
         }
     }
