@@ -47,6 +47,9 @@ struct CurrencyCalculationRowView: View {
         .buttonStyle(.plain)
         .padding(.horizontal, Constants.horizontalSpacing)
         .background(Color.backgroundPrimary)
+        .transaction { transaction in
+            transaction.disablesAnimations = true
+        }
     }
 }
 
