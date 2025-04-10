@@ -43,6 +43,7 @@ struct AddQuickCalculationFeature {
     @Dependency(\.dismiss) var back
     @Dependency(\.currencyRepository) var currencyRepository
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
+    @Dependency(\.currencyStatisticRepository) var currencyStatisticRepository
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
@@ -148,6 +149,7 @@ private extension AddQuickCalculationFeature {
         if let quickCalculation = state.quickCalculation {
             do {
                 try quickCalculationRepository.save(quickCalculation)
+                try currencyStatisticRepository.save(quickCalculation.toCurrencyStatistics)
             } catch {}
         }
         return Effect.run { send in
