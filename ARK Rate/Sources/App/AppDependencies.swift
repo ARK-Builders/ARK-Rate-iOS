@@ -77,7 +77,9 @@ private enum CurrencyRepositoryKey: DependencyKey {
 
 private enum QuickCalculationRepositoryKey: DependencyKey {
 
-    static let liveValue: QuickCalculationRepository = QuickCalculationRepositoryImpl(localDataSource: DependencyValues._current.quickCalculationLocalDataSource)
+    static let liveValue: QuickCalculationRepository = QuickCalculationRepositoryImpl(
+        localDataSource: DependencyValues._current.quickCalculationLocalDataSource
+    )
 }
 
 // MARK: - FiatCurrenciesRateAPI
