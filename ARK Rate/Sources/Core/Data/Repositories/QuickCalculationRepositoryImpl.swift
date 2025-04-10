@@ -18,6 +18,7 @@ final class QuickCalculationRepositoryImpl: QuickCalculationRepository {
 
     func get() throws -> [QuickCalculation] {
         try localDataSource.get()
-            .map { $0.toQuickCalculation }
+            .map(\.toQuickCalculation)
+            .sorted(by: { $0.calculatedDate > $1.calculatedDate })
     }
 }
