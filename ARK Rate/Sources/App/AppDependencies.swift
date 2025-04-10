@@ -7,6 +7,11 @@ extension DependencyValues {
         set { self[FetchCurrenciesUseCaseKey.self] = newValue }
     }
 
+    var getFrequentCurrenciesUseCase: GetFrequentCurrenciesUseCase {
+        get { self[GetFrequentCurrenciesUseCaseKey.self] }
+        set { self[GetFrequentCurrenciesUseCaseKey.self] = newValue }
+    }
+
     var currencyCalculationUseCase: CurrencyCalculationUseCase {
         get { self[CurrencyCalculationUseCaseKey.self] }
         set { self[CurrencyCalculationUseCaseKey.self] = newValue }
@@ -58,6 +63,16 @@ extension DependencyValues {
 private enum FetchCurrenciesUseCaseKey: DependencyKey {
 
     static let liveValue: FetchCurrenciesUseCase = FetchCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
+}
+
+// MARK: - GetFrequentCurrenciesUseCase
+
+private enum GetFrequentCurrenciesUseCaseKey: DependencyKey {
+
+    static let liveValue: GetFrequentCurrenciesUseCase = GetFrequentCurrenciesUseCase(
+        currencyRepository: DependencyValues._current.currencyRepository,
+        currencyStatisticRepository: DependencyValues._current.currencyStatisticRepository
+    )
 }
 
 // MARK: - CurrencyCalculationUseCase

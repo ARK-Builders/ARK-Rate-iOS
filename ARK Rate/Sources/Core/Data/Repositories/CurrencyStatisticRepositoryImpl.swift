@@ -12,8 +12,8 @@ final class CurrencyStatisticRepositoryImpl: CurrencyStatisticRepository {
 
     // MARK: - Conformance
 
-    func get(limit: Int) throws -> [CurrencyStatistic] {
-        try localDataSource.get(limit: limit)
+    func get() throws -> [CurrencyStatistic] {
+        try localDataSource.get()
             .map(\.toCurrencyStatistic)
     }
 

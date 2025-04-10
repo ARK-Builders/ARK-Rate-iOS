@@ -1,5 +1,5 @@
 protocol CurrencyStatisticRepository {
 
-    func get(limit: Int) throws -> [CurrencyStatistic]
+    func get() throws -> [CurrencyStatistic]
     func save(_ currencyStatistics: [CurrencyStatistic]) throws
 }

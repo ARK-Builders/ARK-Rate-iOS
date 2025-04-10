@@ -8,6 +8,12 @@ struct CurrencyStatistic {
     let usageCount: UInt
     let lastUsedDate: Date
 
+    var rating: Double {
+        let daysPassedSinceNow = lastUsedDate.daysPassedSinceNow
+        let timeFactor = Double(daysPassedSinceNow) * 0.5
+        return Double(usageCount) - timeFactor
+    }
+
     // MARK: - Initialization
 
     init(

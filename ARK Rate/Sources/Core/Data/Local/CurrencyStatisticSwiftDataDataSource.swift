@@ -4,8 +4,8 @@ struct CurrencyStatisticSwiftDataDataSource: CurrencyStatisticLocalDataSource {
 
     // MARK: - Conformance
 
-    func get(limit: Int) throws -> [CurrencyStatisticDTO] {
-        let models: [CurrencyStatisticModel] = try SwiftDataManager.shared.get(limit: limit)
+    func get() throws -> [CurrencyStatisticDTO] {
+        let models: [CurrencyStatisticModel] = try SwiftDataManager.shared.get()
         return models.map(\.toCurrencyStatisticDTO)
     }
 

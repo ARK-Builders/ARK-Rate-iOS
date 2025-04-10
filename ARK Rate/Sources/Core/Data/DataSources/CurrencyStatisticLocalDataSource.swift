@@ -1,5 +1,5 @@
 protocol CurrencyStatisticLocalDataSource {
 
-    func get(limit: Int) throws -> [CurrencyStatisticDTO]
+    func get() throws -> [CurrencyStatisticDTO]
     func save(_ currencyStatistics: [CurrencyStatisticDTO]) throws
 }

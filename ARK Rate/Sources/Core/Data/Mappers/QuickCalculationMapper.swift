@@ -12,8 +12,12 @@ extension QuickCalculation {
         )
     }
 
+    var toCodes: [String] {
+        ([inputCurrencyCode] + outputCurrenciesCode)
+    }
+
     var toCurrencyStatistics: [CurrencyStatistic] {
-        ([inputCurrencyCode] + outputCurrenciesCode).map { CurrencyStatistic(code: $0) }
+        toCodes.map { CurrencyStatistic(code: $0) }
     }
 }
 
