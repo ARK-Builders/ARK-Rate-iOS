@@ -7,6 +7,7 @@ struct QuickFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var currencies: [Currency] = []
+        var frequentCurrencies: [CurrencyDisplayModel] = []
         var displayingCurrencies: [CurrencyDisplayModel] = []
         var quickCalculations: [QuickCalculationDisplayModel] = []
     }
@@ -14,8 +15,9 @@ struct QuickFeature {
     enum Action {
         case hideTabbar
         case showTabbar
-        case loadCurrencies
         case loadQuickCalculations
+        case loadCurrencies
+        case loadFrequentCurrencies
         case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
         case destination(PresentationAction<Destination.Action>)
@@ -25,6 +27,7 @@ struct QuickFeature {
 
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
     @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
+    @Dependency(\.loadFrequentCurrenciesUseCase) var loadFrequentCurrenciesUseCase
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
@@ -32,8 +35,9 @@ struct QuickFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .loadCurrencies: currenciesUpdated(&state, loadCurrenciesUseCase.getLocal())
             case .loadQuickCalculations: loadQuickCalculations(&state)
+            case .loadCurrencies: currenciesUpdated(&state, loadCurrenciesUseCase.getLocal())
+            case .loadFrequentCurrencies: loadFrequentCurrencies(&state)
             case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
@@ -79,6 +83,12 @@ private extension QuickFeature {
                 )
             }
         } catch {}
+        return Effect.none
+    }
+
+    func loadFrequentCurrencies(_ state: inout State) -> Effect<Action> {
+        state.frequentCurrencies = loadFrequentCurrenciesUseCase.execute()
+            .map { CurrencyDisplayModel(from: $0) }
         return Effect.none
     }
 }

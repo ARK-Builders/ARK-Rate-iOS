@@ -21,6 +21,7 @@ struct QuickView: View {
             }
             .onAppear {
                 store.send(.loadCurrencies)
+                store.send(.loadFrequentCurrencies)
             }
         }
     }
@@ -49,6 +50,7 @@ private extension QuickView {
         ZStack(alignment: .bottomTrailing) {
             List {
                 calculationsSection
+                frequentCurrenciesSection
                 allCurrenciesSection
             }
             .listStyle(.plain)
@@ -66,6 +68,22 @@ private extension QuickView {
                     action: {}
                 )
                 .modifier(PlainListRowModifier())
+            }
+        }
+    }
+
+    @ViewBuilder
+    var frequentCurrenciesSection: some View {
+        if !store.frequentCurrencies.isEmpty {
+            ListSection(title: StringResource.frequentCurrencies.localized) {
+                ForEach(store.frequentCurrencies, id: \.id) { currency in
+                    CurrencyRowView(
+                        code: currency.id,
+                        name: currency.name,
+                        action: {}
+                    )
+                    .modifier(PlainListRowModifier())
+                }
             }
         }
     }
@@ -107,6 +125,7 @@ private extension QuickView {
         case calculations
         case calculatedOnAgo = "calculated_on_ago"
         case allCurrencies = "all_currencies"
+        case frequentCurrencies = "frequent_currencies"
 
         var localized: String {
             String(localized: rawValue)
