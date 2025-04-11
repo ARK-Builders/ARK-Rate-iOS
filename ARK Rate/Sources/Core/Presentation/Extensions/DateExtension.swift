@@ -32,6 +32,10 @@ extension Date {
             return StringResource.second.localizedFormat(seconds)
         }
     }
+
+    var daysPassedSinceNow: Int {
+        Calendar.current.dateComponents([.day], from: self, to: Date()).day ?? 0
+    }
 }
 
 // MARK: - Constants

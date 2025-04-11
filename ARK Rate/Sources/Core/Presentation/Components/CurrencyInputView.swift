@@ -89,8 +89,6 @@ private extension CurrencyInputView {
             }
             .frame(maxHeight: .infinity)
             .modifier(RoundedBorderModifier(color: Color.error))
-        } else {
-            EmptyView()
         }
     }
 }

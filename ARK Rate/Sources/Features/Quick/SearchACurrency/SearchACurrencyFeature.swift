@@ -8,12 +8,14 @@ struct SearchACurrencyFeature {
         var searchText = ""
         var currencies: [CurrencyDisplayModel] = []
         var allCurrencies: [CurrencyDisplayModel] = []
+        var frequentCurrencies: [CurrencyDisplayModel] = []
     }
 
     enum Action {
         case backButtonTapped
         case delegate(Delegate)
         case loadCurrencies
+        case loadFrequentCurrencies
         case searchTextUpdated(String)
         case currencyCodeSelected(String)
 
@@ -26,7 +28,8 @@ struct SearchACurrencyFeature {
     // MARK: - Properties
 
     @Dependency(\.dismiss) var back
-    @Dependency(\.currencyRepository) var currencyRepository
+    @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
+    @Dependency(\.loadFrequentCurrenciesUseCase) var loadFrequentCurrenciesUseCase
 
     // MARK: - Reducer
 
@@ -34,6 +37,7 @@ struct SearchACurrencyFeature {
         switch action {
         case .backButtonTapped: backButtonTapped()
         case .loadCurrencies: loadCurrencies(&state)
+        case .loadFrequentCurrencies: loadFrequentCurrencies(&state)
         case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
         case .currencyCodeSelected(let code): currencyCodeSelected(&state, code)
         default: Effect.none
@@ -53,13 +57,16 @@ private extension SearchACurrencyFeature {
     }
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        var currencies: [CurrencyDisplayModel] = []
-        do {
-            currencies = try currencyRepository.getLocal()
-                .map { CurrencyDisplayModel(from: $0) }
-        } catch {}
+        let currencies = loadCurrenciesUseCase.getLocal()
+            .map { CurrencyDisplayModel(from: $0) }
         state.currencies = currencies
         state.allCurrencies = currencies
+        return Effect.none
+    }
+
+    func loadFrequentCurrencies(_ state: inout State) -> Effect<Action> {
+        state.frequentCurrencies = loadFrequentCurrenciesUseCase.execute()
+            .map { CurrencyDisplayModel(from: $0) }
         return Effect.none
     }
 

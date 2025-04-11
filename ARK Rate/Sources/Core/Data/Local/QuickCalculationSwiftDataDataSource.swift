@@ -5,12 +5,12 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
     // MARK: - Conformance
 
     func get() throws -> [QuickCalculationDTO] {
-        let models = try SwiftDataManager.shared.get(QuickCalculationModel.self)
-        return models.map { $0.toQuickCalculationDTO }
+        let models: [QuickCalculationModel] = try SwiftDataManager.shared.get()
+        return models.map(\.toQuickCalculationDTO)
     }
 
     func save(_ calculation: QuickCalculationDTO) throws {
         let model = calculation.toQuickCalculationModel
-        try SwiftDataManager.shared.insertOrUpdate(model)
+        try SwiftDataManager.shared.insert(model)
     }
 }

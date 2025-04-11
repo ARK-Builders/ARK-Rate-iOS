@@ -41,8 +41,9 @@ struct AddQuickCalculationFeature {
     // MARK: - Properties
 
     @Dependency(\.dismiss) var back
-    @Dependency(\.currencyRepository) var currencyRepository
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
+    @Dependency(\.currencyStatisticRepository) var currencyStatisticRepository
+    @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
@@ -79,11 +80,7 @@ private extension AddQuickCalculationFeature {
     }
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        var currencies: [Currency] = []
-        do {
-            currencies = try currencyRepository.getLocal()
-        } catch {}
-        state.currencies = currencies
+        state.currencies = loadCurrenciesUseCase.getLocal()
         return Effect.none
     }
 
@@ -148,6 +145,7 @@ private extension AddQuickCalculationFeature {
         if let quickCalculation = state.quickCalculation {
             do {
                 try quickCalculationRepository.save(quickCalculation)
+                try currencyStatisticRepository.save(quickCalculation.toCurrencyStatistics)
             } catch {}
         }
         return Effect.run { send in

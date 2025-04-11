@@ -15,6 +15,7 @@ struct ARKRateApp: App {
     private var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             CurrencyModel.self,
+            CurrencyStatisticModel.self,
             QuickCalculationModel.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

@@ -2,9 +2,14 @@ import ComposableArchitecture
 
 extension DependencyValues {
 
-    var fetchCurrenciesUseCase: FetchCurrenciesUseCase {
-        get { self[FetchCurrenciesUseCaseKey.self] }
-        set { self[FetchCurrenciesUseCaseKey.self] = newValue }
+    var loadCurrenciesUseCase: LoadCurrenciesUseCase {
+        get { self[LoadCurrenciesUseCaseKey.self] }
+        set { self[LoadCurrenciesUseCaseKey.self] = newValue }
+    }
+
+    var loadFrequentCurrenciesUseCase: LoadFrequentCurrenciesUseCase {
+        get { self[LoadFrequentCurrenciesUseCaseKey.self] }
+        set { self[LoadFrequentCurrenciesUseCaseKey.self] = newValue }
     }
 
     var currencyCalculationUseCase: CurrencyCalculationUseCase {
@@ -15,6 +20,11 @@ extension DependencyValues {
     var currencyRepository: CurrencyRepository {
         get { self[CurrencyRepositoryKey.self] }
         set { self[CurrencyRepositoryKey.self] = newValue }
+    }
+
+    var currencyStatisticRepository: CurrencyStatisticRepository {
+        get { self[CurrencyStatisticRepositoryKey.self] }
+        set { self[CurrencyStatisticRepositoryKey.self] = newValue }
     }
 
     var quickCalculationRepository: QuickCalculationRepository {
@@ -37,17 +47,32 @@ extension DependencyValues {
         set { self[CurrencyLocalDataSourceKey.self] = newValue }
     }
 
+    var currencyStatisticLocalDataSource: CurrencyStatisticLocalDataSource {
+        get { self[CurrencyStatisticLocalDataSourceKey.self] }
+        set { self[CurrencyStatisticLocalDataSourceKey.self] = newValue }
+    }
+
     var quickCalculationLocalDataSource: QuickCalculationLocalDataSource {
         get { self[QuickCalculationLocalDataSourceKey.self] }
         set { self[QuickCalculationLocalDataSourceKey.self] = newValue }
     }
 }
 
-// MARK: - FetchCurrenciesUseCase
+// MARK: - LoadCurrenciesUseCase
 
-private enum FetchCurrenciesUseCaseKey: DependencyKey {
+private enum LoadCurrenciesUseCaseKey: DependencyKey {
 
-    static let liveValue: FetchCurrenciesUseCase = FetchCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
+    static let liveValue: LoadCurrenciesUseCase = LoadCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
+}
+
+// MARK: - LoadFrequentCurrenciesUseCase
+
+private enum LoadFrequentCurrenciesUseCaseKey: DependencyKey {
+
+    static let liveValue: LoadFrequentCurrenciesUseCase = LoadFrequentCurrenciesUseCase(
+        currencyRepository: DependencyValues._current.currencyRepository,
+        currencyStatisticRepository: DependencyValues._current.currencyStatisticRepository
+    )
 }
 
 // MARK: - CurrencyCalculationUseCase
@@ -77,7 +102,18 @@ private enum CurrencyRepositoryKey: DependencyKey {
 
 private enum QuickCalculationRepositoryKey: DependencyKey {
 
-    static let liveValue: QuickCalculationRepository = QuickCalculationRepositoryImpl(localDataSource: DependencyValues._current.quickCalculationLocalDataSource)
+    static let liveValue: QuickCalculationRepository = QuickCalculationRepositoryImpl(
+        localDataSource: DependencyValues._current.quickCalculationLocalDataSource
+    )
+}
+
+// MARK: - CurrencyStatisticRepository
+
+private enum CurrencyStatisticRepositoryKey: DependencyKey {
+
+    static let liveValue: CurrencyStatisticRepository = CurrencyStatisticRepositoryImpl(
+        localDataSource: DependencyValues._current.currencyStatisticLocalDataSource
+    )
 }
 
 // MARK: - FiatCurrenciesRateAPI
@@ -99,6 +135,13 @@ private enum CryptoCurrenciesRateAPIKey: DependencyKey {
 private enum CurrencyLocalDataSourceKey: DependencyKey {
 
     static let liveValue: CurrencyLocalDataSource = CurrencySwiftDataDataSource()
+}
+
+// MARK: - CurrencyStatisticLocalDataSource
+
+private enum CurrencyStatisticLocalDataSourceKey: DependencyKey {
+
+    static let liveValue: CurrencyStatisticLocalDataSource = CurrencyStatisticSwiftDataDataSource()
 }
 
 // MARK: - QuickCalculationLocalDataSource

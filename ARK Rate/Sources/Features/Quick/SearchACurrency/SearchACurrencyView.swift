@@ -16,6 +16,7 @@ struct SearchACurrencyView: View {
         VStack(spacing: 0) {
             searchBar
             List {
+                frequentCurrenciesSection
                 allCurrenciesSection
             }
             .listStyle(.plain)
@@ -29,6 +30,7 @@ struct SearchACurrencyView: View {
         )
         .onAppear {
             store.send(.loadCurrencies)
+            store.send(.loadFrequentCurrencies)
         }
     }
 }
@@ -48,11 +50,24 @@ private extension SearchACurrencyView {
         .padding(.horizontal, Constants.spacing)
     }
 
+    @ViewBuilder
+    var frequentCurrenciesSection: some View {
+        if !store.frequentCurrencies.isEmpty {
+            ListSection(title: StringResource.frequentCurrencies.localized) {
+                ForEach(store.frequentCurrencies, id: \.id) { currency in
+                    CurrencyRowView(
+                        code: currency.id,
+                        name: currency.name,
+                        action: { store.send(.currencyCodeSelected(currency.id)) }
+                    )
+                    .modifier(PlainListRowModifier())
+                }
+            }
+        }
+    }
+
     var allCurrenciesSection: some View {
-        Section(header: Text(StringResource.allCurrencies.localized)
-            .foregroundColor(Color.textTertiary)
-            .font(Font.customInterMedium(size: 14))
-        ) {
+        ListSection(title: StringResource.allCurrencies.localized) {
             ForEach(store.currencies, id: \.id) { currency in
                 CurrencyRowView(
                     code: currency.id,
@@ -77,6 +92,7 @@ private extension SearchACurrencyView {
         case title = "search_a_currency"
         case search = "Search"
         case allCurrencies = "all_currencies"
+        case frequentCurrencies = "frequent_currencies"
 
         var localized: String {
             String(localized: rawValue)

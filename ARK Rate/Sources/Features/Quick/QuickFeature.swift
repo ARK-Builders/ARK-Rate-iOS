@@ -12,19 +12,19 @@ struct QuickFeature {
     }
 
     enum Action {
-        case currenciesUpdated([Currency])
-        case addNewCalculationButtonTapped
         case hideTabbar
         case showTabbar
         case loadCurrencies
         case loadQuickCalculations
+        case currenciesUpdated([Currency])
+        case addNewCalculationButtonTapped
         case destination(PresentationAction<Destination.Action>)
     }
 
     // MARK: - Properties
 
-    @Dependency(\.currencyRepository) var currencyRepository
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
+    @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
@@ -32,10 +32,10 @@ struct QuickFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .loadCurrencies: currenciesUpdated(&state, loadCurrenciesUseCase.getLocal())
+            case .loadQuickCalculations: loadQuickCalculations(&state)
             case .currenciesUpdated(let currencies): currenciesUpdated(&state, currencies)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
-            case .loadCurrencies: loadCurrencies(&state)
-            case .loadQuickCalculations: loadQuickCalculations(&state)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
             }
@@ -57,14 +57,6 @@ private extension QuickFeature {
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
         state.destination = .addQuickCalculation(AddQuickCalculationFeature.State())
         return .send(.hideTabbar)
-    }
-
-    func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        var currencies: [Currency] = []
-        do {
-            currencies = try currencyRepository.getLocal()
-        } catch {}
-        return currenciesUpdated(&state, currencies)
     }
 
     func loadQuickCalculations(_ state: inout State) -> Effect<Action> {
