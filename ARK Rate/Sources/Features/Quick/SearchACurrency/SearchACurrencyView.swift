@@ -17,6 +17,7 @@ struct SearchACurrencyView: View {
             searchBar
             List {
                 allCurrenciesSection
+                frequentCurrenciesSection
             }
             .listStyle(.plain)
         }
@@ -29,6 +30,7 @@ struct SearchACurrencyView: View {
         )
         .onAppear {
             store.send(.loadCurrencies)
+            store.send(.loadFrequentCurrencies)
         }
     }
 }
@@ -60,6 +62,22 @@ private extension SearchACurrencyView {
             }
         }
     }
+
+    @ViewBuilder
+    var frequentCurrenciesSection: some View {
+        if !store.frequentCurrencies.isEmpty {
+            ListSection(title: StringResource.frequentCurrencies.localized) {
+                ForEach(store.frequentCurrencies, id: \.id) { currency in
+                    CurrencyRowView(
+                        code: currency.id,
+                        name: currency.name,
+                        action: { store.send(.currencyCodeSelected(currency.id)) }
+                    )
+                    .modifier(PlainListRowModifier())
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Constants
@@ -74,6 +92,7 @@ private extension SearchACurrencyView {
         case title = "search_a_currency"
         case search = "Search"
         case allCurrencies = "all_currencies"
+        case frequentCurrencies = "frequent_currencies"
 
         var localized: String {
             String(localized: rawValue)
