@@ -6,7 +6,7 @@ protocol CurrencyRepository {
 
 extension CurrencyRepository {
 
-    func getLocal(where codes: [String]? = nil) throws -> [Currency] {
-        try getLocal(where: codes)
+    func getLocal() throws -> [Currency] {
+        try getLocal(where: nil)
     }
 }

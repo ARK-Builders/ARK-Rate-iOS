@@ -6,7 +6,7 @@ protocol CurrencyLocalDataSource {
 
 extension CurrencyLocalDataSource {
 
-    func get(where codes: [String]? = nil) throws -> [CurrencyDTO] {
-        try get(where: codes)
+    func get() throws -> [CurrencyDTO] {
+        try get(where: nil)
     }
 }

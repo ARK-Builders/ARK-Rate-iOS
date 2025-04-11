@@ -20,8 +20,8 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
 
     // MARK: - Conformance
 
-    func getLocal() throws -> [Currency] {
-        try localDataSource.get().map(\.toCurrency)
+    func getLocal(where codes: [String]?) throws -> [Currency] {
+        try localDataSource.get(where: codes).map(\.toCurrency)
     }
 
     func fetchRemote() async throws -> [Currency] {
