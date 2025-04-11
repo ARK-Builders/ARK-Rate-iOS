@@ -14,6 +14,7 @@ struct SearchACurrencyFeature {
         case backButtonTapped
         case delegate(Delegate)
         case loadCurrencies
+        case loadFrequentCurrencies
         case searchTextUpdated(String)
         case currencyCodeSelected(String)
 
@@ -27,6 +28,7 @@ struct SearchACurrencyFeature {
 
     @Dependency(\.dismiss) var back
     @Dependency(\.currencyRepository) var currencyRepository
+    @Dependency(\.getFrequentCurrenciesUseCase) var getFrequentCurrenciesUseCase
 
     // MARK: - Reducer
 

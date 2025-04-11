@@ -49,10 +49,7 @@ private extension SearchACurrencyView {
     }
 
     var allCurrenciesSection: some View {
-        Section(header: Text(StringResource.allCurrencies.localized)
-            .foregroundColor(Color.textTertiary)
-            .font(Font.customInterMedium(size: 14))
-        ) {
+        ListSection(title: StringResource.allCurrencies.localized) {
             ForEach(store.currencies, id: \.id) { currency in
                 CurrencyRowView(
                     code: currency.id,
