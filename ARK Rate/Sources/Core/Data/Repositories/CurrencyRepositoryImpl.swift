@@ -21,9 +21,7 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
     // MARK: - Conformance
 
     func getLocal() throws -> [Currency] {
-        try localDataSource.get()
-            .map { $0.toCurrency }
-            .sorted { $0.code < $1.code }
+        try localDataSource.get().map(\.toCurrency)
     }
 
     func fetchRemote() async throws -> [Currency] {
@@ -36,8 +34,6 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
         let fiatFilteredCurrencies = fiatCurrencies.filter { !fiatDuplicateCodes.contains($0.code) }
         let currencies = fiatFilteredCurrencies + cryptoCurrencies
         try localDataSource.save(currencies)
-        return currencies
-            .map { $0.toCurrency }
-            .sorted { $0.code < $1.code }
+        return currencies.map(\.toCurrency)
     }
 }

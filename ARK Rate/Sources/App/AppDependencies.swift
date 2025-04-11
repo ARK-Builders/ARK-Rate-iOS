@@ -2,14 +2,14 @@ import ComposableArchitecture
 
 extension DependencyValues {
 
-    var fetchCurrenciesUseCase: FetchCurrenciesUseCase {
-        get { self[FetchCurrenciesUseCaseKey.self] }
-        set { self[FetchCurrenciesUseCaseKey.self] = newValue }
+    var loadCurrenciesUseCase: LoadCurrenciesUseCase {
+        get { self[LoadCurrenciesUseCaseKey.self] }
+        set { self[LoadCurrenciesUseCaseKey.self] = newValue }
     }
 
-    var getFrequentCurrenciesUseCase: GetFrequentCurrenciesUseCase {
-        get { self[GetFrequentCurrenciesUseCaseKey.self] }
-        set { self[GetFrequentCurrenciesUseCaseKey.self] = newValue }
+    var loadFrequentCurrenciesUseCase: LoadFrequentCurrenciesUseCase {
+        get { self[LoadFrequentCurrenciesUseCaseKey.self] }
+        set { self[LoadFrequentCurrenciesUseCaseKey.self] = newValue }
     }
 
     var currencyCalculationUseCase: CurrencyCalculationUseCase {
@@ -58,18 +58,18 @@ extension DependencyValues {
     }
 }
 
-// MARK: - FetchCurrenciesUseCase
+// MARK: - LoadCurrenciesUseCase
 
-private enum FetchCurrenciesUseCaseKey: DependencyKey {
+private enum LoadCurrenciesUseCaseKey: DependencyKey {
 
-    static let liveValue: FetchCurrenciesUseCase = FetchCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
+    static let liveValue: LoadCurrenciesUseCase = LoadCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
 }
 
-// MARK: - GetFrequentCurrenciesUseCase
+// MARK: - LoadFrequentCurrenciesUseCase
 
-private enum GetFrequentCurrenciesUseCaseKey: DependencyKey {
+private enum LoadFrequentCurrenciesUseCaseKey: DependencyKey {
 
-    static let liveValue: GetFrequentCurrenciesUseCase = GetFrequentCurrenciesUseCase(
+    static let liveValue: LoadFrequentCurrenciesUseCase = LoadFrequentCurrenciesUseCase(
         currencyRepository: DependencyValues._current.currencyRepository,
         currencyStatisticRepository: DependencyValues._current.currencyStatisticRepository
     )

@@ -13,7 +13,7 @@ struct CurrenciesFeature {
 
     // MARK: - Properties
 
-    @Dependency(\.fetchCurrenciesUseCase) var fetchCurrenciesUseCase
+    @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
 
     // MARK: - Reducer
 
@@ -31,8 +31,8 @@ private extension CurrenciesFeature {
 
     func fetchCurrencies(_ state: inout State) -> Effect<Action> {
         Effect.run { send in
-            for await currencies in fetchCurrenciesUseCase.execute() {
-                await send(Action.currenciesUpdated(currencies))
+            for await currencies in loadCurrenciesUseCase.fetchRemote() {
+                await send(.currenciesUpdated(currencies))
             }
         }
     }

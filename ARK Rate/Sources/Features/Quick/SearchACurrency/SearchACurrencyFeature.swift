@@ -27,8 +27,8 @@ struct SearchACurrencyFeature {
     // MARK: - Properties
 
     @Dependency(\.dismiss) var back
-    @Dependency(\.currencyRepository) var currencyRepository
-    @Dependency(\.getFrequentCurrenciesUseCase) var getFrequentCurrenciesUseCase
+    @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
+    @Dependency(\.loadFrequentCurrenciesUseCase) var loadFrequentCurrenciesUseCase
 
     // MARK: - Reducer
 
@@ -55,11 +55,8 @@ private extension SearchACurrencyFeature {
     }
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        var currencies: [CurrencyDisplayModel] = []
-        do {
-            currencies = try currencyRepository.getLocal()
-                .map { CurrencyDisplayModel(from: $0) }
-        } catch {}
+        let currencies = loadCurrenciesUseCase.getLocal()
+            .map { CurrencyDisplayModel(from: $0) }
         state.currencies = currencies
         state.allCurrencies = currencies
         return Effect.none

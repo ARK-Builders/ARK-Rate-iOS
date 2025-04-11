@@ -13,8 +13,7 @@ final class CurrencyStatisticRepositoryImpl: CurrencyStatisticRepository {
     // MARK: - Conformance
 
     func get() throws -> [CurrencyStatistic] {
-        try localDataSource.get()
-            .map(\.toCurrencyStatistic)
+        try localDataSource.get().map(\.toCurrencyStatistic)
     }
 
     func save(_ currencyStatistics: [CurrencyStatistic]) throws {

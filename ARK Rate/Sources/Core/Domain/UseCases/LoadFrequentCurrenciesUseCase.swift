@@ -1,4 +1,4 @@
-struct GetFrequentCurrenciesUseCase {
+struct LoadFrequentCurrenciesUseCase {
 
     // MARK: - Properties
 
@@ -23,7 +23,7 @@ struct GetFrequentCurrenciesUseCase {
 
 // MARK: - Constants
 
-private extension GetFrequentCurrenciesUseCase {
+private extension LoadFrequentCurrenciesUseCase {
 
     enum Constants {
         static let limit = 5
