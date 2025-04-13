@@ -1495,6 +1495,17 @@
         }
       }
     },
+    "pin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin"
+          }
+        }
+      }
+    },
     "pinned_pairs" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1989,6 +2000,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ugandan Shilling"
+          }
+        }
+      }
+    },
+    "unpin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpin"
           }
         }
       }

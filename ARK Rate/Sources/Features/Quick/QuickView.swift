@@ -84,6 +84,11 @@ private extension QuickView {
                     elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
                     action: {}
                 )
+                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                    makeTogglePinnedButton(for: calculation, action: {
+                        store.send(.togglePinnedButtonTapped(id: calculation.id))
+                    })
+                }
                 .modifier(PlainListRowModifier())
             }
         }
@@ -133,9 +138,33 @@ private extension QuickView {
     }
 }
 
+// MARK: - Helpers
+
+private extension QuickView {
+
+    func makeTogglePinnedButton(
+        for calculation: QuickCalculationDisplayModel,
+        action: @escaping ButtonAction
+    ) -> some View {
+        Button(
+            action: action,
+            label: {
+                Text(calculation.togglePinnedTitle)
+                    .foregroundColor(Color.white)
+                    .padding(Constants.spacing)
+            }
+        )
+        .tint(Color.teal600)
+    }
+}
+
 // MARK: - Constants
 
 private extension QuickView {
+
+    enum Constants {
+        static let spacing: CGFloat = 16
+    }
 
     enum StringResource: String.LocalizationValue {
         case title = "quick_title"

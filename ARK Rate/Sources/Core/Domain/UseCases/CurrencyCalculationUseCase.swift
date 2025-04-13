@@ -13,15 +13,11 @@ struct CurrencyCalculationUseCase {
         inputCurrencyAmount: Decimal,
         outputCurrencyCode: String
     ) -> Decimal {
-        do {
-            guard let inputCurrency = try currencyRepository.getLocal(where: inputCurrencyCode),
-                  let outputCurrency = try currencyRepository.getLocal(where: outputCurrencyCode) else {
-                return 0
-            }
-            let rate = inputCurrency.rate.divideArk(outputCurrency.rate)
-            return inputCurrencyAmount * rate
-        } catch {
+        guard let inputCurrency = try? currencyRepository.getLocal(where: inputCurrencyCode),
+              let outputCurrency = try? currencyRepository.getLocal(where: outputCurrencyCode) else {
             return 0
         }
+        let rate = inputCurrency.rate.divideArk(outputCurrency.rate)
+        return inputCurrencyAmount * rate
     }
 }

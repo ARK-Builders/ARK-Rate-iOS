@@ -1,3 +1,4 @@
+import Foundation
 import ComposableArchitecture
 
 @Reducer
@@ -7,7 +8,7 @@ struct QuickFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var pinnedCalculations: [QuickCalculationDisplayModel] = []
-        var calculatedCalculations: [QuickCalculationDisplayModel] = []
+        var calculatedCalculations: IdentifiedArrayOf<QuickCalculationDisplayModel> = []
         var frequentCurrencies: [CurrencyDisplayModel] = []
         var displayingCurrencies: [CurrencyDisplayModel] = []
     }
@@ -19,6 +20,7 @@ struct QuickFeature {
         case loadFrequentCurrencies
         case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
+        case togglePinnedButtonTapped(id: UUID)
         case hideTabbar
         case showTabbar
         case destination(PresentationAction<Destination.Action>)
@@ -30,6 +32,7 @@ struct QuickFeature {
     @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
     @Dependency(\.loadFrequentCurrenciesUseCase) var loadFrequentCurrenciesUseCase
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
+    @Dependency(\.togglePinnedCalculationUseCase) var togglePinnedCalculationUseCase
 
     // MARK: - Reducer
 
@@ -42,6 +45,7 @@ struct QuickFeature {
             case .loadFrequentCurrencies: loadFrequentCurrencies(&state)
             case .currenciesUpdated: .send(.loadCalculatedCalculations)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
+            case .togglePinnedButtonTapped(let id): togglePinnedButtonTapped(&state, id)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
             }
@@ -55,9 +59,10 @@ struct QuickFeature {
 private extension QuickFeature {
 
     func loadCalculatedCalculations(_ state: inout State) -> Effect<Action> {
-        state.calculatedCalculations = loadQuickCalculationsUseCase.getCalculatedCalculations()
+        let calculatedCalculations = loadQuickCalculationsUseCase.getCalculatedCalculations()
             .map(\.toQuickCalculationDisplayModel)
-        if !state.calculatedCalculations.isEmpty {
+        state.calculatedCalculations = IdentifiedArrayOf(uniqueElements: calculatedCalculations)
+        if !calculatedCalculations.isEmpty {
             return Effect.merge(
                 .send(.loadPinnedCalculations),
                 .send(.loadCurrencies),
@@ -89,6 +94,14 @@ private extension QuickFeature {
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
         state.destination = .addQuickCalculation(AddQuickCalculationFeature.State())
         return .send(.hideTabbar)
+    }
+
+    func togglePinnedButtonTapped(_ state: inout State, _ id: UUID) -> Effect<Action> {
+        if let calculation = togglePinnedCalculationUseCase.execute(id),
+           let index = state.calculatedCalculations.index(id: id) {
+            state.calculatedCalculations[index] = calculation.toQuickCalculationDisplayModel
+        }
+        return .send(.loadPinnedCalculations)
     }
 }
 

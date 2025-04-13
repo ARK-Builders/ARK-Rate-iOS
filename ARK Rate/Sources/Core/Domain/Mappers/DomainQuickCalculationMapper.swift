@@ -3,6 +3,7 @@ extension QuickCalculation {
     var toQuickCalculationDisplayModel: QuickCalculationDisplayModel {
         QuickCalculationDisplayModel(
             id: id,
+            pinnedDate: pinnedDate,
             calculatedDate: calculatedDate,
             input: CurrencyDisplayModel(
                 code: inputCurrencyCode,

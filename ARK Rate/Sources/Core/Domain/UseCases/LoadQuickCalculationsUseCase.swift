@@ -23,7 +23,7 @@ struct LoadQuickCalculationsUseCase {
                             outputCurrencyCode: outputCurrencyCode
                         )
                     }
-                    return calculation.toQuickCalculation(with: outputCurrencyAmounts)
+                    return calculation.toQuickCalculation(outputCurrencyAmounts: outputCurrencyAmounts)
                 }
                 .sorted { $0.calculatedDate > $1.calculatedDate }
         } catch {
