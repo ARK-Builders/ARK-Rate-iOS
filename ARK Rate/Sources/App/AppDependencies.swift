@@ -22,6 +22,11 @@ extension DependencyValues {
         set { self[CurrencyCalculationUseCaseKey.self] = newValue }
     }
 
+    var togglePinnedCalculationUseCase: TogglePinnedCalculationUseCase {
+        get { self[TogglePinnedCalculationUseCaseKey.self] }
+        set { self[TogglePinnedCalculationUseCaseKey.self] = newValue }
+    }
+
     var currencyRepository: CurrencyRepository {
         get { self[CurrencyRepositoryKey.self] }
         set { self[CurrencyRepositoryKey.self] = newValue }
@@ -98,6 +103,15 @@ private enum CurrencyCalculationUseCaseKey: DependencyKey {
 
     static let liveValue: CurrencyCalculationUseCase = CurrencyCalculationUseCase(
         currencyRepository: DependencyValues._current.currencyRepository
+    )
+}
+
+// MARK: - TogglePinnedCalculationUseCase
+
+private enum TogglePinnedCalculationUseCaseKey: DependencyKey {
+
+    static let liveValue: TogglePinnedCalculationUseCase = TogglePinnedCalculationUseCase(
+        quickCalculationRepository: DependencyValues._current.quickCalculationRepository
     )
 }
 

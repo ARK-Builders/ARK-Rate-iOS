@@ -134,17 +134,15 @@ private extension AddQuickCalculationFeature {
 
     func saveButtonTapped(_ state: inout State) -> Effect<Action> {
         guard state.canSave else { return Effect.none }
-        do {
-            let quickCalculation = QuickCalculation(
-                inputCurrencyCode: state.inputCurrency.code,
-                inputCurrencyAmount: state.inputCurrency.amount,
-                outputCurrencyCodes: state.outputCurrencies.map(\.code),
-                outputCurrencyAmounts: state.outputCurrencies.map(\.amount)
-            )
-            let currencyStatistics = quickCalculation.toCurrencyStatistics
-            try quickCalculationRepository.save(quickCalculation)
-            try currencyStatisticRepository.save(currencyStatistics)
-        } catch {}
+        let quickCalculation = QuickCalculation(
+            inputCurrencyCode: state.inputCurrency.code,
+            inputCurrencyAmount: state.inputCurrency.amount,
+            outputCurrencyCodes: state.outputCurrencies.map(\.code),
+            outputCurrencyAmounts: state.outputCurrencies.map(\.amount)
+        )
+        let currencyStatistics = quickCalculation.toCurrencyStatistics
+        try? quickCalculationRepository.save(quickCalculation)
+        try? currencyStatisticRepository.save(currencyStatistics)
         return Effect.run { send in
             await send(.delegate(.back))
             await back()

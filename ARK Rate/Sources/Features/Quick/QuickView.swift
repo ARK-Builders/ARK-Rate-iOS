@@ -20,7 +20,7 @@ struct QuickView: View {
                 AddQuickCalculationView(store: store)
             }
             .onAppear {
-                store.send(.loadQuickCalculations)
+                store.send(.loadCalculatedCalculations)
             }
         }
     }
@@ -48,12 +48,30 @@ private extension QuickView {
     var list: some View {
         ZStack(alignment: .bottomTrailing) {
             List {
+                pinnedPairsSection
                 calculatedCalculationsSection
                 frequentCurrenciesSection
                 allCurrenciesSection
             }
             .listStyle(.plain)
             addButton
+        }
+    }
+
+    @ViewBuilder
+    var pinnedPairsSection: some View {
+        if !store.pinnedCalculations.isEmpty {
+            ListSection(title: StringResource.pinnedPairs.localized) {
+                ForEach(store.pinnedCalculations, id: \.id) { calculation in
+                    CurrencyCalculationRowView(
+                        input: calculation.input,
+                        outputs: calculation.outputs,
+                        elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
+                        action: {}
+                    )
+                    .modifier(PlainListRowModifier())
+                }
+            }
         }
     }
 
@@ -66,6 +84,11 @@ private extension QuickView {
                     elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
                     action: {}
                 )
+                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                    makeTogglePinnedButton(for: calculation, action: {
+                        store.send(.togglePinnedButtonTapped(id: calculation.id))
+                    })
+                }
                 .modifier(PlainListRowModifier())
             }
         }
@@ -115,13 +138,39 @@ private extension QuickView {
     }
 }
 
+// MARK: - Helpers
+
+private extension QuickView {
+
+    func makeTogglePinnedButton(
+        for calculation: QuickCalculationDisplayModel,
+        action: @escaping ButtonAction
+    ) -> some View {
+        Button(
+            action: action,
+            label: {
+                Text(calculation.togglePinnedTitle)
+                    .foregroundColor(Color.white)
+                    .padding(Constants.spacing)
+            }
+        )
+        .tint(Color.teal600)
+    }
+}
+
 // MARK: - Constants
 
 private extension QuickView {
 
+    enum Constants {
+        static let spacing: CGFloat = 16
+    }
+
     enum StringResource: String.LocalizationValue {
         case title = "quick_title"
+        case pinnedPairs = "pinned_pairs"
         case calculations
+        case lastRefreshedAgo = "last_refreshed_ago"
         case calculatedOnAgo = "calculated_on_ago"
         case allCurrencies = "all_currencies"
         case frequentCurrencies = "frequent_currencies"

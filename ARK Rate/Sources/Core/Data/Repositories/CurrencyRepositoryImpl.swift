@@ -33,7 +33,7 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
         return currencies.map(\.toCurrency)
     }
 
-    func getLocal(where code: String?) throws -> Currency? {
+    func getLocal(where code: String) throws -> Currency? {
         try localDataSource.get(where: code).map(\.toCurrency)
     }
 
