@@ -16,6 +16,10 @@ final class QuickCalculationRepositoryImpl: QuickCalculationRepository {
         try localDataSource.get().map(\.toQuickCalculation)
     }
 
+    func getWherePinned() throws -> [QuickCalculation] {
+        try localDataSource.getWherePinned().map(\.toQuickCalculation)
+    }
+
     func save(_ calculation: QuickCalculation) throws {
         try localDataSource.save(calculation.toQuickCalculationDTO)
     }

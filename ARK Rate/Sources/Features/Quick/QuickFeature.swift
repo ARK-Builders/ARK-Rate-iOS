@@ -6,13 +6,15 @@ struct QuickFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
+        var pinnedCalculations: [QuickCalculationDisplayModel] = []
+        var calculatedCalculations: [QuickCalculationDisplayModel] = []
         var frequentCurrencies: [CurrencyDisplayModel] = []
         var displayingCurrencies: [CurrencyDisplayModel] = []
-        var calculatedCalculations: [QuickCalculationDisplayModel] = []
     }
 
     enum Action {
-        case loadQuickCalculations
+        case loadCalculatedCalculations
+        case loadPinnedCalculations
         case loadCurrencies
         case loadFrequentCurrencies
         case currenciesUpdated([Currency])
@@ -34,10 +36,11 @@ struct QuickFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .loadQuickCalculations: loadQuickCalculations(&state)
+            case .loadCalculatedCalculations: loadCalculatedCalculations(&state)
+            case .loadPinnedCalculations: loadPinnedCalculations(&state)
             case .loadCurrencies: loadCurrencies(&state)
             case .loadFrequentCurrencies: loadFrequentCurrencies(&state)
-            case .currenciesUpdated: .send(.loadQuickCalculations)
+            case .currenciesUpdated: .send(.loadCalculatedCalculations)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
@@ -51,22 +54,12 @@ struct QuickFeature {
 
 private extension QuickFeature {
 
-    func loadQuickCalculations(_ state: inout State) -> Effect<Action> {
-        state.calculatedCalculations = loadQuickCalculationsUseCase.getCalculatedCalculations().map { calculation in
-            QuickCalculationDisplayModel(
-                id: calculation.id,
-                calculatedDate: calculation.calculatedDate,
-                input: CurrencyDisplayModel(
-                    code: calculation.inputCurrencyCode,
-                    amount: calculation.inputCurrencyAmount
-                ),
-                outputs: zip(calculation.outputCurrencyCodes, calculation.outputCurrencyAmounts).map { code, amount in
-                    CurrencyDisplayModel(code: code, amount: amount)
-                }
-            )
-        }
+    func loadCalculatedCalculations(_ state: inout State) -> Effect<Action> {
+        state.calculatedCalculations = loadQuickCalculationsUseCase.getCalculatedCalculations()
+            .map(\.toQuickCalculationDisplayModel)
         if !state.calculatedCalculations.isEmpty {
             return Effect.merge(
+                .send(.loadPinnedCalculations),
                 .send(.loadCurrencies),
                 .send(.loadFrequentCurrencies)
             )
@@ -75,14 +68,21 @@ private extension QuickFeature {
         }
     }
 
+    func loadPinnedCalculations(_ state: inout State) -> Effect<Action> {
+        state.pinnedCalculations = loadQuickCalculationsUseCase.getPinnedCalculations()
+            .map(\.toQuickCalculationDisplayModel)
+        return Effect.none
+    }
+
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        state.displayingCurrencies = loadCurrenciesUseCase.getLocal().map { CurrencyDisplayModel(code: $0.code) }
+        state.displayingCurrencies = loadCurrenciesUseCase.getLocal()
+            .map(\.toCurrencyDisplayModel)
         return Effect.none
     }
 
     func loadFrequentCurrencies(_ state: inout State) -> Effect<Action> {
         state.frequentCurrencies = loadFrequentCurrenciesUseCase.execute()
-            .map { CurrencyDisplayModel(code: $0.code) }
+            .map(\.toCurrencyDisplayModel)
         return Effect.none
     }
 

@@ -20,7 +20,7 @@ struct QuickView: View {
                 AddQuickCalculationView(store: store)
             }
             .onAppear {
-                store.send(.loadQuickCalculations)
+                store.send(.loadCalculatedCalculations)
             }
         }
     }
@@ -48,12 +48,30 @@ private extension QuickView {
     var list: some View {
         ZStack(alignment: .bottomTrailing) {
             List {
+                pinnedPairsSection
                 calculatedCalculationsSection
                 frequentCurrenciesSection
                 allCurrenciesSection
             }
             .listStyle(.plain)
             addButton
+        }
+    }
+
+    @ViewBuilder
+    var pinnedPairsSection: some View {
+        if !store.pinnedCalculations.isEmpty {
+            ListSection(title: StringResource.pinnedPairs.localized) {
+                ForEach(store.pinnedCalculations, id: \.id) { calculation in
+                    CurrencyCalculationRowView(
+                        input: calculation.input,
+                        outputs: calculation.outputs,
+                        elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
+                        action: {}
+                    )
+                    .modifier(PlainListRowModifier())
+                }
+            }
         }
     }
 
@@ -121,7 +139,9 @@ private extension QuickView {
 
     enum StringResource: String.LocalizationValue {
         case title = "quick_title"
+        case pinnedPairs = "pinned_pairs"
         case calculations
+        case lastRefreshedAgo = "last_refreshed_ago"
         case calculatedOnAgo = "calculated_on_ago"
         case allCurrencies = "all_currencies"
         case frequentCurrencies = "frequent_currencies"

@@ -1,3 +1,5 @@
+import Foundation
+
 // MARK: -
 
 extension QuickCalculation {
@@ -16,6 +18,18 @@ extension QuickCalculation {
 
     var toCurrencyStatistics: [CurrencyStatistic] {
         ([inputCurrencyCode] + outputCurrencyCodes).map { CurrencyStatistic(code: $0) }
+    }
+
+    func toQuickCalculation(with outputCurrencyAmounts: [Decimal]) -> QuickCalculation {
+        QuickCalculation(
+            id: id,
+            pinnedDate: pinnedDate,
+            calculatedDate: calculatedDate,
+            inputCurrencyCode: inputCurrencyCode,
+            inputCurrencyAmount: inputCurrencyAmount,
+            outputCurrencyCodes: outputCurrencyCodes,
+            outputCurrencyAmounts: outputCurrencyAmounts
+        )
     }
 }
 

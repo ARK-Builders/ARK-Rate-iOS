@@ -58,7 +58,7 @@ private extension SearchACurrencyFeature {
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
         let currencies = loadCurrenciesUseCase.getLocal()
-            .map { CurrencyDisplayModel(code: $0.code) }
+            .map(\.toCurrencyDisplayModel)
         state.currencies = currencies
         state.allCurrencies = currencies
         return Effect.none
@@ -66,7 +66,7 @@ private extension SearchACurrencyFeature {
 
     func loadFrequentCurrencies(_ state: inout State) -> Effect<Action> {
         state.frequentCurrencies = loadFrequentCurrenciesUseCase.execute()
-            .map { CurrencyDisplayModel(code: $0.code) }
+            .map(\.toCurrencyDisplayModel)
         return Effect.none
     }
 

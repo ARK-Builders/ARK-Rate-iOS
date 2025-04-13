@@ -1132,6 +1132,17 @@
         }
       }
     },
+    "last_refreshed_ago" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last refreshed %@ ago"
+          }
+        }
+      }
+    },
     "LBP" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1480,6 +1491,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Philippine Peso"
+          }
+        }
+      }
+    },
+    "pinned_pairs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinned Pairs"
           }
         }
       }

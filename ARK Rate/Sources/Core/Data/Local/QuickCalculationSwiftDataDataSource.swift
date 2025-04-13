@@ -1,4 +1,4 @@
-import SwiftData
+import Foundation
 
 struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
 
@@ -6,6 +6,11 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
 
     func get() throws -> [QuickCalculationDTO] {
         let models: [QuickCalculationModel] = try SwiftDataManager.shared.get()
+        return models.map(\.toQuickCalculationDTO)
+    }
+
+    func getWherePinned() throws -> [QuickCalculationDTO] {
+        let models: [QuickCalculationModel] = try SwiftDataManager.shared.get(predicate: #Predicate { $0.pinnedDate != nil })
         return models.map(\.toQuickCalculationDTO)
     }
 
