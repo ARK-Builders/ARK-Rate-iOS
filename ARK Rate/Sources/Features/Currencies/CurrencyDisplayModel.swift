@@ -5,23 +5,23 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
     // MARK: - Properties
 
     let id: String
-    let amount: String
+    let amount: Decimal
 
     var name: String {
         String(localized: String.LocalizationValue(id))
     }
 
     var formattedAmount: String {
-        "\(amount) \(id)"
+        "\(amount.formattedRate) \(id)"
     }
 
     // MARK: - Initialization
 
     init(
-        from currency: Currency,
-        amount: String = ""
+        code: String,
+        amount: Decimal = 0
     ) {
-        self.id = currency.code
+        self.id = code
         self.amount = amount
     }
 }

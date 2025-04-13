@@ -7,24 +7,30 @@ final class QuickCalculationModel {
     // MARK: - Properties
 
     @Attribute(.unique) var id: UUID
+    var pinnedDate: Date?
     var calculatedDate: Date
     var inputCurrencyCode: String
     var inputCurrencyAmount: Decimal
-    var outputCurrenciesCode: [String]
+    var outputCurrencyCodes: [String]
+    var outputCurrencyAmounts: [Decimal]
 
     // MARK: - Initialization
 
     init(
         id: UUID,
+        pinnedDate: Date?,
         calculatedDate: Date,
         inputCurrencyCode: String,
         inputCurrencyAmount: Decimal,
-        outputCurrenciesCode: [String]
+        outputCurrencyCodes: [String],
+        outputCurrencyAmounts: [Decimal]
     ) {
         self.id = id
+        self.pinnedDate = pinnedDate
         self.calculatedDate = calculatedDate
         self.inputCurrencyCode = inputCurrencyCode
         self.inputCurrencyAmount = inputCurrencyAmount
-        self.outputCurrenciesCode = outputCurrenciesCode
+        self.outputCurrencyCodes = outputCurrencyCodes
+        self.outputCurrencyAmounts = outputCurrencyAmounts
     }
 }

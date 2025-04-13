@@ -17,8 +17,6 @@ final class CurrencyStatisticRepositoryImpl: CurrencyStatisticRepository {
     }
 
     func save(_ currencyStatistics: [CurrencyStatistic]) throws {
-        try localDataSource.save(
-            currencyStatistics.map(\.toCurrencyStatisticDTO)
-        )
+        try localDataSource.save(currencyStatistics.map(\.toCurrencyStatisticDTO))
     }
 }

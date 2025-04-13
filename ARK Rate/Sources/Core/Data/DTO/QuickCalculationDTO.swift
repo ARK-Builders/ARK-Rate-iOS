@@ -5,8 +5,10 @@ struct QuickCalculationDTO {
     // MARK: - Properties
 
     let id: UUID
+    let pinnedDate: Date?
     let calculatedDate: Date
     let inputCurrencyCode: String
     let inputCurrencyAmount: Decimal
-    let outputCurrenciesCode: [String]
+    let outputCurrencyCodes: [String]
+    let outputCurrencyAmounts: [Decimal]
 }

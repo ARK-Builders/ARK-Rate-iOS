@@ -4,6 +4,18 @@ struct CurrencySwiftDataDataSource: CurrencyLocalDataSource {
 
     // MARK: - Conformance
 
+    func get(where code: String?) throws -> CurrencyDTO? {
+        let predicate: Predicate<CurrencyModel>? = {
+            if let code {
+                return #Predicate { $0.code == code }
+            } else {
+                return nil
+            }
+        }()
+        let fetchedModel: CurrencyModel? = try SwiftDataManager.shared.get(predicate: predicate)
+        return fetchedModel.map(\.toCurrencyDTO)
+    }
+
     func get(where codes: [String]?) throws -> [CurrencyDTO] {
         let predicate: Predicate<CurrencyModel>? = {
             if let codes {
@@ -12,7 +24,7 @@ struct CurrencySwiftDataDataSource: CurrencyLocalDataSource {
                 return nil
             }
         }()
-        let fetchedModels: [CurrencyModel] = try SwiftDataManager.shared.get(predicate: predicate)
+        let fetchedModels: [CurrencyModel] = try SwiftDataManager.shared.get(predicate: predicate, limit: codes?.count)
         return fetchedModels.map(\.toCurrencyDTO)
     }
 

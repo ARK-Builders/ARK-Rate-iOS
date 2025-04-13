@@ -1,6 +1,6 @@
 import Foundation
 
-struct Currency: Equatable {
+struct Currency {
 
     enum Category {
         case fiat

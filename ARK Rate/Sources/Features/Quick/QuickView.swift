@@ -20,8 +20,7 @@ struct QuickView: View {
                 AddQuickCalculationView(store: store)
             }
             .onAppear {
-                store.send(.loadCurrencies)
-                store.send(.loadFrequentCurrencies)
+                store.send(.loadQuickCalculations)
             }
         }
     }
@@ -33,7 +32,7 @@ private extension QuickView {
 
     @ViewBuilder
     var content: some View {
-        if store.quickCalculations.isEmpty {
+        if store.calculatedCalculations.isEmpty {
             emptyStateView
         } else {
             list
@@ -49,7 +48,7 @@ private extension QuickView {
     var list: some View {
         ZStack(alignment: .bottomTrailing) {
             List {
-                calculationsSection
+                calculatedCalculationsSection
                 frequentCurrenciesSection
                 allCurrenciesSection
             }
@@ -58,9 +57,9 @@ private extension QuickView {
         }
     }
 
-    var calculationsSection: some View {
+    var calculatedCalculationsSection: some View {
         ListSection(title: StringResource.calculations.localized) {
-            ForEach(store.quickCalculations, id: \.id) { calculation in
+            ForEach(store.calculatedCalculations, id: \.id) { calculation in
                 CurrencyCalculationRowView(
                     input: calculation.input,
                     outputs: calculation.outputs,
