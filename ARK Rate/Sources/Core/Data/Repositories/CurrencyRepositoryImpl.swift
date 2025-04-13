@@ -20,10 +20,6 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
 
     // MARK: - Conformance
 
-    func getLocal(where codes: [String]?) throws -> [Currency] {
-        try localDataSource.get(where: codes).map(\.toCurrency)
-    }
-
     func fetchRemote() async throws -> [Currency] {
         async let fiatTask = fiatCurrencyDataSource.fetch()
         async let cryptoTask = cryptoCurrencyDataSource.fetch()
@@ -35,5 +31,13 @@ final class CurrencyRepositoryImpl: CurrencyRepository {
         let currencies = fiatFilteredCurrencies + cryptoCurrencies
         try localDataSource.save(currencies)
         return currencies.map(\.toCurrency)
+    }
+
+    func getLocal(where code: String?) throws -> Currency? {
+        try localDataSource.get(where: code).map(\.toCurrency)
+    }
+
+    func getLocal(where codes: [String]?) throws -> [Currency] {
+        try localDataSource.get(where: codes).map(\.toCurrency)
     }
 }

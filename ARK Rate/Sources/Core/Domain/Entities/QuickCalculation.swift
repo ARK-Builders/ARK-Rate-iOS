@@ -1,34 +1,34 @@
 import Foundation
 
-struct QuickCalculation: Equatable {
+struct QuickCalculation {
 
     // MARK: - Properties
 
     let id: UUID
+    let pinnedDate: Date?
     let calculatedDate: Date
     let inputCurrencyCode: String
     let inputCurrencyAmount: Decimal
-    let outputCurrenciesCode: [String]
+    let outputCurrencyCodes: [String]
+    let outputCurrencyAmounts: [Decimal]
 
     // MARK: - Initialization
 
     init(
         id: UUID = UUID(),
+        pinnedDate: Date? = nil,
         calculatedDate: Date = Date(),
         inputCurrencyCode: String,
         inputCurrencyAmount: Decimal,
-        outputCurrenciesCode: [String]
+        outputCurrencyCodes: [String],
+        outputCurrencyAmounts: [Decimal]
     ) {
         self.id = id
+        self.pinnedDate = pinnedDate
         self.calculatedDate = calculatedDate
         self.inputCurrencyCode = inputCurrencyCode
         self.inputCurrencyAmount = inputCurrencyAmount
-        self.outputCurrenciesCode = outputCurrenciesCode
-    }
-
-    // MARK: - Conformance
-
-    static func == (lhs: QuickCalculation, rhs: QuickCalculation) -> Bool {
-        return lhs.id == rhs.id
+        self.outputCurrencyCodes = outputCurrencyCodes
+        self.outputCurrencyAmounts = outputCurrencyAmounts
     }
 }

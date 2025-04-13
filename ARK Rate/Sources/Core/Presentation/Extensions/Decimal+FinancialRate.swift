@@ -34,3 +34,12 @@ extension Decimal {
         return roundedResult
     }
 }
+
+// MARK: -
+
+extension Decimal {
+
+    static func from(_ amount: String, default defaultValue: Decimal = 0) -> Decimal {
+        Decimal(string: amount) ?? defaultValue
+    }
+}

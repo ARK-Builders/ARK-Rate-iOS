@@ -12,13 +12,11 @@ final class QuickCalculationRepositoryImpl: QuickCalculationRepository {
 
     // MARK: - Conformance
 
-    func save(_ calculation: QuickCalculation) throws {
-        try localDataSource.save(calculation.toQuickCalculationDTO)
+    func get() throws -> [QuickCalculation] {
+        try localDataSource.get().map(\.toQuickCalculation)
     }
 
-    func get() throws -> [QuickCalculation] {
-        try localDataSource.get()
-            .map(\.toQuickCalculation)
-            .sorted(by: { $0.calculatedDate > $1.calculatedDate })
+    func save(_ calculation: QuickCalculation) throws {
+        try localDataSource.save(calculation.toQuickCalculationDTO)
     }
 }

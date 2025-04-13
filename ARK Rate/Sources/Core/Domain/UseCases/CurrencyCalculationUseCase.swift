@@ -1,30 +1,27 @@
 import Foundation
 
-typealias CurrencyAmounts = [String: String]
+struct CurrencyCalculationUseCase {
 
-protocol CurrencyCalculationUseCase {
+    // MARK: - Properties
 
-    func execute(
-        inputCurrency: Currency,
-        inputCurrencyAmount: Decimal,
-        outputCurrencies: [Currency]
-    ) -> CurrencyAmounts
-}
+    let currencyRepository: CurrencyRepository
 
-struct CurrencyCalculationUseCaseImpl: CurrencyCalculationUseCase {
-
-    // MARK: - Conformance
+    // MARK: - Methods
 
     func execute(
-        inputCurrency: Currency,
+        inputCurrencyCode: String,
         inputCurrencyAmount: Decimal,
-        outputCurrencies: [Currency]
-    ) -> CurrencyAmounts {
-        var currencyAmounts: CurrencyAmounts = [:]
-        outputCurrencies.forEach { outputCurrency in
+        outputCurrencyCode: String
+    ) -> Decimal {
+        do {
+            guard let inputCurrency = try currencyRepository.getLocal(where: inputCurrencyCode),
+                  let outputCurrency = try currencyRepository.getLocal(where: outputCurrencyCode) else {
+                return 0
+            }
             let rate = inputCurrency.rate.divideArk(outputCurrency.rate)
-            currencyAmounts[outputCurrency.code] = (inputCurrencyAmount * rate).formattedRate
+            return inputCurrencyAmount * rate
+        } catch {
+            return 0
         }
-        return currencyAmounts
     }
 }

@@ -5,19 +5,17 @@ extension QuickCalculation {
     var toQuickCalculationDTO: QuickCalculationDTO {
         QuickCalculationDTO(
             id: id,
+            pinnedDate: pinnedDate,
             calculatedDate: calculatedDate,
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
-            outputCurrenciesCode: outputCurrenciesCode
+            outputCurrencyCodes: outputCurrencyCodes,
+            outputCurrencyAmounts: outputCurrencyAmounts
         )
     }
 
-    var toCodes: [String] {
-        ([inputCurrencyCode] + outputCurrenciesCode)
-    }
-
     var toCurrencyStatistics: [CurrencyStatistic] {
-        toCodes.map { CurrencyStatistic(code: $0) }
+        ([inputCurrencyCode] + outputCurrencyCodes).map { CurrencyStatistic(code: $0) }
     }
 }
 
@@ -28,20 +26,24 @@ extension QuickCalculationDTO {
     var toQuickCalculation: QuickCalculation {
         QuickCalculation(
             id: id,
+            pinnedDate: pinnedDate,
             calculatedDate: calculatedDate,
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
-            outputCurrenciesCode: outputCurrenciesCode
+            outputCurrencyCodes: outputCurrencyCodes,
+            outputCurrencyAmounts: outputCurrencyAmounts
         )
     }
 
     var toQuickCalculationModel: QuickCalculationModel {
         QuickCalculationModel(
             id: id,
+            pinnedDate: pinnedDate,
             calculatedDate: calculatedDate,
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
-            outputCurrenciesCode: outputCurrenciesCode
+            outputCurrencyCodes: outputCurrencyCodes,
+            outputCurrencyAmounts: outputCurrencyAmounts
         )
     }
 }
@@ -53,10 +55,12 @@ extension QuickCalculationModel {
     var toQuickCalculationDTO: QuickCalculationDTO {
         QuickCalculationDTO(
             id: id,
+            pinnedDate: pinnedDate,
             calculatedDate: calculatedDate,
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
-            outputCurrenciesCode: outputCurrenciesCode
+            outputCurrencyCodes: outputCurrencyCodes,
+            outputCurrencyAmounts: outputCurrencyAmounts
         )
     }
 }

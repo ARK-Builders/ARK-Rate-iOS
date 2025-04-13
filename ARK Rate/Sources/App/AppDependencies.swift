@@ -12,6 +12,11 @@ extension DependencyValues {
         set { self[LoadFrequentCurrenciesUseCaseKey.self] = newValue }
     }
 
+    var loadQuickCalculationsUseCase: LoadQuickCalculationsUseCase {
+        get { self[LoadQuickCalculationsUseCaseKey.self] }
+        set { self[LoadQuickCalculationsUseCaseKey.self] = newValue }
+    }
+
     var currencyCalculationUseCase: CurrencyCalculationUseCase {
         get { self[CurrencyCalculationUseCaseKey.self] }
         set { self[CurrencyCalculationUseCaseKey.self] = newValue }
@@ -62,7 +67,9 @@ extension DependencyValues {
 
 private enum LoadCurrenciesUseCaseKey: DependencyKey {
 
-    static let liveValue: LoadCurrenciesUseCase = LoadCurrenciesUseCase(currencyRepository: DependencyValues._current.currencyRepository)
+    static let liveValue: LoadCurrenciesUseCase = LoadCurrenciesUseCase(
+        currencyRepository: DependencyValues._current.currencyRepository
+    )
 }
 
 // MARK: - LoadFrequentCurrenciesUseCase
@@ -75,11 +82,23 @@ private enum LoadFrequentCurrenciesUseCaseKey: DependencyKey {
     )
 }
 
+// MARK: - LoadQuickCalculationsUseCase
+
+private enum LoadQuickCalculationsUseCaseKey: DependencyKey {
+
+    static let liveValue: LoadQuickCalculationsUseCase = LoadQuickCalculationsUseCase(
+        quickCalculationRepository: DependencyValues._current.quickCalculationRepository,
+        currencyCalculationUseCase: DependencyValues._current.currencyCalculationUseCase
+    )
+}
+
 // MARK: - CurrencyCalculationUseCase
 
 private enum CurrencyCalculationUseCaseKey: DependencyKey {
 
-    static let liveValue: CurrencyCalculationUseCase = CurrencyCalculationUseCaseImpl()
+    static let liveValue: CurrencyCalculationUseCase = CurrencyCalculationUseCase(
+        currencyRepository: DependencyValues._current.currencyRepository
+    )
 }
 
 // MARK: - CurrencyRepository

@@ -29,9 +29,6 @@ struct AddQuickCalculationView: View {
         ) { store in
             SearchACurrencyView(store: store)
         }
-        .onAppear {
-            store.send(.loadCurrencies)
-        }
     }
 }
 
@@ -61,7 +58,10 @@ private extension AddQuickCalculationView {
         CurrencyInputView(
             label: StringResource.from.localized,
             name: store.inputCurrency.code,
-            amount: $store.inputCurrency.amount.sending(\.updateInputCurrencyAmount),
+            amount: Binding(
+                get: { store.inputCurrency.displayingAmount },
+                set: { newValue in store.send(.updateInputCurrencyAmount(newValue)) }
+            ),
             placeHolder: StringResource.inputValue.localized,
             action: { store.send(.selectInputCurrency) }
         )
@@ -74,7 +74,7 @@ private extension AddQuickCalculationView {
                 label: isFirstItem ? StringResource.to.localized : nil,
                 name: currency.code,
                 amount: Binding(
-                    get: { currency.amount },
+                    get: { currency.displayingAmount },
                     set: { newValue in store.send(.updateOutputCurrencyAmount(newValue, currency.id)) }
                 ),
                 placeHolder: StringResource.result.localized,
@@ -89,7 +89,7 @@ private extension AddQuickCalculationView {
         VStack {
             PrimaryButton(
                 title: StringResource.save.localized,
-                disabled: store.quickCalculation == nil,
+                disabled: !store.canSave,
                 expandHorizontally: true,
                 action: { store.send(.saveButtonTapped) }
             )

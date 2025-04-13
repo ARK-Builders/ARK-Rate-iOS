@@ -11,7 +11,7 @@ struct LoadFrequentCurrenciesUseCase {
         do {
             let codes = try currencyStatisticRepository
                 .get()
-                .sorted(by: { $0.rating > $1.rating })
+                .sorted { $0.rating > $1.rating }
                 .prefix(Constants.limit)
                 .map(\.code)
             return try currencyRepository.getLocal(where: codes)

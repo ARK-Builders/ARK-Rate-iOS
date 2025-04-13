@@ -7,11 +7,10 @@ struct AddQuickCalculationFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
-        var quickCalculation: QuickCalculation?
+        var canSave: Bool = false
+        var selectionMode: SelectionMode?
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
-        var currencies: [Currency] = []
-        var selectionMode: SelectionMode?
 
         enum SelectionMode: Equatable {
             case inputCurrency
@@ -21,9 +20,6 @@ struct AddQuickCalculationFeature {
     }
 
     enum Action {
-        case backButtonTapped
-        case delegate(Delegate)
-        case loadCurrencies
         case selectInputCurrency
         case updateInputCurrencyAmount(String)
         case selectOutputCurrency(UUID)
@@ -31,6 +27,8 @@ struct AddQuickCalculationFeature {
         case addOutputCurrencyButtonTapped
         case deleteOutputCurrencyButtonTapped(UUID)
         case saveButtonTapped
+        case backButtonTapped
+        case delegate(Delegate)
         case destination(PresentationAction<Destination.Action>)
 
         enum Delegate: Equatable {
@@ -43,7 +41,6 @@ struct AddQuickCalculationFeature {
     @Dependency(\.dismiss) var back
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
     @Dependency(\.currencyStatisticRepository) var currencyStatisticRepository
-    @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
 
     // MARK: - Reducer
@@ -51,8 +48,6 @@ struct AddQuickCalculationFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .backButtonTapped: backButtonTapped()
-            case .loadCurrencies: loadCurrencies(&state)
             case .selectInputCurrency: selectInputCurrency(&state)
             case .updateInputCurrencyAmount(let amount): updateInputCurrencyAmount(&state, amount)
             case .selectOutputCurrency(let id): selectOutputCurrency(&state, id)
@@ -60,6 +55,7 @@ struct AddQuickCalculationFeature {
             case .addOutputCurrencyButtonTapped: addOutputCurrencyButtonTapped(&state)
             case .deleteOutputCurrencyButtonTapped(let id): deleteOutputCurrencyButtonTapped(&state, id)
             case .saveButtonTapped: saveButtonTapped(&state)
+            case .backButtonTapped: backButtonTapped()
             case let .destination(.presented(.searchACurrency(.delegate(.currencyCodeDidSelect(code))))): currencyCodeDidSelect(&state, code)
             default: Effect.none
             }
@@ -79,11 +75,6 @@ private extension AddQuickCalculationFeature {
         }
     }
 
-    func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        state.currencies = loadCurrenciesUseCase.getLocal()
-        return Effect.none
-    }
-
     func selectInputCurrency(_ state: inout State) -> Effect<Action> {
         state.selectionMode = .inputCurrency
         state.destination = .searchACurrency(SearchACurrencyFeature.State())
@@ -91,9 +82,9 @@ private extension AddQuickCalculationFeature {
     }
 
     func updateInputCurrencyAmount(_ state: inout State, _ amount: String) -> Effect<Action> {
-        state.inputCurrency.amount = amount
-        updateQuickCalculation(&state)
-        updateOutputCurrenciesAmount(&state)
+        state.inputCurrency.amount = Decimal.from(amount)
+        updateCanSave(&state)
+        updateOutputCurrencyAmounts(&state)
         return Effect.none
     }
 
@@ -105,7 +96,7 @@ private extension AddQuickCalculationFeature {
 
     func updateOutputCurrencyAmount(_ state: inout State, _ amount: String, _ id: UUID) -> Effect<Action> {
         if let index = state.outputCurrencies.index(id: id) {
-            state.outputCurrencies[index].amount = amount
+            state.outputCurrencies[index].amount = Decimal.from(amount)
         }
         return Effect.none
     }
@@ -118,7 +109,7 @@ private extension AddQuickCalculationFeature {
 
     func deleteOutputCurrencyButtonTapped(_ state: inout State, _ id: UUID) -> Effect<Action> {
         state.outputCurrencies.remove(id: id)
-        updateQuickCalculation(&state)
+        updateCanSave(&state)
         return Effect.none
     }
 
@@ -136,18 +127,24 @@ private extension AddQuickCalculationFeature {
             }
             state.selectionMode = nil
         }
-        updateQuickCalculation(&state)
-        updateOutputCurrenciesAmount(&state)
+        updateCanSave(&state)
+        updateOutputCurrencyAmounts(&state)
         return Effect.none
     }
 
     func saveButtonTapped(_ state: inout State) -> Effect<Action> {
-        if let quickCalculation = state.quickCalculation {
-            do {
-                try quickCalculationRepository.save(quickCalculation)
-                try currencyStatisticRepository.save(quickCalculation.toCurrencyStatistics)
-            } catch {}
-        }
+        guard state.canSave else { return Effect.none }
+        do {
+            let quickCalculation = QuickCalculation(
+                inputCurrencyCode: state.inputCurrency.code,
+                inputCurrencyAmount: state.inputCurrency.amount,
+                outputCurrencyCodes: state.outputCurrencies.map(\.code),
+                outputCurrencyAmounts: state.outputCurrencies.map(\.amount)
+            )
+            let currencyStatistics = quickCalculation.toCurrencyStatistics
+            try quickCalculationRepository.save(quickCalculation)
+            try currencyStatisticRepository.save(currencyStatistics)
+        } catch {}
         return Effect.run { send in
             await send(.delegate(.back))
             await back()
@@ -159,34 +156,18 @@ private extension AddQuickCalculationFeature {
 
 private extension AddQuickCalculationFeature {
 
-    func updateOutputCurrenciesAmount(_ state: inout State) {
-        guard let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount),
-              let inputCurrency = state.currencies.first(where: { $0.code == state.inputCurrency.code }),
-              !state.outputCurrencies.isEmpty else { return }
-        let outputCurrencies = state.currencies.filter { currency in
-            state.outputCurrencies.contains(where: { $0.code == currency.code })
-        }
-        guard !outputCurrencies.isEmpty else { return }
-        let currencyAmounts = currencyCalculationUseCase.execute(
-            inputCurrency: inputCurrency,
-            inputCurrencyAmount: inputCurrencyAmount,
-            outputCurrencies: outputCurrencies
-        )
-        for (index, currency) in state.outputCurrencies.enumerated() {
-            state.outputCurrencies[index].amount = currencyAmounts[currency.code] ?? ""
+    func updateOutputCurrencyAmounts(_ state: inout State) {
+        for (index, outputCurrency) in state.outputCurrencies.enumerated() {
+            state.outputCurrencies[index].amount = currencyCalculationUseCase.execute(
+                inputCurrencyCode: state.inputCurrency.code,
+                inputCurrencyAmount: state.inputCurrency.amount,
+                outputCurrencyCode: outputCurrency.code
+            )
         }
     }
 
-    func updateQuickCalculation(_ state: inout State) {
-        state.quickCalculation = if let inputCurrencyAmount = Decimal(string: state.inputCurrency.amount), !state.outputCurrencies.isEmpty {
-            QuickCalculation(
-                inputCurrencyCode: state.inputCurrency.code,
-                inputCurrencyAmount: inputCurrencyAmount,
-                outputCurrenciesCode: state.outputCurrencies.map { $0.code }
-            )
-        } else {
-            nil
-        }
+    func updateCanSave(_ state: inout State) {
+        state.canSave = state.inputCurrency.isValid && state.outputCurrencies.allSatisfy { $0.isValid }
     }
 }
 
