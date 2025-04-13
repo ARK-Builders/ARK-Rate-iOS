@@ -1,3 +1,5 @@
+import Foundation
+
 struct LoadQuickCalculationsUseCase {
 
     // MARK: - Properties
@@ -23,7 +25,10 @@ struct LoadQuickCalculationsUseCase {
                             outputCurrencyCode: outputCurrencyCode
                         )
                     }
-                    return calculation.toQuickCalculation(outputCurrencyAmounts: outputCurrencyAmounts)
+                    return calculation.toQuickCalculation(
+                        calculatedDate: Date(),
+                        outputCurrencyAmounts: outputCurrencyAmounts
+                    )
                 }
                 .sorted { $0.calculatedDate > $1.calculatedDate }
         } catch {

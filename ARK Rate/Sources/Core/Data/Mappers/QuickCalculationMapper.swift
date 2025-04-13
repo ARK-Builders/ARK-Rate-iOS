@@ -20,7 +20,10 @@ extension QuickCalculation {
         ([inputCurrencyCode] + outputCurrencyCodes).map { CurrencyStatistic(code: $0) }
     }
 
-    func toQuickCalculation(outputCurrencyAmounts: [Decimal]) -> QuickCalculation {
+    func toQuickCalculation(
+        calculatedDate: Date,
+        outputCurrencyAmounts: [Decimal]
+    ) -> QuickCalculation {
         QuickCalculation(
             id: id,
             pinnedDate: pinnedDate,
