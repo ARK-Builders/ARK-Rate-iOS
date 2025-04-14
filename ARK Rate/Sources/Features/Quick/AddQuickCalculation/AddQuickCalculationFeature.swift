@@ -83,8 +83,8 @@ private extension AddQuickCalculationFeature {
 
     func updateInputCurrencyAmount(_ state: inout State, _ amount: String) -> Effect<Action> {
         state.inputCurrency.amount = Decimal.from(amount)
-        updateCanSave(&state)
         updateOutputCurrencyAmounts(&state)
+        updateCanSave(&state)
         return Effect.none
     }
 
@@ -127,8 +127,8 @@ private extension AddQuickCalculationFeature {
             }
             state.selectionMode = nil
         }
-        updateCanSave(&state)
         updateOutputCurrencyAmounts(&state)
+        updateCanSave(&state)
         return Effect.none
     }
 
@@ -165,7 +165,9 @@ private extension AddQuickCalculationFeature {
     }
 
     func updateCanSave(_ state: inout State) {
-        state.canSave = state.inputCurrency.isValid && state.outputCurrencies.allSatisfy { $0.isValid }
+        state.canSave = state.inputCurrency.isValid &&
+        !state.outputCurrencies.isEmpty &&
+        state.outputCurrencies.allSatisfy { $0.isValid }
     }
 }
 
