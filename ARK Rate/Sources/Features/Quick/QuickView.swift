@@ -52,7 +52,7 @@ private extension QuickView {
         )
         .showsCancelButton(isSearchBarEditing)
         .textFieldBackgroundColor(Color.backgroundPrimary)
-        .padding(.horizontal, 8)
+        .padding(.horizontal, Constants.spacing)
     }
 
     var contentListView: some View {

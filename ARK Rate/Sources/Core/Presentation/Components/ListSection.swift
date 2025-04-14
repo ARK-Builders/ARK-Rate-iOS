@@ -14,6 +14,7 @@ struct ListSection<Content: View>: View {
             header: Text(title)
                 .foregroundColor(Color.textTertiary)
                 .font(Font.customInterMedium(size: 14))
+                .padding(.horizontal, 8)
         ) {
             content()
         }

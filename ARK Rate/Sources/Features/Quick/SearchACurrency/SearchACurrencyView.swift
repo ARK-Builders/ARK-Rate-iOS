@@ -120,7 +120,7 @@ private extension SearchACurrencyView {
 private extension SearchACurrencyView {
 
     enum Constants {
-        static let spacing: CGFloat = 8
+        static let spacing: CGFloat = 16
     }
 
     enum StringResource: String.LocalizationValue {
