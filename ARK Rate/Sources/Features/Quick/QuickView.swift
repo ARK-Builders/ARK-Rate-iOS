@@ -40,7 +40,7 @@ private extension QuickView {
                 contentListView
             }
         } else {
-            calculationEmptyStateView
+            emptyStateView
         }
     }
 
@@ -69,7 +69,7 @@ private extension QuickView {
             }
             .listStyle(.plain)
             if store.isSearching && store.displayingCurrencies.isEmpty {
-                currencyEmptyStateView
+                CurrencyEmptyStateView()
             }
             addButton
         }
@@ -164,11 +164,6 @@ private extension QuickView {
         }
     }
 
-    var currencyEmptyStateView: some View {
-        CurrencyEmptyStateView()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
     var addButton: some View {
         Button(
             action: { store.send(.addNewCalculationButtonTapped) },
@@ -183,7 +178,7 @@ private extension QuickView {
         )
     }
 
-    var calculationEmptyStateView: some View {
+    var emptyStateView: some View {
         CalculationEmptyStateView {
             store.send(.addNewCalculationButtonTapped)
         }

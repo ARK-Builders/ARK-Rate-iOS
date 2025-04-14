@@ -6,9 +6,13 @@ struct SearchACurrencyFeature {
     @ObservableState
     struct State: Equatable {
         var searchText = String.empty
-        var currencies: [CurrencyDisplayModel] = []
         var allCurrencies: [CurrencyDisplayModel] = []
         var frequentCurrencies: [CurrencyDisplayModel] = []
+        var displayingCurrencies: [CurrencyDisplayModel] = []
+
+        var isSearching: Bool {
+            !searchText.isTrimmedEmpty
+        }
     }
 
     enum Action {
@@ -57,10 +61,8 @@ private extension SearchACurrencyFeature {
     }
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        let currencies = loadCurrenciesUseCase.getLocal()
+        state.allCurrencies = loadCurrenciesUseCase.getLocal()
             .map(\.toCurrencyDisplayModel)
-        state.currencies = currencies
-        state.allCurrencies = currencies
         return Effect.none
     }
 
@@ -72,16 +74,10 @@ private extension SearchACurrencyFeature {
 
     func searchTextUpdated(_ state: inout State, _ searchText: String) -> Effect<Action> {
         state.searchText = searchText
-
-        if searchText.isEmpty {
-            state.currencies = state.allCurrencies
-        } else {
-            state.currencies = state.allCurrencies.filter {
-                $0.id.localizedCaseInsensitiveContains(searchText) ||
-                $0.name.localizedCaseInsensitiveContains(searchText)
-            }
-        }
-
+        state.displayingCurrencies = state.isSearching ? state.allCurrencies.filter {
+            $0.id.localizedCaseInsensitiveContains(searchText) ||
+            $0.name.localizedCaseInsensitiveContains(searchText)
+        } : []
         return Effect.none
     }
 

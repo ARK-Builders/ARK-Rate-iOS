@@ -13,7 +13,7 @@ struct CurrencyEmptyStateView: View {
                 .foregroundColor(Color.textPrimary)
                 .font(Font.customInterSemiBold(size: 20))
         }
-        .padding(.horizontal, Constants.spacing)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

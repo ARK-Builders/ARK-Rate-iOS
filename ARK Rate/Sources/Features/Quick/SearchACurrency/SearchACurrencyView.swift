@@ -6,21 +6,13 @@ struct SearchACurrencyView: View {
 
     // MARK: - Properties
 
-    @State var isSearching = false
-
+    @State var isSearchBarEditing = false
     @Binding var store: StoreOf<SearchACurrencyFeature>
 
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 0) {
-            searchBar
-            List {
-                frequentCurrenciesSection
-                allCurrenciesSection
-            }
-            .listStyle(.plain)
-        }
+        content
         .background(Color.backgroundPrimary)
         .modifier(
             NavigationBarModifier(
@@ -39,15 +31,39 @@ struct SearchACurrencyView: View {
 
 private extension SearchACurrencyView {
 
+    var content: some View {
+        VStack(spacing: 0) {
+            searchBar
+            contentListView
+        }
+    }
+
     var searchBar: some View {
         SearchBar(
             StringResource.search.localized,
             text: $store.searchText.sending(\.searchTextUpdated),
-            isEditing: $isSearching
+            isEditing: $isSearchBarEditing
         )
-        .showsCancelButton(isSearching)
+        .showsCancelButton(isSearchBarEditing)
         .textFieldBackgroundColor(Color.backgroundPrimary)
         .padding(.horizontal, Constants.spacing)
+    }
+
+    var contentListView: some View {
+        ZStack {
+            List {
+                if !store.isSearching {
+                    frequentCurrenciesSection
+                    allCurrenciesSection
+                } else {
+                    searchingCurrenciesSection
+                }
+            }
+            .listStyle(.plain)
+            if store.isSearching && store.displayingCurrencies.isEmpty {
+                CurrencyEmptyStateView()
+            }
+        }
     }
 
     @ViewBuilder
@@ -68,13 +84,29 @@ private extension SearchACurrencyView {
 
     var allCurrenciesSection: some View {
         ListSection(title: StringResource.allCurrencies.localized) {
-            ForEach(store.currencies, id: \.id) { currency in
+            ForEach(store.allCurrencies, id: \.id) { currency in
                 CurrencyRowView(
                     code: currency.id,
                     name: currency.name,
                     action: { store.send(.currencyCodeSelected(currency.id)) }
                 )
                 .modifier(PlainListRowModifier())
+            }
+        }
+    }
+
+    @ViewBuilder
+    var searchingCurrenciesSection: some View {
+        if !store.displayingCurrencies.isEmpty {
+            ListSection(title: StringResource.topResults.localized) {
+                ForEach(store.displayingCurrencies, id: \.id) { currency in
+                    CurrencyRowView(
+                        code: currency.id,
+                        name: currency.name,
+                        action: {}
+                    )
+                    .modifier(PlainListRowModifier())
+                }
             }
         }
     }
@@ -93,6 +125,7 @@ private extension SearchACurrencyView {
         case search
         case allCurrencies = "all_currencies"
         case frequentCurrencies = "frequent_currencies"
+        case topResults = "top_results"
 
         var localized: String {
             String(localized: rawValue)
