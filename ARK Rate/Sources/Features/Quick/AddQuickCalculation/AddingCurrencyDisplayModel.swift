@@ -9,7 +9,7 @@ struct AddingCurrencyDisplayModel: Identifiable, Equatable {
     var amount: Decimal
 
     var displayingAmount: String {
-        amount > 0 ? "\(amount.formattedRate)" : ""
+        amount > 0 ? "\(amount.formattedRate)" : String.empty
     }
 
     var isValid: Bool {
@@ -18,7 +18,7 @@ struct AddingCurrencyDisplayModel: Identifiable, Equatable {
 
     // MARK: - Initialization
 
-    init(code: String = "",
+    init(code: String = String.empty,
          amount: Decimal = 0
     ) {
         self.code = code

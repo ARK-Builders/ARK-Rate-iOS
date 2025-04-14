@@ -1407,6 +1407,17 @@
         }
       }
     },
+    "no_result" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No result"
+          }
+        }
+      }
+    },
     "NOK" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1715,9 +1726,6 @@
         }
       }
     },
-    "Search" : {
-
-    },
     "search_a_currency" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1934,6 +1942,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tongan Pa'anga"
+          }
+        }
+      }
+    },
+    "top_results" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top results"
           }
         }
       }

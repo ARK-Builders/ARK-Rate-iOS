@@ -73,8 +73,7 @@ struct ActionButton: View {
         .clipShape(
             RoundedRectangle(cornerRadius: 8)
         )
-        .disabled(disabled)
-        .opacity(!disabled ? 1 : 0.5)
+        .modifier(DisabledModifier(disabled: disabled))
     }
 }
 

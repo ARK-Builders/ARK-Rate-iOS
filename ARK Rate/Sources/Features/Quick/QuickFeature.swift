@@ -7,10 +7,16 @@ struct QuickFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
+        var searchText = String.empty
         var pinnedCalculations: IdentifiedArrayOf<QuickCalculationDisplayModel> = []
         var calculatedCalculations: IdentifiedArrayOf<QuickCalculationDisplayModel> = []
+        var allCurrencies: [CurrencyDisplayModel] = []
         var frequentCurrencies: [CurrencyDisplayModel] = []
         var displayingCurrencies: [CurrencyDisplayModel] = []
+
+        var isSearching: Bool {
+            !searchText.isTrimmedEmpty
+        }
     }
 
     enum Action {
@@ -22,6 +28,7 @@ struct QuickFeature {
         case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
         case togglePinnedButtonTapped(id: UUID)
+        case searchTextUpdated(String)
         case hideTabbar
         case showTabbar
         case destination(PresentationAction<Destination.Action>)
@@ -48,6 +55,7 @@ struct QuickFeature {
             case .currenciesUpdated: .send(.loadPinnedCalculations)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .togglePinnedButtonTapped(let id): togglePinnedButtonTapped(&state, id)
+            case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
             }
@@ -84,7 +92,7 @@ private extension QuickFeature {
     }
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
-        state.displayingCurrencies = loadCurrenciesUseCase.getLocal()
+        state.allCurrencies = loadCurrenciesUseCase.getLocal()
             .map(\.toCurrencyDisplayModel)
         return Effect.none
     }
@@ -106,6 +114,15 @@ private extension QuickFeature {
             .send(.loadPinnedCalculations),
             .send(.loadCalculatedCalculations)
         )
+    }
+
+    func searchTextUpdated(_ state: inout State, _ searchText: String) -> Effect<Action> {
+        state.searchText = searchText
+        state.displayingCurrencies = state.isSearching ? state.allCurrencies.filter {
+            $0.id.localizedCaseInsensitiveContains(searchText) ||
+            $0.name.localizedCaseInsensitiveContains(searchText)
+        } : []
+        return Effect.none
     }
 }
 
