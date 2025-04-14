@@ -7,7 +7,7 @@ protocol FiatCurrenciesRateAPI {
 
 // MARK: -
 
-final class FiatCurrenciesRateAPIClient: FiatCurrenciesRateAPI {
+struct FiatCurrenciesRateAPIClient: FiatCurrenciesRateAPI {
 
     // MARK: - Constants
 

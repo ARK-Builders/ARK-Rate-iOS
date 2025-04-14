@@ -7,7 +7,7 @@ protocol CryptoCurrenciesRateAPI {
 
 // MARK: -
 
-final class CryptoCurrenciesRateAPIClient: CryptoCurrenciesRateAPI {
+struct CryptoCurrenciesRateAPIClient: CryptoCurrenciesRateAPI {
 
     // MARK: - Constants
 

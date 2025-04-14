@@ -1,16 +1,10 @@
 import Foundation
 
-final class QuickCalculationRepositoryImpl: QuickCalculationRepository {
+struct QuickCalculationRepositoryImpl: QuickCalculationRepository {
 
     // MARK: - Properties
 
-    private let localDataSource: QuickCalculationLocalDataSource
-
-    // MARK: - Initialization
-
-    init(localDataSource: QuickCalculationLocalDataSource) {
-        self.localDataSource = localDataSource
-    }
+    let localDataSource: QuickCalculationLocalDataSource
 
     // MARK: - Conformance
 

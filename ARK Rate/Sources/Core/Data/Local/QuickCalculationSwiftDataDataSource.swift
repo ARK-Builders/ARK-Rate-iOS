@@ -10,7 +10,7 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
     }
 
     func get() throws -> [QuickCalculationDTO] {
-        let models: [QuickCalculationModel] = try SwiftDataManager.shared.get()
+        let models: [QuickCalculationModel] = try SwiftDataManager.shared.get(predicate: #Predicate { $0.pinnedDate == nil })
         return models.map(\.toQuickCalculationDTO)
     }
 
