@@ -5,6 +5,7 @@ struct SearchACurrencyFeature {
 
     @ObservableState
     struct State: Equatable {
+        let disabledCodes: Set<String>
         var searchText = String.empty
         var allCurrencies: [CurrencyDisplayModel] = []
         var frequentCurrencies: [CurrencyDisplayModel] = []
@@ -62,13 +63,13 @@ private extension SearchACurrencyFeature {
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
         state.allCurrencies = loadCurrenciesUseCase.getLocal()
-            .map(\.toCurrencyDisplayModel)
+            .map { $0.toCurrencyDisplayModel(disabled: state.disabledCodes.contains($0.code)) }
         return Effect.none
     }
 
     func loadFrequentCurrencies(_ state: inout State) -> Effect<Action> {
         state.frequentCurrencies = loadFrequentCurrenciesUseCase.execute()
-            .map(\.toCurrencyDisplayModel)
+            .map { $0.toCurrencyDisplayModel(disabled: state.disabledCodes.contains($0.code)) }
         return Effect.none
     }
 

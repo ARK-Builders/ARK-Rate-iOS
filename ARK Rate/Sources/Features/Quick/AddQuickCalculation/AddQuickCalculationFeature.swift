@@ -12,6 +12,10 @@ struct AddQuickCalculationFeature {
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
 
+        var codes: Set<String> {
+            Set([inputCurrency.code] + outputCurrencies.map(\.code))
+        }
+
         enum SelectionMode: Equatable {
             case inputCurrency
             case addingOutputCurrency
@@ -77,7 +81,7 @@ private extension AddQuickCalculationFeature {
 
     func selectInputCurrency(_ state: inout State) -> Effect<Action> {
         state.selectionMode = .inputCurrency
-        state.destination = .searchACurrency(SearchACurrencyFeature.State())
+        state.destination = .searchACurrency(SearchACurrencyFeature.State(disabledCodes: state.codes))
         return Effect.none
     }
 
@@ -90,7 +94,7 @@ private extension AddQuickCalculationFeature {
 
     func selectOutputCurrency(_ state: inout State, _ id: UUID) -> Effect<Action> {
         state.selectionMode = .outputCurrency(id: id)
-        state.destination = .searchACurrency(SearchACurrencyFeature.State())
+        state.destination = .searchACurrency(SearchACurrencyFeature.State(disabledCodes: state.codes))
         return Effect.none
     }
 
@@ -103,7 +107,7 @@ private extension AddQuickCalculationFeature {
 
     func addOutputCurrencyButtonTapped(_ state: inout State) -> Effect<Action> {
         state.selectionMode = .addingOutputCurrency
-        state.destination = .searchACurrency(SearchACurrencyFeature.State())
+        state.destination = .searchACurrency(SearchACurrencyFeature.State(disabledCodes: state.codes))
         return Effect.none
     }
 

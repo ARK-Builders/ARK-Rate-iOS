@@ -6,6 +6,7 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
 
     let id: String
     let amount: Decimal
+    let disabled: Bool
 
     var name: String {
         String(localized: String.LocalizationValue(id))
@@ -19,9 +20,11 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
 
     init(
         code: String,
-        amount: Decimal = 0
+        amount: Decimal = 0,
+        disabled: Bool = false
     ) {
         self.id = code
         self.amount = amount
+        self.disabled = disabled
     }
 }

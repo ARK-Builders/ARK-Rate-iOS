@@ -77,6 +77,7 @@ private extension SearchACurrencyView {
                         action: { store.send(.currencyCodeSelected(currency.id)) }
                     )
                     .modifier(PlainListRowModifier())
+                    .modifier(DisabledModifier(disabled: currency.disabled))
                 }
             }
         }
@@ -91,6 +92,7 @@ private extension SearchACurrencyView {
                     action: { store.send(.currencyCodeSelected(currency.id)) }
                 )
                 .modifier(PlainListRowModifier())
+                .modifier(DisabledModifier(disabled: currency.disabled))
             }
         }
     }
@@ -106,6 +108,7 @@ private extension SearchACurrencyView {
                         action: {}
                     )
                     .modifier(PlainListRowModifier())
+                    .modifier(DisabledModifier(disabled: currency.disabled))
                 }
             }
         }
