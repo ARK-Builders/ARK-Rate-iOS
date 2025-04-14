@@ -1,8 +1,11 @@
+import Foundation
+
 struct LoadCurrenciesUseCase {
 
     // MARK: - Properties
 
     let currencyRepository: CurrencyRepository
+    let metadataRepository: MetadataRepository
 
     // MARK: - Methods
 
@@ -16,6 +19,7 @@ struct LoadCurrenciesUseCase {
                 let remoteCurrencies = try await currencyRepository.fetchRemote()
                     .sorted { $0.code < $1.code }
                 continuation.yield(remoteCurrencies)
+                metadataRepository.recordCurrenciesFetchDate()
 
                 continuation.finish()
             }

@@ -42,6 +42,11 @@ extension DependencyValues {
         set { self[QuickCalculationRepositoryKey.self] = newValue }
     }
 
+    var metadataRepository: MetadataRepository {
+        get { self[MetadataRepositoryKey.self] }
+        set { self[MetadataRepositoryKey.self] = newValue }
+    }
+
     var fiatCurrenciesRateAPI: FiatCurrenciesRateAPI {
         get { self[FiatCurrenciesRateAPIKey.self] }
         set { self[FiatCurrenciesRateAPIKey.self] = newValue }
@@ -73,7 +78,8 @@ extension DependencyValues {
 private enum LoadCurrenciesUseCaseKey: DependencyKey {
 
     static let liveValue: LoadCurrenciesUseCase = LoadCurrenciesUseCase(
-        currencyRepository: DependencyValues._current.currencyRepository
+        currencyRepository: DependencyValues._current.currencyRepository,
+        metadataRepository: DependencyValues._current.metadataRepository
     )
 }
 
@@ -93,7 +99,8 @@ private enum LoadQuickCalculationsUseCaseKey: DependencyKey {
 
     static let liveValue: LoadQuickCalculationsUseCase = LoadQuickCalculationsUseCase(
         quickCalculationRepository: DependencyValues._current.quickCalculationRepository,
-        currencyCalculationUseCase: DependencyValues._current.currencyCalculationUseCase
+        currencyCalculationUseCase: DependencyValues._current.currencyCalculationUseCase,
+        metadataRepository: DependencyValues._current.metadataRepository
     )
 }
 
@@ -147,6 +154,13 @@ private enum CurrencyStatisticRepositoryKey: DependencyKey {
     static let liveValue: CurrencyStatisticRepository = CurrencyStatisticRepositoryImpl(
         localDataSource: DependencyValues._current.currencyStatisticLocalDataSource
     )
+}
+
+// MARK: - MetadataRepository
+
+private enum MetadataRepositoryKey: DependencyKey {
+
+    static let liveValue: MetadataRepository = MetadataRepositoryImpl(userDefaults: .standard)
 }
 
 // MARK: - FiatCurrenciesRateAPI

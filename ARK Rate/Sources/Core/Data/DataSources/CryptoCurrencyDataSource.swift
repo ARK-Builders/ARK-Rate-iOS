@@ -1,14 +1,8 @@
-final class CryptoCurrencyDataSource: CurrencyRemoteDataSource {
+struct CryptoCurrencyDataSource: CurrencyRemoteDataSource {
 
     // MARK: - Properties
 
-    private let apiClient: CryptoCurrenciesRateAPI
-
-    // MARK: - Initialziation
-
-    init(apiClient: CryptoCurrenciesRateAPI) {
-        self.apiClient = apiClient
-    }
+    let apiClient: CryptoCurrenciesRateAPI
 
     // MARK: - Conformance
 

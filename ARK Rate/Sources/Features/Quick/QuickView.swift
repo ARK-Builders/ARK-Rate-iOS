@@ -20,7 +20,7 @@ struct QuickView: View {
                 AddQuickCalculationView(store: store)
             }
             .onAppear {
-                store.send(.loadCalculatedCalculations)
+                store.send(.loadListContent)
             }
         }
     }
@@ -32,10 +32,10 @@ private extension QuickView {
 
     @ViewBuilder
     var content: some View {
-        if store.calculatedCalculations.isEmpty {
-            emptyStateView
-        } else {
+        if !store.calculatedCalculations.isEmpty || !store.pinnedCalculations.isEmpty {
             list
+        } else {
+            emptyStateView
         }
     }
 
@@ -69,27 +69,35 @@ private extension QuickView {
                         elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
                         action: {}
                     )
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        makeTogglePinnedButton(for: calculation, action: {
+                            store.send(.togglePinnedButtonTapped(id: calculation.id))
+                        })
+                    }
                     .modifier(PlainListRowModifier())
                 }
             }
         }
     }
 
+    @ViewBuilder
     var calculatedCalculationsSection: some View {
-        ListSection(title: StringResource.calculations.localized) {
-            ForEach(store.calculatedCalculations, id: \.id) { calculation in
-                CurrencyCalculationRowView(
-                    input: calculation.input,
-                    outputs: calculation.outputs,
-                    elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
-                    action: {}
-                )
-                .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                    makeTogglePinnedButton(for: calculation, action: {
-                        store.send(.togglePinnedButtonTapped(id: calculation.id))
-                    })
+        if !store.calculatedCalculations.isEmpty {
+            ListSection(title: StringResource.calculations.localized) {
+                ForEach(store.calculatedCalculations, id: \.id) { calculation in
+                    CurrencyCalculationRowView(
+                        input: calculation.input,
+                        outputs: calculation.outputs,
+                        elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
+                        action: {}
+                    )
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        makeTogglePinnedButton(for: calculation, action: {
+                            store.send(.togglePinnedButtonTapped(id: calculation.id))
+                        })
+                    }
+                    .modifier(PlainListRowModifier())
                 }
-                .modifier(PlainListRowModifier())
             }
         }
     }

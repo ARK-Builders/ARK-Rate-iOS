@@ -28,7 +28,7 @@ extension Date {
         case let (_, _, minute, _) where minute > 0:
             return StringResource.minute.localizedFormat(minute)
         default:
-            let seconds = components.second ?? 0
+            let seconds = max(components.second ?? 0, 1)
             return StringResource.second.localizedFormat(seconds)
         }
     }

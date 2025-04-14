@@ -6,6 +6,7 @@ struct LoadQuickCalculationsUseCase {
 
     let quickCalculationRepository: QuickCalculationRepository
     let currencyCalculationUseCase: CurrencyCalculationUseCase
+    let metadataRepository: MetadataRepository
 
     // MARK: - Methods
 
@@ -26,7 +27,7 @@ struct LoadQuickCalculationsUseCase {
                         )
                     }
                     return calculation.toQuickCalculation(
-                        calculatedDate: Date(),
+                        calculatedDate: metadataRepository.lastCurrenciesFetchDate() ?? Date(),
                         outputCurrencyAmounts: outputCurrencyAmounts
                     )
                 }

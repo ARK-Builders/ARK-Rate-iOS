@@ -1,14 +1,8 @@
-final class FiatCurrencyDataSource: CurrencyRemoteDataSource {
+struct FiatCurrencyDataSource: CurrencyRemoteDataSource {
 
     // MARK: - Properties
 
-    private let apiClient: FiatCurrenciesRateAPI
-
-    // MARK: - Initialziation
-
-    init(apiClient: FiatCurrenciesRateAPI) {
-        self.apiClient = apiClient
-    }
+    let apiClient: FiatCurrenciesRateAPI
 
     // MARK: - Conformance
 

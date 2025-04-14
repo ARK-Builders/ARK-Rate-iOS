@@ -1,14 +1,8 @@
-final class CurrencyStatisticRepositoryImpl: CurrencyStatisticRepository {
+struct CurrencyStatisticRepositoryImpl: CurrencyStatisticRepository {
 
     // MARK: - Properties
 
-    private let localDataSource: CurrencyStatisticLocalDataSource
-
-    // MARK: - Initialization
-
-    init(localDataSource: CurrencyStatisticLocalDataSource) {
-        self.localDataSource = localDataSource
-    }
+    let localDataSource: CurrencyStatisticLocalDataSource
 
     // MARK: - Conformance
 
