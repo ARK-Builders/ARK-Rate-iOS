@@ -31,7 +31,7 @@ struct LoadQuickCalculationsUseCase {
                         outputCurrencyAmounts: outputCurrencyAmounts
                     )
                 }
-                .sorted { $0.calculatedDate > $1.calculatedDate }
+                .sorted { $0.pinnedDate! > $1.pinnedDate! }
         } catch {
             return []
         }

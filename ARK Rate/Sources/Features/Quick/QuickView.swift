@@ -1,10 +1,12 @@
 import SwiftUI
+import SwiftUIX
 import ComposableArchitecture
 
 struct QuickView: View {
 
     // MARK: - Properties
 
+    @State var isSearchBarEditing = false
     @Bindable var store: StoreOf<QuickFeature>
 
     // MARK: - Body
@@ -33,27 +35,42 @@ private extension QuickView {
     @ViewBuilder
     var content: some View {
         if !store.calculatedCalculations.isEmpty || !store.pinnedCalculations.isEmpty {
-            list
+            VStack(spacing: 0) {
+                searchBar
+                contentListView
+            }
         } else {
-            emptyStateView
+            calculationEmptyStateView
         }
     }
 
-    var emptyStateView: some View {
-        CalculationEmptyStateView {
-            store.send(.addNewCalculationButtonTapped)
-        }
+    var searchBar: some View {
+        SearchBar(
+            StringResource.search.localized,
+            text: $store.searchText.sending(\.searchTextUpdated),
+            isEditing: $isSearchBarEditing
+        )
+        .showsCancelButton(isSearchBarEditing)
+        .textFieldBackgroundColor(Color.backgroundPrimary)
+        .padding(.horizontal, 8)
     }
 
-    var list: some View {
+    var contentListView: some View {
         ZStack(alignment: .bottomTrailing) {
             List {
-                pinnedPairsSection
-                calculatedCalculationsSection
-                frequentCurrenciesSection
-                allCurrenciesSection
+                if !store.isSearching {
+                    pinnedPairsSection
+                    calculatedCalculationsSection
+                    frequentCurrenciesSection
+                    allCurrenciesSection
+                } else {
+                    searchingCurrenciesSection
+                }
             }
             .listStyle(.plain)
+            if store.isSearching && store.displayingCurrencies.isEmpty {
+                currencyEmptyStateView
+            }
             addButton
         }
     }
@@ -120,7 +137,7 @@ private extension QuickView {
 
     var allCurrenciesSection: some View {
         ListSection(title: StringResource.allCurrencies.localized) {
-            ForEach(store.displayingCurrencies, id: \.id) { currency in
+            ForEach(store.allCurrencies, id: \.id) { currency in
                 CurrencyRowView(
                     code: currency.id,
                     name: currency.name,
@@ -129,6 +146,27 @@ private extension QuickView {
                 .modifier(PlainListRowModifier())
             }
         }
+    }
+
+    @ViewBuilder
+    var searchingCurrenciesSection: some View {
+        if !store.displayingCurrencies.isEmpty {
+            ListSection(title: StringResource.topResults.localized) {
+                ForEach(store.displayingCurrencies, id: \.id) { currency in
+                    CurrencyRowView(
+                        code: currency.id,
+                        name: currency.name,
+                        action: {}
+                    )
+                    .modifier(PlainListRowModifier())
+                }
+            }
+        }
+    }
+
+    var currencyEmptyStateView: some View {
+        CurrencyEmptyStateView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     var addButton: some View {
@@ -143,6 +181,12 @@ private extension QuickView {
                     .padding(16)
             }
         )
+    }
+
+    var calculationEmptyStateView: some View {
+        CalculationEmptyStateView {
+            store.send(.addNewCalculationButtonTapped)
+        }
     }
 }
 
@@ -176,12 +220,14 @@ private extension QuickView {
 
     enum StringResource: String.LocalizationValue {
         case title = "quick_title"
+        case search
         case pinnedPairs = "pinned_pairs"
         case calculations
         case lastRefreshedAgo = "last_refreshed_ago"
         case calculatedOnAgo = "calculated_on_ago"
         case allCurrencies = "all_currencies"
         case frequentCurrencies = "frequent_currencies"
+        case topResults = "top_results"
 
         var localized: String {
             String(localized: rawValue)

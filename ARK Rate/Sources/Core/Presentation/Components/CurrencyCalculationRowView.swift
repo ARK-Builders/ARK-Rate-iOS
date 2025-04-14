@@ -129,12 +129,12 @@ private extension CurrencyCalculationRowView {
         let take = 2
         let ids = outputs.map(\.id)
         let prefixIds = ids.prefix(take).joined(separator: ", ")
-        let remaining = outputs.count > take ? ", \(StringResource.and.localized) \(outputs.count - take)+" : ""
+        let remaining = outputs.count > take ? ", \(StringResource.and.localized) \(outputs.count - take)+" : String.empty
         return "\(input.id) \(StringResource.to.localized.lowercased()) \(prefixIds)\(remaining)"
     }
 
     var subtitle: String {
-        let remaining = isExpanded ? "" : "\(outputs.first?.formattedAmount ?? "")"
+        let remaining = isExpanded ? String.empty : "\(outputs.first?.formattedAmount ?? String.empty)"
         return "\(input.formattedAmount) = \(remaining)"
     }
 

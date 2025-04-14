@@ -5,7 +5,7 @@ struct SearchACurrencyFeature {
 
     @ObservableState
     struct State: Equatable {
-        var searchText = ""
+        var searchText = String.empty
         var currencies: [CurrencyDisplayModel] = []
         var allCurrencies: [CurrencyDisplayModel] = []
         var frequentCurrencies: [CurrencyDisplayModel] = []

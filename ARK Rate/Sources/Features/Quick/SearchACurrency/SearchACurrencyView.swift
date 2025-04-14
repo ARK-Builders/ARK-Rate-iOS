@@ -85,12 +85,12 @@ private extension SearchACurrencyView {
 private extension SearchACurrencyView {
 
     enum Constants {
-        static let spacing: CGFloat = 16
+        static let spacing: CGFloat = 8
     }
 
     enum StringResource: String.LocalizationValue {
         case title = "search_a_currency"
-        case search = "Search"
+        case search
         case allCurrencies = "all_currencies"
         case frequentCurrencies = "frequent_currencies"
 
