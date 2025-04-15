@@ -28,7 +28,7 @@ struct CalculationEmptyStateView: View {
                 action: action
             )
         }
-        .padding(.horizontal, 8)
+        .padding(.horizontal, 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

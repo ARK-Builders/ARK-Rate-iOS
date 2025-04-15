@@ -78,7 +78,7 @@ private extension QuickView {
     @ViewBuilder
     var pinnedPairsSection: some View {
         if !store.pinnedCalculations.isEmpty {
-            ListSection(title: StringResource.pinnedPairs.localized) {
+            ListSection(title: StringResource.pinnedCalculations.localized) {
                 ForEach(store.pinnedCalculations, id: \.id) { calculation in
                     CurrencyCalculationRowView(
                         input: calculation.input,
@@ -216,7 +216,7 @@ private extension QuickView {
     enum StringResource: String.LocalizationValue {
         case title = "quick_title"
         case search
-        case pinnedPairs = "pinned_pairs"
+        case pinnedCalculations = "pinned_calculations"
         case calculations
         case lastRefreshedAgo = "last_refreshed_ago"
         case calculatedOnAgo = "calculated_on_ago"
