@@ -5,11 +5,13 @@ struct ActionButton: View {
     enum Style {
         case primary
         case secondary
+        case custom(foregroundColor: Color, backgroundColor: Color)
 
         var foregroundColor: Color {
             switch self {
             case .primary: Color.white
             case .secondary: Color.textSecondary
+            case .custom(let foregroundColor, _): foregroundColor
             }
         }
 
@@ -17,6 +19,7 @@ struct ActionButton: View {
             switch self {
             case .primary: Color.brandSolid
             case .secondary: Color.clear
+            case .custom(_, let backgroundColor): backgroundColor
             }
         }
     }

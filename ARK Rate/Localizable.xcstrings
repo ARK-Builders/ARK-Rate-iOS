@@ -512,6 +512,16 @@
         }
       }
     },
+    "delete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
     "DJF" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -552,6 +562,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Algerian Dinar"
+          }
+        }
+      }
+    },
+    "edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
           }
         }
       }
@@ -1462,6 +1483,17 @@
         }
       }
     },
+    "options" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Options"
+          }
+        }
+      }
+    },
     "PAB" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1517,13 +1549,13 @@
         }
       }
     },
-    "pinned_pairs" : {
+    "pinned_calculations" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pinned Pairs"
+            "value" : "Pinned calculations"
           }
         }
       }
@@ -1612,6 +1644,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Result"
+          }
+        }
+      }
+    },
+    "reuse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Re-use"
           }
         }
       }

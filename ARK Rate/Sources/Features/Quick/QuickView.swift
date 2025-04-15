@@ -7,6 +7,7 @@ struct QuickView: View {
     // MARK: - Properties
 
     @State var isSearchBarEditing = false
+    @State var isShowingCalculationOptions = false
     @Bindable var store: StoreOf<QuickFeature>
 
     // MARK: - Body
@@ -16,6 +17,19 @@ struct QuickView: View {
             content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.backgroundPrimary)
+            .sheet(isPresented: $isShowingCalculationOptions) {
+                CalculationOptionsView(
+                    pinButtonAction: {},
+                    editButtonAction: {},
+                    reuseButtonAction: {},
+                    deleteButtonAction: {},
+                    closeButtonAction: {
+                        isShowingCalculationOptions = true
+                    }
+                )
+                .presentationCornerRadius(20)
+                .presentationDetents([.fraction(hasExtendedTopArea ? 0.4 : 0.5)])
+            }
             .navigationDestination(
                 item: $store.scope(state: \.destination?.addQuickCalculation, action: \.destination.addQuickCalculation)
             ) { store in
@@ -78,13 +92,13 @@ private extension QuickView {
     @ViewBuilder
     var pinnedPairsSection: some View {
         if !store.pinnedCalculations.isEmpty {
-            ListSection(title: StringResource.pinnedPairs.localized) {
+            ListSection(title: StringResource.pinnedCalculations.localized) {
                 ForEach(store.pinnedCalculations, id: \.id) { calculation in
                     CurrencyCalculationRowView(
                         input: calculation.input,
                         outputs: calculation.outputs,
                         elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
-                        action: {}
+                        action: calculationItemAction
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         makeTogglePinnedButton(for: calculation, action: {
@@ -106,7 +120,7 @@ private extension QuickView {
                         input: calculation.input,
                         outputs: calculation.outputs,
                         elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
-                        action: {}
+                        action: calculationItemAction
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         makeTogglePinnedButton(for: calculation, action: {
@@ -189,6 +203,10 @@ private extension QuickView {
 
 private extension QuickView {
 
+    func calculationItemAction() {
+        isShowingCalculationOptions = true
+    }
+
     func makeTogglePinnedButton(
         for calculation: QuickCalculationDisplayModel,
         action: @escaping ButtonAction
@@ -216,7 +234,7 @@ private extension QuickView {
     enum StringResource: String.LocalizationValue {
         case title = "quick_title"
         case search
-        case pinnedPairs = "pinned_pairs"
+        case pinnedCalculations = "pinned_calculations"
         case calculations
         case lastRefreshedAgo = "last_refreshed_ago"
         case calculatedOnAgo = "calculated_on_ago"
