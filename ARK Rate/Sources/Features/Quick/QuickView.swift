@@ -18,17 +18,7 @@ struct QuickView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.backgroundPrimary)
             .sheet(isPresented: $isShowingCalculationOptions) {
-                CalculationOptionsView(
-                    pinButtonAction: {},
-                    editButtonAction: {},
-                    reuseButtonAction: {},
-                    deleteButtonAction: {},
-                    closeButtonAction: {
-                        isShowingCalculationOptions = true
-                    }
-                )
-                .presentationCornerRadius(20)
-                .presentationDetents([.fraction(hasExtendedTopArea ? 0.4 : 0.5)])
+                calculationOptionsBottomSheet
             }
             .navigationDestination(
                 item: $store.scope(state: \.destination?.addQuickCalculation, action: \.destination.addQuickCalculation)
@@ -98,7 +88,7 @@ private extension QuickView {
                         input: calculation.input,
                         outputs: calculation.outputs,
                         elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
-                        action: calculationItemAction
+                        action: { calculationItemAction(calculation) }
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         makeTogglePinnedButton(for: calculation, action: {
@@ -120,7 +110,7 @@ private extension QuickView {
                         input: calculation.input,
                         outputs: calculation.outputs,
                         elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
-                        action: calculationItemAction
+                        action: { calculationItemAction(calculation) }
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         makeTogglePinnedButton(for: calculation, action: {
@@ -197,14 +187,36 @@ private extension QuickView {
             store.send(.addNewCalculationButtonTapped)
         }
     }
+
+    var calculationOptionsBottomSheet: some View {
+        func close() {
+            isShowingCalculationOptions = false
+            store.send(.calculationItemSelected(nil))
+        }
+        return CalculationOptionsView(
+            togglePinnedButtonTitle: store.selectedCalculation?.togglePinnedTitle,
+            togglePinnedButtonAction: {
+                guard let id = store.selectedCalculation?.id else { return }
+                store.send(.togglePinnedButtonTapped(id: id))
+                close()
+            },
+            editButtonAction: {},
+            reuseButtonAction: {},
+            deleteButtonAction: {},
+            closeButtonAction: close
+        )
+        .presentationCornerRadius(20)
+        .presentationDetents([.fraction(hasExtendedTopArea ? 0.4 : 0.5)])
+    }
 }
 
 // MARK: - Helpers
 
 private extension QuickView {
 
-    func calculationItemAction() {
+    func calculationItemAction(_ calculation: QuickCalculationDisplayModel) {
         isShowingCalculationOptions = true
+        store.send(.calculationItemSelected(calculation))
     }
 
     func makeTogglePinnedButton(
