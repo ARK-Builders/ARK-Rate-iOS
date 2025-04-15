@@ -8,6 +8,7 @@ struct QuickFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var searchText = String.empty
+        var selectedCalculation: QuickCalculationDisplayModel?
         var pinnedCalculations: IdentifiedArrayOf<QuickCalculationDisplayModel> = []
         var calculatedCalculations: IdentifiedArrayOf<QuickCalculationDisplayModel> = []
         var allCurrencies: [CurrencyDisplayModel] = []
@@ -28,6 +29,7 @@ struct QuickFeature {
         case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
         case togglePinnedButtonTapped(id: UUID)
+        case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
         case hideTabbar
         case showTabbar
@@ -55,6 +57,7 @@ struct QuickFeature {
             case .currenciesUpdated: .send(.loadPinnedCalculations)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .togglePinnedButtonTapped(let id): togglePinnedButtonTapped(&state, id)
+            case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             default: Effect.none
@@ -114,6 +117,11 @@ private extension QuickFeature {
             .send(.loadPinnedCalculations),
             .send(.loadCalculatedCalculations)
         )
+    }
+
+    func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {
+        state.selectedCalculation = calculation
+        return Effect.none
     }
 
     func searchTextUpdated(_ state: inout State, _ searchText: String) -> Effect<Action> {

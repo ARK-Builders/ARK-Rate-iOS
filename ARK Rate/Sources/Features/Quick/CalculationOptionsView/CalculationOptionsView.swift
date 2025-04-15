@@ -4,7 +4,8 @@ struct CalculationOptionsView: View {
 
     // MARK: - Properties
 
-    let pinButtonAction: ButtonAction
+    let togglePinnedButtonTitle: String?
+    let togglePinnedButtonAction: ButtonAction
     let editButtonAction: ButtonAction
     let reuseButtonAction: ButtonAction
     let deleteButtonAction: ButtonAction
@@ -48,10 +49,10 @@ private extension CalculationOptionsView {
     var options: some View {
         VStack(spacing: Constants.optionSpacing) {
             SecondaryButton(
-                title: StringResource.pin.localized,
+                title: togglePinnedButtonTitle ?? StringResource.pin.localized,
                 icon: Image(.pin),
                 expandHorizontally: true,
-                action: pinButtonAction
+                action: togglePinnedButtonAction
             )
             SecondaryButton(
                 title: StringResource.edit.localized,
