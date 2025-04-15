@@ -7,6 +7,7 @@ struct QuickView: View {
     // MARK: - Properties
 
     @State var isSearchBarEditing = false
+    @State var isShowingCalculationOptions = false
     @Bindable var store: StoreOf<QuickFeature>
 
     // MARK: - Body
@@ -16,6 +17,19 @@ struct QuickView: View {
             content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.backgroundPrimary)
+            .sheet(isPresented: $isShowingCalculationOptions) {
+                CalculationOptionsView(
+                    pinButtonAction: {},
+                    editButtonAction: {},
+                    reuseButtonAction: {},
+                    deleteButtonAction: {},
+                    closeButtonAction: {
+                        isShowingCalculationOptions = true
+                    }
+                )
+                .presentationCornerRadius(20)
+                .presentationDetents([.fraction(hasExtendedTopArea ? 0.4 : 0.5)])
+            }
             .navigationDestination(
                 item: $store.scope(state: \.destination?.addQuickCalculation, action: \.destination.addQuickCalculation)
             ) { store in
@@ -84,7 +98,7 @@ private extension QuickView {
                         input: calculation.input,
                         outputs: calculation.outputs,
                         elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
-                        action: {}
+                        action: calculationItemAction
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         makeTogglePinnedButton(for: calculation, action: {
@@ -106,7 +120,7 @@ private extension QuickView {
                         input: calculation.input,
                         outputs: calculation.outputs,
                         elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
-                        action: {}
+                        action: calculationItemAction
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         makeTogglePinnedButton(for: calculation, action: {
@@ -188,6 +202,10 @@ private extension QuickView {
 // MARK: - Helpers
 
 private extension QuickView {
+
+    func calculationItemAction() {
+        isShowingCalculationOptions = true
+    }
 
     func makeTogglePinnedButton(
         for calculation: QuickCalculationDisplayModel,
