@@ -8,7 +8,11 @@ struct AddingCurrencyDisplayModel: Identifiable, Equatable {
     var code: String
     var amount: Decimal
 
-    var displayingAmount: String {
+    var inputtingAmount: String {
+        amount > 0 ? "\(amount)" : String.empty
+    }
+
+    var formattedAmount: String {
         amount > 0 ? "\(amount.formattedRate)" : String.empty
     }
 

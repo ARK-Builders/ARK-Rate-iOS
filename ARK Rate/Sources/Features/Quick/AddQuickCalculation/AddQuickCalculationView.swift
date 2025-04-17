@@ -59,7 +59,7 @@ private extension AddQuickCalculationView {
             label: StringResource.from.localized,
             name: store.inputCurrency.code,
             amount: Binding(
-                get: { store.inputCurrency.displayingAmount },
+                get: { store.inputCurrency.inputtingAmount },
                 set: { newValue in store.send(.updateInputCurrencyAmount(newValue)) }
             ),
             placeHolder: StringResource.inputValue.localized,
@@ -74,7 +74,7 @@ private extension AddQuickCalculationView {
                 label: isFirstItem ? StringResource.to.localized : nil,
                 name: currency.code,
                 amount: Binding(
-                    get: { currency.displayingAmount },
+                    get: { currency.formattedAmount },
                     set: { newValue in store.send(.updateOutputCurrencyAmount(newValue, currency.id)) }
                 ),
                 placeHolder: StringResource.result.localized,

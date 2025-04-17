@@ -105,7 +105,7 @@ private extension SearchACurrencyView {
                     CurrencyRowView(
                         code: currency.id,
                         name: currency.name,
-                        action: {}
+                        action: { store.send(.currencyCodeSelected(currency.id)) }
                     )
                     .modifier(PlainListRowModifier())
                     .modifier(DisabledModifier(disabled: currency.disabled))
