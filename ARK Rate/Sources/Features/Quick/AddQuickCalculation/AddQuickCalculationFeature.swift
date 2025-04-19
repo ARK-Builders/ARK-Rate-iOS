@@ -8,12 +8,23 @@ struct AddQuickCalculationFeature {
     struct State: Equatable {
         @Presents var destination: Destination.State?
         var canSave: Bool = false
+        var usageMode: UsageMode
         var selectionMode: SelectionMode?
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
 
         var codes: Set<String> {
             Set([inputCurrency.code] + outputCurrencies.map(\.code))
+        }
+
+        init(usageMode: UsageMode = .add(code: Constants.defaultInputCurrencyCode)) {
+            self.usageMode = usageMode
+        }
+
+        enum UsageMode: Equatable {
+            case add(code: String)
+            case edit(calculationId: UUID)
+            case reuse(calculationId: UUID)
         }
 
         enum SelectionMode: Equatable {
@@ -24,6 +35,7 @@ struct AddQuickCalculationFeature {
     }
 
     enum Action {
+        case loadInitialData
         case selectInputCurrency
         case updateInputCurrencyAmount(String)
         case selectOutputCurrency(UUID)
@@ -52,6 +64,7 @@ struct AddQuickCalculationFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .loadInitialData: loadInitialData(&state)
             case .selectInputCurrency: selectInputCurrency(&state)
             case .updateInputCurrencyAmount(let amount): updateInputCurrencyAmount(&state, amount)
             case .selectOutputCurrency(let id): selectOutputCurrency(&state, id)
@@ -72,11 +85,22 @@ struct AddQuickCalculationFeature {
 
 private extension AddQuickCalculationFeature {
 
-    func backButtonTapped() -> Effect<Action> {
-        Effect.run { send in
-            await send(.delegate(.back))
-            await back()
+    func loadInitialData(_ state: inout State) -> Effect<Action> {
+        switch state.usageMode {
+        case .add(let code):
+            state.inputCurrency = AddingCurrencyDisplayModel(code: code)
+        case .edit(let id), .reuse(let id):
+            guard let calculation = try? quickCalculationRepository.get(where: id) else { break }
+            state.inputCurrency = AddingCurrencyDisplayModel(
+                code: calculation.inputCurrencyCode,
+                amount: calculation.inputCurrencyAmount
+            )
+            let outputCurrencies = calculation.outputCurrencyCodes.map { AddingCurrencyDisplayModel(code: $0) }
+            state.outputCurrencies = IdentifiedArrayOf(uniqueElements: outputCurrencies)
+            updateOutputCurrencyAmounts(&state)
+            updateCanSave(&state)
         }
+        return Effect.none
     }
 
     func selectInputCurrency(_ state: inout State) -> Effect<Action> {
@@ -138,7 +162,16 @@ private extension AddQuickCalculationFeature {
 
     func saveButtonTapped(_ state: inout State) -> Effect<Action> {
         guard state.canSave else { return Effect.none }
+        var calculationId = UUID()
+        var pinnedDate: Date?
+        if case .edit(let id) = state.usageMode {
+            let calculation = try? quickCalculationRepository.get(where: id)
+            calculationId = id
+            pinnedDate = calculation?.pinnedDate
+        }
         let quickCalculation = QuickCalculation(
+            id: calculationId,
+            pinnedDate: pinnedDate,
             inputCurrencyCode: state.inputCurrency.code,
             inputCurrencyAmount: state.inputCurrency.amount,
             outputCurrencyCodes: state.outputCurrencies.map(\.code),
@@ -148,6 +181,13 @@ private extension AddQuickCalculationFeature {
         try? quickCalculationRepository.save(quickCalculation)
         try? currencyStatisticRepository.save(currencyStatistics)
         return Effect.run { send in
+            await send(.delegate(.back))
+            await back()
+        }
+    }
+
+    func backButtonTapped() -> Effect<Action> {
+        Effect.run { send in
             await send(.delegate(.back))
             await back()
         }

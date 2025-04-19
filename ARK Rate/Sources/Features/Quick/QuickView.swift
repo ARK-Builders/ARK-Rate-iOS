@@ -131,7 +131,7 @@ private extension QuickView {
                     CurrencyRowView(
                         code: currency.id,
                         name: currency.name,
-                        action: {}
+                        action: { store.send(.currencyCodeSelected(currency.id)) }
                     )
                     .modifier(PlainListRowModifier())
                 }
@@ -145,7 +145,7 @@ private extension QuickView {
                 CurrencyRowView(
                     code: currency.id,
                     name: currency.name,
-                    action: {}
+                    action: { store.send(.currencyCodeSelected(currency.id)) }
                 )
                 .modifier(PlainListRowModifier())
             }
@@ -160,7 +160,7 @@ private extension QuickView {
                     CurrencyRowView(
                         code: currency.id,
                         name: currency.name,
-                        action: {}
+                        action: { store.send(.currencyCodeSelected(currency.id)) }
                     )
                     .modifier(PlainListRowModifier())
                 }
@@ -196,12 +196,17 @@ private extension QuickView {
         return CalculationOptionsView(
             togglePinnedButtonTitle: store.selectedCalculation?.togglePinnedTitle,
             togglePinnedButtonAction: {
-                guard let id = store.selectedCalculation?.id else { return }
-                store.send(.togglePinnedButtonTapped(id: id))
+                store.send(.togglePinnedButtonTapped(id: store.selectedCalculation?.id))
                 close()
             },
-            editButtonAction: {},
-            reuseButtonAction: {},
+            editButtonAction: {
+                store.send(.editCalculationButtonTapped(id: store.selectedCalculation?.id))
+                close()
+            },
+            reuseButtonAction: {
+                store.send(.reuseCalculationButtonTapped(id: store.selectedCalculation?.id))
+                close()
+            },
             deleteButtonAction: {},
             closeButtonAction: close
         )
