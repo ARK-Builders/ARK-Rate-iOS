@@ -71,7 +71,7 @@ private extension CalculationOptionsView {
                 icon: Image(.trash),
                 style: .custom(foregroundColor: Color.error, backgroundColor: Color.clear),
                 expandHorizontally: true,
-                action: editButtonAction
+                action: deleteButtonAction
             )
             .modifier(RoundedBorderModifier(color: Color.error))
         }

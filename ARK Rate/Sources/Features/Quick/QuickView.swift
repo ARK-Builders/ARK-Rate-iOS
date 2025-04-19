@@ -113,9 +113,17 @@ private extension QuickView {
                         action: { calculationItemAction(calculation) }
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        makeTogglePinnedButton(for: calculation, action: {
-                            store.send(.togglePinnedButtonTapped(id: calculation.id))
-                        })
+                        makeTogglePinnedButton(
+                            for: calculation,
+                            action: {
+                                store.send(.togglePinnedButtonTapped(id: calculation.id))
+                            }
+                        )
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        makeDeleteButton {
+                            store.send(.deleteCalculationButtonTapped(id: calculation.id))
+                        }
                     }
                     .modifier(PlainListRowModifier())
                 }
@@ -207,7 +215,10 @@ private extension QuickView {
                 store.send(.reuseCalculationButtonTapped(id: store.selectedCalculation?.id))
                 close()
             },
-            deleteButtonAction: {},
+            deleteButtonAction: {
+                store.send(.deleteCalculationButtonTapped(id: store.selectedCalculation?.id))
+                close()
+            },
             closeButtonAction: close
         )
         .presentationCornerRadius(20)
@@ -238,6 +249,18 @@ private extension QuickView {
         )
         .tint(Color.teal600)
     }
+
+    func makeDeleteButton(action: @escaping ButtonAction) -> some View {
+        Button(
+            action: action,
+            label: {
+                Text(StringResource.delete.localized)
+                    .foregroundColor(Color.white)
+                    .padding(Constants.spacing)
+            }
+        )
+        .tint(Color.error)
+    }
 }
 
 // MARK: - Constants
@@ -258,6 +281,7 @@ private extension QuickView {
         case allCurrencies = "all_currencies"
         case frequentCurrencies = "frequent_currencies"
         case topResults = "top_results"
+        case delete
 
         var localized: String {
             String(localized: rawValue)

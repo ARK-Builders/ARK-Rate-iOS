@@ -32,6 +32,7 @@ struct QuickFeature {
         case togglePinnedButtonTapped(id: UUID?)
         case editCalculationButtonTapped(id: UUID?)
         case reuseCalculationButtonTapped(id: UUID?)
+        case deleteCalculationButtonTapped(id: UUID?)
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
         case hideTabbar
@@ -46,6 +47,7 @@ struct QuickFeature {
     @Dependency(\.loadFrequentCurrenciesUseCase) var loadFrequentCurrenciesUseCase
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
     @Dependency(\.togglePinnedCalculationUseCase) var togglePinnedCalculationUseCase
+    @Dependency(\.quickCalculationRepository) var quickCalculationRepository
 
     // MARK: - Reducer
 
@@ -63,6 +65,7 @@ struct QuickFeature {
             case .togglePinnedButtonTapped(let id): togglePinnedButtonTapped(&state, id)
             case .editCalculationButtonTapped(let id): editCalculationButtonTapped(&state, id)
             case .reuseCalculationButtonTapped(let id): reuseCalculationButtonTapped(&state, id)
+            case .deleteCalculationButtonTapped(let id): deleteCalculationButtonTapped(&state, id)
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
@@ -144,6 +147,14 @@ private extension QuickFeature {
         let featureState = AddQuickCalculationFeature.State(usageMode: .reuse(calculationId: id))
         state.destination = .addQuickCalculation(featureState)
         return .send(.hideTabbar)
+    }
+
+    func deleteCalculationButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
+        guard let id else { return Effect.none }
+        try? quickCalculationRepository.delete(where: id)
+        state.pinnedCalculations.remove(id: id)
+        state.calculatedCalculations.remove(id: id)
+        return Effect.none
     }
 
     func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {
