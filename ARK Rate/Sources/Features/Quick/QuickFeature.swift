@@ -28,7 +28,10 @@ struct QuickFeature {
         case loadFrequentCurrencies
         case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
-        case togglePinnedButtonTapped(id: UUID)
+        case currencyCodeSelected(String)
+        case togglePinnedButtonTapped(id: UUID?)
+        case editCalculationButtonTapped(id: UUID?)
+        case reuseCalculationButtonTapped(id: UUID?)
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
         case hideTabbar
@@ -56,7 +59,10 @@ struct QuickFeature {
             case .loadFrequentCurrencies: loadFrequentCurrencies(&state)
             case .currenciesUpdated: .send(.loadPinnedCalculations)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
+            case .currencyCodeSelected(let code): currencyCodeSelected(&state, code)
             case .togglePinnedButtonTapped(let id): togglePinnedButtonTapped(&state, id)
+            case .editCalculationButtonTapped(let id): editCalculationButtonTapped(&state, id)
+            case .reuseCalculationButtonTapped(let id): reuseCalculationButtonTapped(&state, id)
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
@@ -111,12 +117,33 @@ private extension QuickFeature {
         return .send(.hideTabbar)
     }
 
-    func togglePinnedButtonTapped(_ state: inout State, _ id: UUID) -> Effect<Action> {
+    func currencyCodeSelected(_ state: inout State, _ code: String) -> Effect<Action> {
+        let featureState = AddQuickCalculationFeature.State(usageMode: .add(code: code))
+        state.destination = .addQuickCalculation(featureState)
+        return .send(.hideTabbar)
+    }
+
+    func togglePinnedButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
+        guard let id else { return Effect.none }
         togglePinnedCalculationUseCase.execute(id)
         return Effect.merge(
             .send(.loadPinnedCalculations),
             .send(.loadCalculatedCalculations)
         )
+    }
+
+    func editCalculationButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
+        guard let id else { return Effect.none }
+        let featureState = AddQuickCalculationFeature.State(usageMode: .edit(calculationId: id))
+        state.destination = .addQuickCalculation(featureState)
+        return .send(.hideTabbar)
+    }
+
+    func reuseCalculationButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
+        guard let id else { return Effect.none }
+        let featureState = AddQuickCalculationFeature.State(usageMode: .reuse(calculationId: id))
+        state.destination = .addQuickCalculation(featureState)
+        return .send(.hideTabbar)
     }
 
     func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {

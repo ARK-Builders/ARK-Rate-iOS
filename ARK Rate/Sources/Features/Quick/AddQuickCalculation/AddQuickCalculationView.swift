@@ -29,6 +29,9 @@ struct AddQuickCalculationView: View {
         ) { store in
             SearchACurrencyView(store: store)
         }
+        .onFirstAppear {
+            store.send(.loadInitialData)
+        }
     }
 }
 

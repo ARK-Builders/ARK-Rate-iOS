@@ -24,6 +24,11 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
         let model = calculation.toQuickCalculationModel
         if let fetchedModel: QuickCalculationModel = try SwiftDataManager.shared.get(predicate: #Predicate { $0.id == id }) {
             fetchedModel.pinnedDate = model.pinnedDate
+            fetchedModel.calculatedDate = model.calculatedDate
+            fetchedModel.inputCurrencyCode = model.inputCurrencyCode
+            fetchedModel.inputCurrencyAmount = model.inputCurrencyAmount
+            fetchedModel.outputCurrencyCodes = model.outputCurrencyCodes
+            fetchedModel.outputCurrencyAmounts = model.outputCurrencyAmounts
             try SwiftDataManager.shared.save()
         } else {
             try SwiftDataManager.shared.insert(model)
