@@ -32,6 +32,11 @@ final class SwiftDataManager {
         }
     }
 
+    func delete<T: PersistentModel>(_ model: T) throws {
+        modelContext.delete(model)
+        try save()
+    }
+
     func save() throws {
         try modelContext.save()
     }

@@ -23,4 +23,8 @@ struct QuickCalculationRepositoryImpl: QuickCalculationRepository {
     func save(_ calculation: QuickCalculation) throws {
         try localDataSource.save(calculation.toQuickCalculationDTO)
     }
+
+    func delete(where id: UUID) throws -> QuickCalculation? {
+        try localDataSource.delete(where: id)?.toQuickCalculation
+    }
 }
