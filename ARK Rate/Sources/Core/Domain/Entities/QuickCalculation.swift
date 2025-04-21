@@ -1,6 +1,6 @@
 import Foundation
 
-struct QuickCalculation {
+struct QuickCalculation: Equatable {
 
     // MARK: - Properties
 

@@ -14,6 +14,7 @@ struct QuickFeature {
         var allCurrencies: [CurrencyDisplayModel] = []
         var frequentCurrencies: [CurrencyDisplayModel] = []
         var displayingCurrencies: [CurrencyDisplayModel] = []
+        var deletedCalculation: QuickCalculation?
 
         var isSearching: Bool {
             !searchText.isTrimmedEmpty
@@ -33,6 +34,7 @@ struct QuickFeature {
         case editCalculationButtonTapped(id: UUID?)
         case reuseCalculationButtonTapped(id: UUID?)
         case deleteCalculationButtonTapped(id: UUID?)
+        case undoDeletedCalculationButtonTapped
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
         case hideTabbar
@@ -66,6 +68,7 @@ struct QuickFeature {
             case .editCalculationButtonTapped(let id): editCalculationButtonTapped(&state, id)
             case .reuseCalculationButtonTapped(let id): reuseCalculationButtonTapped(&state, id)
             case .deleteCalculationButtonTapped(let id): deleteCalculationButtonTapped(&state, id)
+            case .undoDeletedCalculationButtonTapped: undoDeletedCalculationButtonTapped(&state)
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
@@ -151,10 +154,19 @@ private extension QuickFeature {
 
     func deleteCalculationButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
         guard let id else { return Effect.none }
-        try? quickCalculationRepository.delete(where: id)
+        state.deletedCalculation = try? quickCalculationRepository.delete(where: id)
         state.pinnedCalculations.remove(id: id)
         state.calculatedCalculations.remove(id: id)
         return Effect.none
+    }
+
+    func undoDeletedCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
+        guard let calculation = state.deletedCalculation else { return Effect.none }
+        try? quickCalculationRepository.save(calculation)
+        return Effect.merge(
+            .send(.loadPinnedCalculations),
+            .send(.loadCalculatedCalculations)
+        )
     }
 
     func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {

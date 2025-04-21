@@ -95,6 +95,11 @@ private extension QuickView {
                             store.send(.togglePinnedButtonTapped(id: calculation.id))
                         })
                     }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        makeDeleteButton {
+                            store.send(.deleteCalculationButtonTapped(id: calculation.id))
+                        }
+                    }
                     .modifier(PlainListRowModifier())
                 }
             }

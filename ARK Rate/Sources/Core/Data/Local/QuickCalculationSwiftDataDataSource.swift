@@ -35,8 +35,9 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
         }
     }
 
-    func delete(where id: UUID) throws {
-        guard let model: QuickCalculationModel = try SwiftDataManager.shared.get(predicate: #Predicate { $0.id == id }) else { return }
+    func delete(where id: UUID) throws -> QuickCalculationDTO? {
+        guard let model: QuickCalculationModel = try SwiftDataManager.shared.get(predicate: #Predicate { $0.id == id }) else { return nil }
         try SwiftDataManager.shared.delete(model)
+        return model.toQuickCalculationDTO
     }
 }
