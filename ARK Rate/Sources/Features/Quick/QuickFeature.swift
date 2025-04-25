@@ -187,10 +187,7 @@ private extension QuickFeature {
         state.calculatedCalculations.remove(id: id)
         state.deletedCalculations.append(deletedCalculation)
         let calculation = deletedCalculation.toQuickCalculationDisplayModel
-        return Effect.run { send in
-            try? await Task.sleep(nanoseconds: Constants.toastAppearDelay)
-            await send(.showToastMessage(QuickToastContext.deleted(calculation)))
-        }
+        return .send(.showToastMessage(QuickToastContext.deleted(calculation)))
     }
 
     func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {
