@@ -40,7 +40,6 @@ struct QuickFeature {
         case searchTextUpdated(String)
         case showToastMessage(QuickToastContext)
         case clearToastMessage(QuickToastContext)
-        case scheduleClearToastMessage(QuickToastContext)
         case toastMessageActionButtonTapped(QuickToastContext)
         case hideTabbar
         case showTabbar
@@ -84,7 +83,6 @@ struct QuickFeature {
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
             case .showToastMessage(let context): showToastMessage(&state, context)
             case .clearToastMessage(let context): clearToastMessage(&state, context)
-            case .scheduleClearToastMessage(let context): scheduleClearToastMessage(&state, context)
             case .toastMessageActionButtonTapped(let context): toastMessageActionButtonTapped(&state, context)
             case .destination(.presented(.addQuickCalculation(.delegate(.added(let calculation))))): onAddedCalculation(&state, calculation)
             default: Effect.none
@@ -206,19 +204,15 @@ private extension QuickFeature {
 
     func showToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
         state.toastMessages.append(context)
-        return .send(.scheduleClearToastMessage(context))
+        return Effect.run { send in
+            try await Task.sleep(nanoseconds: Constants.toastAutoClearDelay)
+            await send(.clearToastMessage(context))
+        }
     }
 
     func clearToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
         state.toastMessages.remove(context)
         return Effect.none
-    }
-
-    func scheduleClearToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
-        return Effect.run { send in
-            try await Task.sleep(nanoseconds: Constants.toastAutoClearDelay)
-            await send(.clearToastMessage(context))
-        }
     }
 
     func toastMessageActionButtonTapped(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
