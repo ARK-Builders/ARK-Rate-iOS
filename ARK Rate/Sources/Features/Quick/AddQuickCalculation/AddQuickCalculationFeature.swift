@@ -49,6 +49,7 @@ struct AddQuickCalculationFeature {
 
         enum Delegate: Equatable {
             case back
+            case added(QuickCalculation)
         }
     }
 
@@ -181,7 +182,7 @@ private extension AddQuickCalculationFeature {
         try? quickCalculationRepository.save(quickCalculation)
         try? currencyStatisticRepository.save(currencyStatistics)
         return Effect.run { send in
-            await send(.delegate(.back))
+            await send(.delegate(.added(quickCalculation)))
             await back()
         }
     }

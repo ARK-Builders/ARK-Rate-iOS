@@ -14,7 +14,9 @@ struct QuickFeature {
         var allCurrencies: [CurrencyDisplayModel] = []
         var frequentCurrencies: [CurrencyDisplayModel] = []
         var displayingCurrencies: [CurrencyDisplayModel] = []
-        var deletedCalculation: QuickCalculation?
+
+        var deletedCalculations: [QuickCalculation] = []
+        var toastMessages: IdentifiedArrayOf<QuickToastContext> = []
 
         var isSearching: Bool {
             !searchText.isTrimmedEmpty
@@ -34,9 +36,12 @@ struct QuickFeature {
         case editCalculationButtonTapped(id: UUID?)
         case reuseCalculationButtonTapped(id: UUID?)
         case deleteCalculationButtonTapped(id: UUID?)
-        case undoDeletedCalculationButtonTapped
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
+        case showToastMessage(QuickToastContext)
+        case clearToastMessage(QuickToastContext)
+        case scheduleClearToastMessage(QuickToastContext)
+        case toastMessageActionButtonTapped(QuickToastContext)
         case hideTabbar
         case showTabbar
         case destination(PresentationAction<Destination.Action>)
@@ -68,10 +73,14 @@ struct QuickFeature {
             case .editCalculationButtonTapped(let id): editCalculationButtonTapped(&state, id)
             case .reuseCalculationButtonTapped(let id): reuseCalculationButtonTapped(&state, id)
             case .deleteCalculationButtonTapped(let id): deleteCalculationButtonTapped(&state, id)
-            case .undoDeletedCalculationButtonTapped: undoDeletedCalculationButtonTapped(&state)
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
+            case .showToastMessage(let context): showToastMessage(&state, context)
+            case .clearToastMessage(let context): clearToastMessage(&state, context)
+            case .scheduleClearToastMessage(let context): scheduleClearToastMessage(&state, context)
+            case .toastMessageActionButtonTapped(let context): toastMessageActionButtonTapped(&state, context)
             case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
+            case .destination(.presented(.addQuickCalculation(.delegate(.added(let calculation))))): onAddedCalculation(&state, calculation)
             default: Effect.none
             }
         }
@@ -123,6 +132,15 @@ private extension QuickFeature {
         return .send(.hideTabbar)
     }
 
+    func onAddedCalculation(_ state: inout State, _ addedCalculation: QuickCalculation) -> Effect<Action> {
+        let calculation = addedCalculation.toQuickCalculationDisplayModel
+        state.calculatedCalculations = IdentifiedArrayOf(uniqueElements: [calculation] + state.calculatedCalculations.elements)
+        return Effect.merge(
+            .send(.showTabbar),
+            .send(.showToastMessage(QuickToastContext.added(calculation)))
+        )
+    }
+
     func currencyCodeSelected(_ state: inout State, _ code: String) -> Effect<Action> {
         let featureState = AddQuickCalculationFeature.State(usageMode: .add(code: code))
         state.destination = .addQuickCalculation(featureState)
@@ -153,20 +171,14 @@ private extension QuickFeature {
     }
 
     func deleteCalculationButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
-        guard let id else { return Effect.none }
-        state.deletedCalculation = try? quickCalculationRepository.delete(where: id)
+        guard let id, let deletedCalculation = try? quickCalculationRepository.delete(where: id) else {
+            return Effect.none
+        }
         state.pinnedCalculations.remove(id: id)
         state.calculatedCalculations.remove(id: id)
-        return Effect.none
-    }
-
-    func undoDeletedCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
-        guard let calculation = state.deletedCalculation else { return Effect.none }
-        try? quickCalculationRepository.save(calculation)
-        return Effect.merge(
-            .send(.loadPinnedCalculations),
-            .send(.loadCalculatedCalculations)
-        )
+        state.deletedCalculations.append(deletedCalculation)
+        let calculation = deletedCalculation.toQuickCalculationDisplayModel
+        return .send(.showToastMessage(QuickToastContext.deleted(calculation)))
     }
 
     func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {
@@ -180,6 +192,39 @@ private extension QuickFeature {
             $0.id.localizedCaseInsensitiveContains(searchText) ||
             $0.name.localizedCaseInsensitiveContains(searchText)
         } : []
+        return Effect.none
+    }
+
+    func showToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
+        state.toastMessages.append(context)
+        return .send(.scheduleClearToastMessage(context))
+    }
+
+    func clearToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
+        state.toastMessages.remove(context)
+        return Effect.none
+    }
+
+    func scheduleClearToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
+        return Effect.run { send in
+            try await Task.sleep(nanoseconds: 10_000_000_000)
+            await send(.clearToastMessage(context))
+        }
+    }
+
+    func toastMessageActionButtonTapped(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
+        switch context {
+        case let .deleted(calculation):
+            guard let deletedCalculation = state.deletedCalculations.first(where: { $0.id == calculation.id }) else { break }
+            try? quickCalculationRepository.save(deletedCalculation)
+            state.deletedCalculations = state.deletedCalculations.filter { $0.id != calculation.id }
+            return Effect.merge(
+                .send(.loadPinnedCalculations),
+                .send(.loadCalculatedCalculations),
+                .send(.clearToastMessage(context))
+            )
+        default: break
+        }
         return Effect.none
     }
 }

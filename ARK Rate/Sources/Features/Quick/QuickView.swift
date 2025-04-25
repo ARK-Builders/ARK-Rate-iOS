@@ -14,9 +14,13 @@ struct QuickView: View {
 
     var body: some View {
         NavigationStack {
-            content
+            ZStack(alignment: .bottom) {
+                content
+                toastView
+            }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.backgroundPrimary)
+            .animation(.easeInOut, value: store.toastMessages)
             .sheet(isPresented: $isShowingCalculationOptions) {
                 calculationOptionsBottomSheet
             }
@@ -25,8 +29,16 @@ struct QuickView: View {
             ) { store in
                 AddQuickCalculationView(store: store)
             }
-            .onAppear {
+            .onAppearOnce {
                 store.send(.loadListContent)
+            }
+            .onAppear {
+                store.send(.showTabbar)
+            }
+            .onDisappear {
+                if store.destination != nil {
+                    store.send(.hideTabbar)
+                }
             }
         }
     }
@@ -193,6 +205,33 @@ private extension QuickView {
                     .padding(16)
             }
         )
+    }
+
+    @ViewBuilder
+    var toastView: some View {
+        if let toastMessage = store.toastMessages.last {
+            ToastView(
+                icon: toastMessage.icon,
+                title: toastMessage.content.title,
+                subtitle: toastMessage.content.subtitle,
+                closeButtonAction: {
+                    store.send(.clearToastMessage(toastMessage))
+                },
+                actionButtonConfiguration: toastMessage.actionButtonTitle.map {
+                    ButtonConfiguration(
+                        title: $0,
+                        action: { store.send(.toastMessageActionButtonTapped(toastMessage)) }
+                    )
+                }
+            )
+            .padding(Constants.spacing)
+            .transition(
+                .asymmetric(
+                    insertion: .move(edge: .bottom).combined(with: .opacity),
+                    removal: .identity
+                )
+            )
+        }
     }
 
     var emptyStateView: some View {

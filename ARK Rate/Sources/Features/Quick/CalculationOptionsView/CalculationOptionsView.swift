@@ -37,8 +37,9 @@ private extension CalculationOptionsView {
             Button(
                 action: closeButtonAction,
                 label: Image.close
-                    .font(.system(size: 16))
+                    .font(.system(size: 18))
                     .foregroundColor(Color.foregroundQuarterary)
+                    .contentShape(Rectangle())
             )
         }
         .padding(.top, 20)

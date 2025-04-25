@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIX
 import ComposableArchitecture
 
 struct AddQuickCalculationView: View {
@@ -29,7 +30,7 @@ struct AddQuickCalculationView: View {
         ) { store in
             SearchACurrencyView(store: store)
         }
-        .onFirstAppear {
+        .onAppearOnce {
             store.send(.loadInitialData)
         }
     }
@@ -74,7 +75,7 @@ private extension AddQuickCalculationView {
         ForEach(store.outputCurrencies) { currency in
             let isFirstItem = currency.id == store.outputCurrencies.first?.id
             CurrencyInputView(
-                label: isFirstItem ? StringResource.to.localized : nil,
+                label: isFirstItem ? StringResource.to.localized.capitalized : nil,
                 name: currency.code,
                 amount: Binding(
                     get: { currency.formattedAmount },
