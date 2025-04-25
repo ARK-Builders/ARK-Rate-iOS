@@ -6,5 +6,8 @@ struct SettingsFeature {
     @ObservableState
     struct State: Equatable {}
 
-    enum Action {}
+    enum Action {
+        case hideTabbar
+        case showTabbar
+    }
 }

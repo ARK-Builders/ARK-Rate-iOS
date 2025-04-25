@@ -1384,6 +1384,17 @@
         }
       }
     },
+    "new_calculation_has_been_created" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New calculation has been created"
+          }
+        }
+      }
+    },
     "new_currency" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1934,6 +1945,17 @@
         }
       }
     },
+    "the_calculation_has_been_deleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The calculation has been deleted"
+          }
+        }
+      }
+    },
     "TJS" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1973,7 +1995,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To"
+            "value" : "to"
           }
         }
       }
@@ -2062,6 +2084,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ugandan Shilling"
+          }
+        }
+      }
+    },
+    "undo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
           }
         }
       }
@@ -2271,6 +2304,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yemeni Rial"
+          }
+        }
+      }
+    },
+    "you_added_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You added %@ calculation"
+          }
+        }
+      }
+    },
+    "you_deleted_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You deleted %@ calculation"
           }
         }
       }
