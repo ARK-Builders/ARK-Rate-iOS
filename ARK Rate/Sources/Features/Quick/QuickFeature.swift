@@ -47,6 +47,13 @@ struct QuickFeature {
         case destination(PresentationAction<Destination.Action>)
     }
 
+    // MARK: - Constants
+
+    private enum Constants {
+        static let toastAppearDelay: UInt64 = 350_000_000
+        static let toastAutoClearDelay: UInt64 = 10_000_000_000
+    }
+
     // MARK: - Properties
 
     @Dependency(\.loadQuickCalculationsUseCase) var loadQuickCalculationsUseCase
@@ -79,7 +86,6 @@ struct QuickFeature {
             case .clearToastMessage(let context): clearToastMessage(&state, context)
             case .scheduleClearToastMessage(let context): scheduleClearToastMessage(&state, context)
             case .toastMessageActionButtonTapped(let context): toastMessageActionButtonTapped(&state, context)
-            case .destination(.presented(.addQuickCalculation(.delegate(.back)))): .send(.showTabbar)
             case .destination(.presented(.addQuickCalculation(.delegate(.added(let calculation))))): onAddedCalculation(&state, calculation)
             default: Effect.none
             }
@@ -134,10 +140,13 @@ private extension QuickFeature {
 
     func onAddedCalculation(_ state: inout State, _ addedCalculation: QuickCalculation) -> Effect<Action> {
         let calculation = addedCalculation.toQuickCalculationDisplayModel
-        state.calculatedCalculations = IdentifiedArrayOf(uniqueElements: [calculation] + state.calculatedCalculations.elements)
         return Effect.merge(
-            .send(.showTabbar),
-            .send(.showToastMessage(QuickToastContext.added(calculation)))
+            .send(.loadPinnedCalculations),
+            .send(.loadCalculatedCalculations),
+            .run { send in
+                try? await Task.sleep(nanoseconds: Constants.toastAppearDelay)
+                await send(.showToastMessage(QuickToastContext.added(calculation)))
+            }
         )
     }
 
@@ -178,7 +187,10 @@ private extension QuickFeature {
         state.calculatedCalculations.remove(id: id)
         state.deletedCalculations.append(deletedCalculation)
         let calculation = deletedCalculation.toQuickCalculationDisplayModel
-        return .send(.showToastMessage(QuickToastContext.deleted(calculation)))
+        return Effect.run { send in
+            try? await Task.sleep(nanoseconds: Constants.toastAppearDelay)
+            await send(.showToastMessage(QuickToastContext.deleted(calculation)))
+        }
     }
 
     func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {
@@ -207,7 +219,7 @@ private extension QuickFeature {
 
     func scheduleClearToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
         return Effect.run { send in
-            try await Task.sleep(nanoseconds: 10_000_000_000)
+            try await Task.sleep(nanoseconds: Constants.toastAutoClearDelay)
             await send(.clearToastMessage(context))
         }
     }
