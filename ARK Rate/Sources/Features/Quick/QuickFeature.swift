@@ -84,7 +84,7 @@ struct QuickFeature {
             case .showToastMessage(let context): showToastMessage(&state, context)
             case .clearToastMessage(let context): clearToastMessage(&state, context)
             case .toastMessageActionButtonTapped(let context): toastMessageActionButtonTapped(&state, context)
-            case .destination(.presented(.addQuickCalculation(.delegate(.added(let calculation))))): onAddedCalculation(&state, calculation)
+            case .destination(.presented(.addQuickCalculation(.delegate(let callback)))): onAddQuickCalculationCallback(&state, callback)
             default: Effect.none
             }
         }
@@ -136,14 +136,27 @@ private extension QuickFeature {
         return .send(.hideTabbar)
     }
 
-    func onAddedCalculation(_ state: inout State, _ addedCalculation: QuickCalculation) -> Effect<Action> {
-        let calculation = addedCalculation.toQuickCalculationDisplayModel
+    func onAddQuickCalculationCallback(_ state: inout State, _ delegate: AddQuickCalculationFeature.Action.Delegate) -> Effect<Action> {
+        let calculation: QuickCalculationDisplayModel
+        let toastMessage: QuickToastContext
+        switch delegate {
+        case .added(let addedCalculation):
+            calculation = addedCalculation.toQuickCalculationDisplayModel
+            toastMessage = QuickToastContext.added(calculation)
+        case .edited(let editedCalculation):
+            calculation = editedCalculation.toQuickCalculationDisplayModel
+            toastMessage = QuickToastContext.edited(calculation)
+        case .reused(let reusedCalculation):
+            calculation = reusedCalculation.toQuickCalculationDisplayModel
+            toastMessage = QuickToastContext.reused(calculation)
+        default: return Effect.none
+        }
         return Effect.merge(
             .send(.loadPinnedCalculations),
             .send(.loadCalculatedCalculations),
             .run { send in
                 try? await Task.sleep(nanoseconds: Constants.toastAppearDelay)
-                await send(.showToastMessage(QuickToastContext.added(calculation)))
+                await send(.showToastMessage(toastMessage))
             }
         )
     }

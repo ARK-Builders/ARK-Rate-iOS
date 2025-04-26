@@ -50,6 +50,8 @@ struct AddQuickCalculationFeature {
         enum Delegate: Equatable {
             case back
             case added(QuickCalculation)
+            case edited(QuickCalculation)
+            case reused(QuickCalculation)
         }
     }
 
@@ -181,8 +183,14 @@ private extension AddQuickCalculationFeature {
         let currencyStatistics = quickCalculation.toCurrencyStatistics
         try? quickCalculationRepository.save(quickCalculation)
         try? currencyStatisticRepository.save(currencyStatistics)
+        let action: Action
+        switch state.usageMode {
+        case .add: action = .delegate(.added(quickCalculation))
+        case .edit: action = .delegate(.edited(quickCalculation))
+        case .reuse: action = .delegate(.reused(quickCalculation))
+        }
         return Effect.run { send in
-            await send(.delegate(.added(quickCalculation)))
+            await send(action)
             await back()
         }
     }
