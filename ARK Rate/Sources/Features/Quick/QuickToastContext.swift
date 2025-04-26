@@ -2,18 +2,23 @@ import SwiftUI
 
 enum QuickToastContext: Identifiable, Equatable {
     case added(QuickCalculationDisplayModel)
+    case edited(QuickCalculationDisplayModel)
+    case reused(QuickCalculationDisplayModel)
     case deleted(QuickCalculationDisplayModel)
 
     var id: UUID {
         switch self {
-        case let .added(calculation), let .deleted(calculation):
+        case let .added(calculation),
+            let .edited(calculation),
+            let .reused(calculation),
+            let .deleted(calculation):
             calculation.id
         }
     }
 
     var icon: Image {
         switch self {
-        case .added: Image(.check)
+        case .added, .edited, .reused: Image(.check)
         case .deleted: Image(.info)
         }
     }
@@ -25,10 +30,20 @@ enum QuickToastContext: Identifiable, Equatable {
                 title: StringResource.addedCalculation.localized,
                 subtitle: String(format: StringResource.youAddedCalculation.localized, calculation.description)
             )
+        case let .edited(calculation):
+            TitleSubtitlePair(
+                title: StringResource.editedCalculation.localized,
+                subtitle: String(format: StringResource.youEditedCalculation.localized, calculation.description)
+            )
+        case let .reused(calculation):
+            TitleSubtitlePair(
+                title: StringResource.reusedCalculation.localized,
+                subtitle: String(format: StringResource.youReusedCalculation.localized, calculation.description)
+            )
         case let .deleted(calculation):
             TitleSubtitlePair(
                 title: StringResource.deletedCalculation.localized,
-                subtitle: String(format: StringResource.youDeletedCalculaion.localized, calculation.description)
+                subtitle: String(format: StringResource.youDeletedCalculation.localized, calculation.description)
             )
         }
     }
@@ -49,8 +64,12 @@ private extension QuickToastContext {
         case undo
         case addedCalculation = "new_calculation_has_been_created"
         case youAddedCalculation = "you_added_calculation"
+        case editedCalculation = "calculation_has_been_edited"
+        case youEditedCalculation = "you_edited_calculation"
+        case reusedCalculation = "calculation_has_been_reused"
+        case youReusedCalculation = "you_reused_calculation"
         case deletedCalculation = "the_calculation_has_been_deleted"
-        case youDeletedCalculaion = "you_deleted_calculation"
+        case youDeletedCalculation = "you_deleted_calculation"
 
         var localized: String {
             String(localized: rawValue)

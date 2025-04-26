@@ -369,6 +369,28 @@
         }
       }
     },
+    "calculation_has_been_edited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculation has been edited"
+          }
+        }
+      }
+    },
+    "calculation_has_been_reused" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculation has been reused"
+          }
+        }
+      }
+    },
     "calculations" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2326,6 +2348,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You deleted %@ calculation"
+          }
+        }
+      }
+    },
+    "you_edited_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You edited %@ calculation"
+          }
+        }
+      }
+    },
+    "you_reused_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You reused %@ calculation"
           }
         }
       }
