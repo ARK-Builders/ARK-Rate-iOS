@@ -68,12 +68,17 @@ private extension CurrencyCalculationRowView {
                         .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
                         .modifier(
                             CircleBorderModifier(
-                                width: 2,
-                                color: Color.borderSecondary
+                                color: Color.borderSecondary,
+                                lineWidth: 2
                             )
                         )
                 } else if let to = outputs.first {
-                    makeImage(code: to.id, size: Constants.badgeImageSize)
+                    makeImage(
+                        code: to.id,
+                        size: Constants.badgeImageSize,
+                        borderColor: Color.borderSecondary,
+                        borderWidth: 1.5
+                    )
                 }
             }
         }
@@ -143,14 +148,22 @@ private extension CurrencyCalculationRowView {
         return "\(input.formattedAmount) = \(remaining)"
     }
 
-    func makeImage(code: String, size: CGFloat) -> some View {
+    func makeImage(
+        code: String,
+        size: CGFloat,
+        borderColor: Color = Color.borderPrimary,
+        borderWidth: CGFloat = 1
+    ) -> some View {
         Image.image(code)
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: size, height: size)
-            .modifier(CircleBorderModifier(
-                color: Color.borderSecondary,
-                backgroundColor: Constants.currencyBackgroundColor)
+            .modifier(
+                CircleBorderModifier(
+                    color: borderColor,
+                    backgroundColor: Constants.currencyBackgroundColor,
+                    lineWidth: borderWidth
+                )
             )
     }
 
