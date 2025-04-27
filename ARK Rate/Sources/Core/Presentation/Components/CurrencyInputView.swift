@@ -75,6 +75,7 @@ private extension CurrencyInputView {
                 .padding(.vertical, Constants.verticalSpacing)
                 .padding(.trailing, Constants.horizontalSpacing)
         }
+        .frame(maxHeight: .infinity)
         .modifier(RoundedBorderModifier())
     }
 
@@ -83,7 +84,7 @@ private extension CurrencyInputView {
         if let deleteButtonAction {
             Button(action: deleteButtonAction) {
                 Image(ImageResource.trash)
-                    .aspectRatio(contentMode: ContentMode.fit)
+                    .aspectRatio(contentMode: .fit)
                     .padding(.vertical, Constants.verticalSpacing)
                     .padding(.horizontal, 16)
             }

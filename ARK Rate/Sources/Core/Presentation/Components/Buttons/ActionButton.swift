@@ -66,11 +66,11 @@ struct ActionButton: View {
                     .font(Font.customInterSemiBold(size: 16))
                     .foregroundColor(style.foregroundColor)
             }
+            .frame(height: Constants.height)
             .frame(maxWidth: expandHorizontally ? .infinity : nil)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .padding(.vertical, Constants.verticalSpacing)
         .padding(.horizontal, Constants.horizontalSpacing)
         .background(style.backgroundColor)
         .clipShape(
@@ -85,7 +85,7 @@ struct ActionButton: View {
 private extension ActionButton {
 
     enum Constants {
-        static let verticalSpacing: CGFloat = 10
-        static let horizontalSpacing: CGFloat = 14
+        static let height: CGFloat = 44
+        static let horizontalSpacing: CGFloat = 16
     }
 }

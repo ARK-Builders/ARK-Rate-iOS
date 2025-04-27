@@ -137,6 +137,7 @@ private extension QuickFeature {
     }
 
     func onAddQuickCalculationCallback(_ state: inout State, _ delegate: AddQuickCalculationFeature.Action.Delegate) -> Effect<Action> {
+        let isInitialCalculation = state.calculatedCalculations.isEmpty && state.pinnedCalculations.isEmpty
         let calculation: QuickCalculationDisplayModel
         let toastMessage: QuickToastContext
         switch delegate {
@@ -151,9 +152,14 @@ private extension QuickFeature {
             toastMessage = QuickToastContext.reused(calculation)
         default: return Effect.none
         }
-        return Effect.merge(
+        let reloadEffect: Effect<Action> = isInitialCalculation
+        ? .send(.loadListContent)
+        : Effect.merge(
             .send(.loadPinnedCalculations),
-            .send(.loadCalculatedCalculations),
+            .send(.loadCalculatedCalculations)
+        )
+        return Effect.merge(
+            reloadEffect,
             .run { send in
                 try? await Task.sleep(nanoseconds: Constants.toastAppearDelay)
                 await send(.showToastMessage(toastMessage))
