@@ -66,7 +66,12 @@ private extension CurrencyCalculationRowView {
                         .foregroundColor(Color.textTertiary600)
                         .font(Font.customInterSemiBold(size: 16))
                         .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
-                        .modifier(CircleBorderModifier())
+                        .modifier(
+                            CircleBorderModifier(
+                                width: 2,
+                                color: Color.borderSecondary
+                            )
+                        )
                 } else if let to = outputs.first {
                     makeImage(code: to.id, size: Constants.badgeImageSize)
                 }
@@ -143,7 +148,10 @@ private extension CurrencyCalculationRowView {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: size, height: size)
-            .modifier(CircleBorderModifier(backgroundColor: Constants.currencyBackgroundColor))
+            .modifier(CircleBorderModifier(
+                color: Color.borderSecondary,
+                backgroundColor: Constants.currencyBackgroundColor)
+            )
     }
 
     @ViewBuilder

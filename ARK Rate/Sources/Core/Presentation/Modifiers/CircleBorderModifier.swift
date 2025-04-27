@@ -4,15 +4,18 @@ struct CircleBorderModifier: ViewModifier {
 
     // MARK: - Properties
 
+    let width: CGFloat
     let color: Color
     let backgroundColor: Color
 
     // MARK: - Initialization
 
     init(
-        color: Color = Color.borderPrimary,
+        width: CGFloat = 1,
+        color: Color = Color.borderSecondary,
         backgroundColor: Color = Color.backgroundTertiary
     ) {
+        self.width = width
         self.color = color
         self.backgroundColor = backgroundColor
     }
@@ -28,7 +31,7 @@ struct CircleBorderModifier: ViewModifier {
             )
             .overlay(
                 Circle()
-                    .stroke(color, lineWidth: 2)
+                    .stroke(color, lineWidth: width)
             )
     }
 }
