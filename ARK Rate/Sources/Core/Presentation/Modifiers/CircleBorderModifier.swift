@@ -28,7 +28,7 @@ struct CircleBorderModifier: ViewModifier {
             )
             .overlay(
                 Circle()
-                    .stroke(color, lineWidth: 1)
+                    .stroke(color, lineWidth: 2)
             )
     }
 }

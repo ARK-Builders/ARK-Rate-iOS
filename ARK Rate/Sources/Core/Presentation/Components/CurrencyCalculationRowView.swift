@@ -62,8 +62,8 @@ private extension CurrencyCalculationRowView {
             makeImage(code: input.id, size: Constants.badgeImageSize)
             additionalBadgeContent {
                 if isGroup {
-                    Text("\(outputs.count - 1)+")
-                        .foregroundColor(Color.textTertiary)
+                    Text("+\(outputs.count - 1)")
+                        .foregroundColor(Color.textTertiary600)
                         .font(Font.customInterSemiBold(size: 16))
                         .frame(width: Constants.badgeImageSize, height: Constants.badgeImageSize)
                         .modifier(CircleBorderModifier())
@@ -143,7 +143,7 @@ private extension CurrencyCalculationRowView {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: size, height: size)
-            .modifier(CircleBorderModifier())
+            .modifier(CircleBorderModifier(backgroundColor: Constants.currencyBackgroundColor))
     }
 
     @ViewBuilder
@@ -167,6 +167,7 @@ private extension CurrencyCalculationRowView {
         static let badgeImageSize: CGFloat = 40
         static let badgeImageOffset: CGFloat = 28
         static let currencyImageSize: CGFloat = 20
+        static let currencyBackgroundColor = Color.white
     }
 
     enum StringResource: String.LocalizationValue {
