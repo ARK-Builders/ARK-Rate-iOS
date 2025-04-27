@@ -35,7 +35,7 @@ struct ToastView: View {
             actionButton
         }
         .padding(Constants.spacing)
-        .background(Color.backgroundTertiary)
+        .background(Color.backgroundPrimary)
         .modifier(
             RoundedBorderModifier(
                 lineWidth: 2,

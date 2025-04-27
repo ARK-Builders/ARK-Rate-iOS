@@ -31,7 +31,12 @@ struct CurrencyRowView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 40, height: 40)
-                        .modifier(CircleBorderModifier(backgroundColor: Constants.currencyBackgroundColor))
+                        .modifier(
+                            CircleBorderModifier(
+                                color: Color.borderSecondary,
+                                backgroundColor: Constants.currencyBackgroundColor
+                            )
+                        )
                     VStack(alignment: .leading, spacing: 4) {
                         Text(code)
                             .foregroundColor(Color.textPrimary)
