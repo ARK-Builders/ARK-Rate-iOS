@@ -210,7 +210,8 @@ private extension QuickFeature {
         state.searchText = searchText
         state.displayingCurrencies = state.isSearching ? state.allCurrencies.filter {
             $0.id.localizedCaseInsensitiveContains(searchText) ||
-            $0.name.localizedCaseInsensitiveContains(searchText)
+            $0.name.localizedCaseInsensitiveContains(searchText) ||
+            $0.countries.contains { $0.localizedCaseInsensitiveContains(searchText) }
         } : []
         return Effect.none
     }

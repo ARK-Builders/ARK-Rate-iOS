@@ -141,6 +141,7 @@ private extension CurrencyCalculationRowView {
     func makeImage(code: String, size: CGFloat) -> some View {
         Image.image(code)
             .resizable()
+            .aspectRatio(contentMode: .fill)
             .frame(width: size, height: size)
             .modifier(CircleBorderModifier())
     }

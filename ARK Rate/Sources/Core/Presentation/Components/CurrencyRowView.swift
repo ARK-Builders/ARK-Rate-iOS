@@ -29,9 +29,9 @@ struct CurrencyRowView: View {
                 HStack(spacing: 12) {
                     Image.image(code)
                         .resizable()
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 40, height: 40)
-                        .background(Color.backgroundTertiary)
-                        .clipShape(Circle())
+                        .modifier(CircleBorderModifier())
                     VStack(alignment: .leading, spacing: 4) {
                         Text(code)
                             .foregroundColor(Color.textPrimary)
