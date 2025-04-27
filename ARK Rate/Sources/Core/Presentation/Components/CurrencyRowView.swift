@@ -31,7 +31,7 @@ struct CurrencyRowView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 40, height: 40)
-                        .modifier(CircleBorderModifier())
+                        .modifier(CircleBorderModifier(backgroundColor: Constants.currencyBackgroundColor))
                     VStack(alignment: .leading, spacing: 4) {
                         Text(code)
                             .foregroundColor(Color.textPrimary)
@@ -62,5 +62,6 @@ private extension CurrencyRowView {
     enum Constants {
         static let verticalSpacing: CGFloat = 16
         static let horizontalSpacing: CGFloat = 24
+        static let currencyBackgroundColor = Color.white
     }
 }
