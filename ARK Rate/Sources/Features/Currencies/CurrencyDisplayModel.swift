@@ -6,10 +6,11 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
 
     let id: String
     let amount: Decimal
+    let countries: [String]
     let disabled: Bool
 
     var name: String {
-        String(localized: String.LocalizationValue(id))
+        NSLocalizedString(id, tableName: "CodeDataset", comment: "")
     }
 
     var formattedAmount: String {
@@ -25,6 +26,7 @@ struct CurrencyDisplayModel: Identifiable, Equatable {
     ) {
         self.id = code
         self.amount = amount
+        self.countries = Bundle.countryDataset.keys(forValue: id)
         self.disabled = disabled
     }
 }

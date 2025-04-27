@@ -21,6 +21,7 @@ struct CircleBorderModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            .clipShape(Circle())
             .background(
                 Circle()
                     .fill(backgroundColor)
