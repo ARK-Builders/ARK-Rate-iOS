@@ -5,7 +5,20 @@ struct NavigationBarModifier: ViewModifier {
     // MARK: - Properties
 
     let title: String
+    let disabled: Bool
     let backButtonAction: ButtonAction
+
+    // MARK: - Initialization
+
+    init(
+        title: String,
+        disabled: Bool = false,
+        backButtonAction: @escaping ButtonAction
+    ) {
+        self.title = title
+        self.disabled = disabled
+        self.backButtonAction = backButtonAction
+    }
 
     // MARK: - Body
 
@@ -17,11 +30,13 @@ struct NavigationBarModifier: ViewModifier {
                         Image.chevronLeft
                             .foregroundColor(Color.textPrimary)
                     }
+                    .modifier(DisabledModifier(disabled: disabled))
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text(title)
                         .foregroundColor(Color.textPrimary)
                         .font(Font.customInterSemiBold(size: 20))
+                        .modifier(DisabledModifier(disabled: disabled))
                 }
             }
             .navigationBarBackButtonHidden(true)

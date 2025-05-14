@@ -10,6 +10,7 @@ struct AddQuickCalculationFeature {
         var canSave: Bool = false
         var usageMode: UsageMode
         var selectionMode: SelectionMode?
+        var groupName: String = String.empty
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
 
@@ -39,9 +40,9 @@ struct AddQuickCalculationFeature {
         case selectInputCurrency
         case updateInputCurrencyAmount(String)
         case selectOutputCurrency(UUID)
-        case updateOutputCurrencyAmount(String, UUID)
         case addOutputCurrencyButtonTapped
         case deleteOutputCurrencyButtonTapped(UUID)
+        case updateGroupName(String)
         case saveButtonTapped
         case backButtonTapped
         case delegate(Delegate)
@@ -71,9 +72,9 @@ struct AddQuickCalculationFeature {
             case .selectInputCurrency: selectInputCurrency(&state)
             case .updateInputCurrencyAmount(let amount): updateInputCurrencyAmount(&state, amount)
             case .selectOutputCurrency(let id): selectOutputCurrency(&state, id)
-            case .updateOutputCurrencyAmount(let amount, let id): updateOutputCurrencyAmount(&state, amount, id)
             case .addOutputCurrencyButtonTapped: addOutputCurrencyButtonTapped(&state)
             case .deleteOutputCurrencyButtonTapped(let id): deleteOutputCurrencyButtonTapped(&state, id)
+            case .updateGroupName(let groupName): updateGroupName(&state, groupName)
             case .saveButtonTapped: saveButtonTapped(&state)
             case .backButtonTapped: backButtonTapped()
             case let .destination(.presented(.searchACurrency(.delegate(.currencyCodeDidSelect(code))))): currencyCodeDidSelect(&state, code)
@@ -125,13 +126,6 @@ private extension AddQuickCalculationFeature {
         return Effect.none
     }
 
-    func updateOutputCurrencyAmount(_ state: inout State, _ amount: String, _ id: UUID) -> Effect<Action> {
-        if let index = state.outputCurrencies.index(id: id) {
-            state.outputCurrencies[index].amount = Decimal.from(amount)
-        }
-        return Effect.none
-    }
-
     func addOutputCurrencyButtonTapped(_ state: inout State) -> Effect<Action> {
         state.selectionMode = .addingOutputCurrency
         state.destination = .searchACurrency(SearchACurrencyFeature.State(disabledCodes: state.codes))
@@ -160,6 +154,11 @@ private extension AddQuickCalculationFeature {
         }
         updateOutputCurrencyAmounts(&state)
         updateCanSave(&state)
+        return Effect.none
+    }
+
+    func updateGroupName(_ state: inout State, _ groupName: String) -> Effect<Action> {
+        state.groupName = groupName
         return Effect.none
     }
 

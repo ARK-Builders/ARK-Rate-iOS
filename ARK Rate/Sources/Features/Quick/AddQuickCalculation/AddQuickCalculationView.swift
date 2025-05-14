@@ -6,21 +6,26 @@ struct AddQuickCalculationView: View {
 
     // MARK: - Properties
 
+    @State var isShowingAddGroupModal = false
     @Bindable var store: StoreOf<AddQuickCalculationFeature>
 
     // MARK: - Body
 
     var body: some View {
-        ScrollView {
-            content
-        }
-        .safeAreaInset(edge: .bottom) {
-            footer
+        ZStack {
+            ScrollView {
+                content
+            }
+            .safeAreaInset(edge: .bottom) {
+                footer
+            }
+            addGroupModal
         }
         .background(Color.backgroundPrimary)
         .modifier(
             NavigationBarModifier(
                 title: StringResource.title.localized,
+                disabled: isShowingAddGroupModal,
                 backButtonAction: { store.send(.backButtonTapped) }
             )
         )
@@ -52,7 +57,9 @@ private extension AddQuickCalculationView {
             )
             GroupMenuView(
                 groups: .constant([]),
-                addGroupAction: {}
+                addGroupAction: {
+                    isShowingAddGroupModal = true
+                }
             )
         }
         .padding(Constants.spacing)
@@ -77,10 +84,7 @@ private extension AddQuickCalculationView {
             CurrencyInputView(
                 label: isFirstItem ? StringResource.to.localized.capitalized : nil,
                 name: currency.code,
-                amount: Binding(
-                    get: { currency.formattedAmount },
-                    set: { newValue in store.send(.updateOutputCurrencyAmount(newValue, currency.id)) }
-                ),
+                amount: .constant(currency.formattedAmount),
                 placeHolder: StringResource.result.localized,
                 isEditingEnabled: false,
                 action: { store.send(.selectOutputCurrency(currency.id)) },
@@ -101,6 +105,29 @@ private extension AddQuickCalculationView {
         }
         .background(Color.backgroundPrimary)
     }
+
+    var addGroupModal: some View {
+        func closeAction() {
+            isShowingAddGroupModal = false
+        }
+        return Group {
+            if isShowingAddGroupModal {
+                Color.backgroundOverlay
+                    .ignoresSafeArea()
+                    .zIndex(Constants.modalBackgroundZIndex)
+                AddGroupModal(
+                    groupName: Binding(
+                        get: { store.groupName },
+                        set: { newValue in store.send(.updateGroupName(newValue)) }
+                    ),
+                    closeButtonAction: closeAction,
+                    cancelButtonAction: closeAction,
+                    confirmButtonAction: {}
+                )
+                .zIndex(Constants.modalZIndex)
+            }
+        }
+    }
 }
 
 // MARK: - Constants
@@ -109,6 +136,8 @@ private extension AddQuickCalculationView {
 
     enum Constants {
         static let spacing: CGFloat = 16
+        static let modalZIndex: Double = 2
+        static let modalBackgroundZIndex: Double = 1
     }
 
     enum StringResource: String.LocalizationValue {

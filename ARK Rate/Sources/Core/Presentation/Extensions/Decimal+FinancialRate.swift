@@ -40,6 +40,6 @@ extension Decimal {
 extension Decimal {
 
     static func from(_ amount: String, default defaultValue: Decimal = 0) -> Decimal {
-        Decimal(string: amount) ?? defaultValue
+        Decimal(string: amount.replacingOccurrences(of: ",", with: ".")) ?? defaultValue
     }
 }
