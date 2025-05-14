@@ -30,13 +30,13 @@ struct NavigationBarModifier: ViewModifier {
                         Image.chevronLeft
                             .foregroundColor(Color.textPrimary)
                     }
-                    .modifier(DisabledModifier(disabled: disabled))
+                    .modifier(DisabledModifier(disabled: disabled, disabledOpacity: 0.2))
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text(title)
                         .foregroundColor(Color.textPrimary)
                         .font(Font.customInterSemiBold(size: 20))
-                        .modifier(DisabledModifier(disabled: disabled))
+                        .modifier(DisabledModifier(disabled: disabled, disabledOpacity: 0.2))
                 }
             }
             .navigationBarBackButtonHidden(true)
