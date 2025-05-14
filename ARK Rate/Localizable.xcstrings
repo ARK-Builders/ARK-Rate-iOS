@@ -10,7 +10,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add Group"
+            "value" : "Add Folder"
           }
         }
       }
@@ -101,6 +101,61 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Calculations"
+          }
+        }
+      }
+    },
+    "cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "confirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm"
+          }
+        }
+      }
+    },
+    "create_group" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Folder"
+          }
+        }
+      }
+    },
+    "create_group_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter a name for this folder."
+          }
+        }
+      }
+    },
+    "create_group_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Folder 1"
           }
         }
       }
@@ -240,6 +295,17 @@
         }
       }
     },
+    "group_name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folder name"
+          }
+        }
+      }
+    },
     "input_value" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -290,7 +356,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Group"
+            "value" : "New Folder"
           }
         }
       }

@@ -241,7 +241,7 @@ private extension QuickView {
     }
 
     var calculationOptionsBottomSheet: some View {
-        func close() {
+        func closeAction() {
             isShowingCalculationOptions = false
             store.send(.calculationItemSelected(nil))
         }
@@ -249,21 +249,21 @@ private extension QuickView {
             togglePinnedButtonTitle: store.selectedCalculation?.togglePinnedTitle,
             togglePinnedButtonAction: {
                 store.send(.togglePinnedButtonTapped(id: store.selectedCalculation?.id))
-                close()
+                closeAction()
             },
             editButtonAction: {
                 store.send(.editCalculationButtonTapped(id: store.selectedCalculation?.id))
-                close()
+                closeAction()
             },
             reuseButtonAction: {
                 store.send(.reuseCalculationButtonTapped(id: store.selectedCalculation?.id))
-                close()
+                closeAction()
             },
             deleteButtonAction: {
                 store.send(.deleteCalculationButtonTapped(id: store.selectedCalculation?.id))
-                close()
+                closeAction()
             },
-            closeButtonAction: close
+            closeButtonAction: closeAction
         )
         .presentationCornerRadius(20)
         .presentationDetents([.fraction(hasExtendedTopArea ? 0.4 : 0.5)])
