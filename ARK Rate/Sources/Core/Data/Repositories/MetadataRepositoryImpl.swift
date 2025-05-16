@@ -8,6 +8,14 @@ struct MetadataRepositoryImpl: MetadataRepository {
 
     // MARK: - Conformance
 
+    func recordHasLaunchedBefore() {
+        userDefaults.set(true, forKey: Keys.hasLaunchedBefore.rawValue)
+    }
+
+    func hasLaunchedBefore() -> Bool {
+        userDefaults.object(forKey: Keys.hasLaunchedBefore.rawValue) as? Bool ?? false
+    }
+
     func recordCurrenciesFetchDate() {
         userDefaults.set(Date(), forKey: Keys.currenciesFetchDate.rawValue)
     }
@@ -22,6 +30,7 @@ struct MetadataRepositoryImpl: MetadataRepository {
 private extension MetadataRepositoryImpl {
 
     enum Keys: String {
+        case hasLaunchedBefore
         case currenciesFetchDate
     }
 }

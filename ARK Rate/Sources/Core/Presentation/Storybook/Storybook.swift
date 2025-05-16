@@ -45,18 +45,6 @@ struct Storybook: PreviewProvider {
                     deleteButtonAction: {}
                 )
                     .padding(.horizontal, Constants.spacing)
-
-                LineDivider()
-
-                Text("GroupMenuView")
-                GroupMenuView(groups: .constant([]), addGroupAction: {})
-                    .padding(.horizontal, Constants.spacing)
-                GroupMenuView(groups: .constant([
-                    "Group 1",
-                    "Group 2",
-                    "Group 3"
-                ]), addGroupAction: {})
-                .padding(.horizontal, Constants.spacing)
             }
             .padding(.bottom, Constants.spacing)
         }

@@ -30,7 +30,7 @@ struct ARKRateApp: App {
 
     init() {
         SwiftDataManager.shared.modelContext = sharedModelContainer.mainContext
-        store.send(.currenciesAction(.fetchCurrencies))
+        store.send(.didFinishLaunching)
     }
 
     // MARK: - Body
