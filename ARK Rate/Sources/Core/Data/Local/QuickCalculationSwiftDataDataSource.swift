@@ -29,6 +29,7 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
             fetchedModel.inputCurrencyAmount = model.inputCurrencyAmount
             fetchedModel.outputCurrencyCodes = model.outputCurrencyCodes
             fetchedModel.outputCurrencyAmounts = model.outputCurrencyAmounts
+            fetchedModel.group = model.group
             try SwiftDataManager.shared.save()
         } else {
             try SwiftDataManager.shared.insert(model)

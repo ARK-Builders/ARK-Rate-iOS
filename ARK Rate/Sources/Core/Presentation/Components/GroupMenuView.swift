@@ -4,8 +4,10 @@ struct GroupMenuView: View {
 
     // MARK: - Properties
 
-    @Binding var groups: [String]
+    @Binding var groupName: String
+    let groups: [GroupDisplayModel]
     let addGroupAction: ButtonAction
+    let onSelectedGroupAction: SelectedAction<GroupDisplayModel>
 
     // MARK: - Body
 
@@ -17,8 +19,8 @@ struct GroupMenuView: View {
             HStack(spacing: Constants.itemSpacing) {
                 Image.folder
                     .foregroundColor(Color.foregroundQuarterary)
-                Text(StringResource.newGroup.localized)
-                    .foregroundColor(Color.textPlaceholder)
+                Text(groupName)
+                    .foregroundColor(Color.textPrimary)
                     .font(Font.customInterRegular(size: 16))
                 Spacer()
                 Image.chevronDown
@@ -36,26 +38,33 @@ struct GroupMenuView: View {
 private extension GroupMenuView {
 
     var newGroupItem: some View {
-        Button(action: addGroupAction) {
-            item(name: StringResource.newGroup.localized)
-        }
+        Button(
+            action: addGroupAction,
+            label: {
+                HStack(spacing: Constants.itemSpacing) {
+                    Image.folderBadgePlus
+                        .foregroundColor(Color.foregroundQuarterary)
+                    Text(StringResource.newGroup.localized)
+                        .foregroundColor(Color.textPrimary)
+                        .font(Font.customInterMedium(size: 16))
+                }
+            }
+        )
     }
 
     var groupItems: some View {
-        ForEach(groups, id: \.self) { group in
-            Button(action: {}) {
-                item(name: group)
-            }
-        }
-    }
-
-    func item(name: String) -> some View {
-        HStack(spacing: Constants.itemSpacing) {
-            Image.folderBadgePlus
-                .foregroundColor(Color.foregroundQuarterary)
-            Text(name)
-                .foregroundColor(Color.textPrimary)
-                .font(Font.customInterMedium(size: 16))
+        ForEach(groups, id: \.id) { group in
+            Button(
+                action: {
+                    groupName = group.name
+                    onSelectedGroupAction(group)
+                },
+                label: {
+                    Text(group.name)
+                        .foregroundColor(Color.textPrimary)
+                        .font(Font.customInterMedium(size: 16))
+                }
+            )
         }
     }
 }

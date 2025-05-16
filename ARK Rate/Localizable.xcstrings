@@ -160,6 +160,17 @@
         }
       }
     },
+    "default" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default"
+          }
+        }
+      }
+    },
     "delete" : {
       "localizations" : {
         "en" : {

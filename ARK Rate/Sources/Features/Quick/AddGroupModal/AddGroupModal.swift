@@ -83,7 +83,7 @@ private extension AddGroupModal {
             ZStack {
                 TextField(StringResource.createGroupPlaceholder.localized, text: $groupName)
                     .multilineTextAlignment(.leading)
-                    .foregroundColor(Color.textPlaceholder)
+                    .foregroundColor(Color.textPrimary)
                     .font(Font.customInterRegular(size: 16))
                     .padding(.horizontal, 14)
             }
@@ -100,6 +100,7 @@ private extension AddGroupModal {
                 expandHorizontally: true,
                 action: confirmButtonAction
             )
+            .modifier(DisabledModifier(disabled: groupName.isEmpty))
             SecondaryButton(
                 title: StringResource.cancel.localized,
                 expandHorizontally: true,

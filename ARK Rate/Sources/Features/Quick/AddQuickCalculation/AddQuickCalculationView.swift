@@ -56,9 +56,13 @@ private extension AddQuickCalculationView {
                 action: { store.send(.addOutputCurrencyButtonTapped) }
             )
             GroupMenuView(
-                groups: .constant([]),
+                groupName: .constant(store.selectedGroup?.name ?? StringResource.newGroup.localized),
+                groups: store.groups.elements,
                 addGroupAction: {
                     isShowingAddGroupModal = true
+                },
+                onSelectedGroupAction: { group in
+                    store.send(.onSelectedGroup(group))
                 }
             )
         }
@@ -117,12 +121,15 @@ private extension AddQuickCalculationView {
                     .zIndex(Constants.modalBackgroundZIndex)
                 AddGroupModal(
                     groupName: Binding(
-                        get: { store.groupName },
-                        set: { newValue in store.send(.updateGroupName(newValue)) }
+                        get: { store.addingGroupName },
+                        set: { newValue in store.send(.updateAddingGroupName(newValue)) }
                     ),
                     closeButtonAction: closeAction,
                     cancelButtonAction: closeAction,
-                    confirmButtonAction: {}
+                    confirmButtonAction: {
+                        closeAction()
+                        store.send(.createGroup)
+                    }
                 )
                 .zIndex(Constants.modalZIndex)
             }
@@ -148,6 +155,7 @@ private extension AddQuickCalculationView {
         case inputValue = "input_value"
         case result
         case newCurrency = "new_currency"
+        case newGroup = "new_group"
         case save
 
         var localized: String {

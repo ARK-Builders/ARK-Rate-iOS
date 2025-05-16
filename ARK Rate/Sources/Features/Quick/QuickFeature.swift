@@ -38,19 +38,13 @@ struct QuickFeature {
         case deleteCalculationButtonTapped(id: UUID?)
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
+        case addDefaultQuickCalculationGroup
         case showToastMessage(QuickToastContext)
         case clearToastMessage(QuickToastContext)
         case toastMessageActionButtonTapped(QuickToastContext)
         case hideTabbar
         case showTabbar
         case destination(PresentationAction<Destination.Action>)
-    }
-
-    // MARK: - Constants
-
-    private enum Constants {
-        static let toastAppearDelay: UInt64 = 350_000_000
-        static let toastAutoClearDelay: UInt64 = 10_000_000_000
     }
 
     // MARK: - Properties
@@ -61,6 +55,7 @@ struct QuickFeature {
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
     @Dependency(\.togglePinnedCalculationUseCase) var togglePinnedCalculationUseCase
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
+    @Dependency(\.quickCalculationGroupRepository) var quickCalculationGroupRepository
 
     // MARK: - Reducer
 
@@ -81,6 +76,7 @@ struct QuickFeature {
             case .deleteCalculationButtonTapped(let id): deleteCalculationButtonTapped(&state, id)
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
+            case .addDefaultQuickCalculationGroup: addDefaultQuickCalculationGroup(&state)
             case .showToastMessage(let context): showToastMessage(&state, context)
             case .clearToastMessage(let context): clearToastMessage(&state, context)
             case .toastMessageActionButtonTapped(let context): toastMessageActionButtonTapped(&state, context)
@@ -222,6 +218,15 @@ private extension QuickFeature {
         return Effect.none
     }
 
+    func addDefaultQuickCalculationGroup(_ state: inout State) -> Effect<Action> {
+        let group = QuickCalculationGroup(
+            name: StringResource.default.localized,
+            displayOrder: 0
+        )
+        try? quickCalculationGroupRepository.save(group)
+        return Effect.none
+    }
+
     func showToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {
         state.toastMessages.append(context)
         return Effect.run { send in
@@ -280,3 +285,21 @@ extension QuickFeature {
 // MARK: -
 
 extension QuickFeature.Destination.State: Equatable {}
+
+// MARK: - Constants
+
+private extension QuickFeature {
+
+    enum Constants {
+        static let toastAppearDelay: UInt64 = 350_000_000
+        static let toastAutoClearDelay: UInt64 = 10_000_000_000
+    }
+
+    enum StringResource: String.LocalizationValue {
+        case `default`
+
+        var localized: String {
+            String(localized: rawValue)
+        }
+    }
+}

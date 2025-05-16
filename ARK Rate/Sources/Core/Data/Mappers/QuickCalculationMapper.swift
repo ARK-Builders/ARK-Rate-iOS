@@ -12,7 +12,8 @@ extension QuickCalculation {
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
-            outputCurrencyAmounts: outputCurrencyAmounts
+            outputCurrencyAmounts: outputCurrencyAmounts,
+            group: group?.toQuickCalculationGroupDTO
         )
     }
 
@@ -31,7 +32,8 @@ extension QuickCalculation {
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
-            outputCurrencyAmounts: outputCurrencyAmounts
+            outputCurrencyAmounts: outputCurrencyAmounts,
+            group: group
         )
     }
 
@@ -43,7 +45,8 @@ extension QuickCalculation {
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
-            outputCurrencyAmounts: outputCurrencyAmounts
+            outputCurrencyAmounts: outputCurrencyAmounts,
+            group: group
         )
     }
 }
@@ -60,7 +63,8 @@ extension QuickCalculationDTO {
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
-            outputCurrencyAmounts: outputCurrencyAmounts
+            outputCurrencyAmounts: outputCurrencyAmounts,
+            group: group?.toQuickCalculationGroup
         )
     }
 
@@ -72,7 +76,8 @@ extension QuickCalculationDTO {
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
-            outputCurrencyAmounts: outputCurrencyAmounts
+            outputCurrencyAmounts: outputCurrencyAmounts,
+            group: group?.toQuickCalculationGroupModel
         )
     }
 }
@@ -89,7 +94,8 @@ extension QuickCalculationModel {
             inputCurrencyCode: inputCurrencyCode,
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
-            outputCurrencyAmounts: outputCurrencyAmounts
+            outputCurrencyAmounts: outputCurrencyAmounts,
+            group: group?.toQuickCalculationGroupDTO
         )
     }
 }

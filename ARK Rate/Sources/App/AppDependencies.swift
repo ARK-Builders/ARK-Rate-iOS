@@ -17,6 +17,11 @@ extension DependencyValues {
         set { self[LoadQuickCalculationsUseCaseKey.self] = newValue }
     }
 
+    var loadQuickCalculationGroupsUseCaseKey: LoadQuickCalculationGroupsUseCase {
+        get { self[LoadQuickCalculationGroupsUseCaseKey.self] }
+        set { self[LoadQuickCalculationGroupsUseCaseKey.self] = newValue }
+    }
+
     var currencyCalculationUseCase: CurrencyCalculationUseCase {
         get { self[CurrencyCalculationUseCaseKey.self] }
         set { self[CurrencyCalculationUseCaseKey.self] = newValue }
@@ -40,6 +45,11 @@ extension DependencyValues {
     var quickCalculationRepository: QuickCalculationRepository {
         get { self[QuickCalculationRepositoryKey.self] }
         set { self[QuickCalculationRepositoryKey.self] = newValue }
+    }
+
+    var quickCalculationGroupRepository: QuickCalculationGroupRepository {
+        get { self[QuickCalculationGroupRepositoryKey.self] }
+        set { self[QuickCalculationGroupRepositoryKey.self] = newValue }
     }
 
     var metadataRepository: MetadataRepository {
@@ -71,6 +81,11 @@ extension DependencyValues {
         get { self[QuickCalculationLocalDataSourceKey.self] }
         set { self[QuickCalculationLocalDataSourceKey.self] = newValue }
     }
+
+    var quickCalculationGroupLocalDataSource: QuickCalculationGroupLocalDataSource {
+        get { self[QuickCalculationGroupLocalDataSourceKey.self] }
+        set { self[QuickCalculationGroupLocalDataSourceKey.self] = newValue }
+    }
 }
 
 // MARK: - LoadCurrenciesUseCase
@@ -101,6 +116,15 @@ private enum LoadQuickCalculationsUseCaseKey: DependencyKey {
         quickCalculationRepository: DependencyValues._current.quickCalculationRepository,
         currencyCalculationUseCase: DependencyValues._current.currencyCalculationUseCase,
         metadataRepository: DependencyValues._current.metadataRepository
+    )
+}
+
+// MARK: - LoadQuickCalculationGroupsUseCase
+
+private enum LoadQuickCalculationGroupsUseCaseKey: DependencyKey {
+
+    static let liveValue: LoadQuickCalculationGroupsUseCase = LoadQuickCalculationGroupsUseCase(
+        quickCalculationGroupRepository: DependencyValues._current.quickCalculationGroupRepository
     )
 }
 
@@ -144,6 +168,15 @@ private enum QuickCalculationRepositoryKey: DependencyKey {
 
     static let liveValue: QuickCalculationRepository = QuickCalculationRepositoryImpl(
         localDataSource: DependencyValues._current.quickCalculationLocalDataSource
+    )
+}
+
+// MARK: - QuickCalculationGroupRepositoryKey
+
+private enum QuickCalculationGroupRepositoryKey: DependencyKey {
+
+    static let liveValue: QuickCalculationGroupRepository = QuickCalculationGroupRepositoryImpl(
+        localDataSource: DependencyValues._current.quickCalculationGroupLocalDataSource
     )
 }
 
@@ -196,4 +229,11 @@ private enum CurrencyStatisticLocalDataSourceKey: DependencyKey {
 private enum QuickCalculationLocalDataSourceKey: DependencyKey {
 
     static let liveValue: QuickCalculationLocalDataSource = QuickCalculationSwiftDataDataSource()
+}
+
+// MARK: - QuickCalculationGroupLocalDataSourceKey
+
+private enum QuickCalculationGroupLocalDataSourceKey: DependencyKey {
+
+    static let liveValue: QuickCalculationGroupLocalDataSource = QuickCalculationGroupSwiftDataDataSource()
 }

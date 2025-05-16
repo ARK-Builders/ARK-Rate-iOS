@@ -11,4 +11,5 @@ struct QuickCalculationDTO {
     let inputCurrencyAmount: Decimal
     let outputCurrencyCodes: [String]
     let outputCurrencyAmounts: [Decimal]
+    let group: QuickCalculationGroupDTO?
 }

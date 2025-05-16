@@ -13,12 +13,17 @@ struct AppFeature {
     }
 
     enum Action {
+        case didFinishLaunching
         case tabIndexChanged(UInt)
         case tabbarIsHiddenToggled(Bool)
         case currenciesAction(CurrenciesFeature.Action)
         case quickAction(QuickFeature.Action)
         case settingsAction(SettingsFeature.Action)
     }
+
+    // MARK: - Properties
+
+    @Dependency(\.metadataRepository) var metadataRepository
 
     // MARK: - Reducer
 
@@ -34,6 +39,7 @@ struct AppFeature {
         }
         Reduce { state, action in
             switch action {
+            case .didFinishLaunching: return didFinishLaunching(&state)
             case .tabIndexChanged(let tabIndex): return tabIndexChanged(&state, tabIndex)
             case .tabbarIsHiddenToggled(let isHidden): return tabbarIsHiddenToggled(&state, isHidden)
             case .currenciesAction(.currenciesUpdated(let currencies)): return .send(.quickAction(.currenciesUpdated(currencies)))
@@ -48,6 +54,15 @@ struct AppFeature {
 // MARK: - Implementation
 
 private extension AppFeature {
+
+    func didFinishLaunching(_ state: inout State) -> Effect<Action> {
+        var effects: [Effect<Action>] = [.send(.currenciesAction(.fetchCurrencies))]
+        if !metadataRepository.hasLaunchedBefore() {
+            metadataRepository.recordHasLaunchedBefore()
+            effects.append(.send(.quickAction(.addDefaultQuickCalculationGroup)))
+        }
+        return Effect.merge(effects)
+    }
 
     func tabIndexChanged(_ state: inout State, _ tabIndex: UInt) -> Effect<Action> {
         state.selectedTabIndex = tabIndex
