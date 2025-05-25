@@ -59,7 +59,7 @@ private extension AppFeature {
         var effects: [Effect<Action>] = [.send(.currenciesAction(.fetchCurrencies))]
         if !metadataRepository.hasLaunchedBefore() {
             metadataRepository.recordHasLaunchedBefore()
-            effects.append(.send(.quickAction(.addDefaultQuickCalculationGroup)))
+            effects.append(.send(.quickAction(.addDefaultGroup)))
         }
         return Effect.merge(effects)
     }

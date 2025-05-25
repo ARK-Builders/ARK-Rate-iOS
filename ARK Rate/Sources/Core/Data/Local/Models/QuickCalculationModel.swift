@@ -14,7 +14,7 @@ final class QuickCalculationModel {
     var outputCurrencyCodes: [String]
     var outputCurrencyAmounts: [Decimal]
 
-    @Relationship var group: QuickCalculationGroupModel?
+    @Relationship var group: QuickCalculationGroupModel
 
     // MARK: - Initialization
 
@@ -26,7 +26,7 @@ final class QuickCalculationModel {
         inputCurrencyAmount: Decimal,
         outputCurrencyCodes: [String],
         outputCurrencyAmounts: [Decimal],
-        group: QuickCalculationGroupModel?
+        group: QuickCalculationGroupModel
     ) {
         self.id = id
         self.pinnedDate = pinnedDate

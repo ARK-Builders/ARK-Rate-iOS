@@ -7,7 +7,7 @@ struct GroupMenuView: View {
     @Binding var groupName: String
     let groups: [GroupDisplayModel]
     let addGroupAction: ButtonAction
-    let onSelectedGroupAction: SelectedAction<GroupDisplayModel>
+    let onSelectedGroupAction: ActionHandler<GroupDisplayModel>
 
     // MARK: - Body
 
@@ -56,11 +56,11 @@ private extension GroupMenuView {
         ForEach(groups, id: \.id) { group in
             Button(
                 action: {
-                    groupName = group.name
+                    groupName = group.displayName
                     onSelectedGroupAction(group)
                 },
                 label: {
-                    Text(group.name)
+                    Text(group.displayName)
                         .foregroundColor(Color.textPrimary)
                         .font(Font.customInterMedium(size: 16))
                 }

@@ -17,7 +17,12 @@ extension DependencyValues {
         set { self[LoadQuickCalculationsUseCaseKey.self] = newValue }
     }
 
-    var loadQuickCalculationGroupsUseCaseKey: LoadQuickCalculationGroupsUseCase {
+    var saveQuickCalculationUseCase: SaveQuickCalculationUseCase {
+        get { self[SaveQuickCalculationUseCaseKey.self] }
+        set { self[SaveQuickCalculationUseCaseKey.self] = newValue }
+    }
+
+    var loadQuickCalculationGroupsUseCase: LoadQuickCalculationGroupsUseCase {
         get { self[LoadQuickCalculationGroupsUseCaseKey.self] }
         set { self[LoadQuickCalculationGroupsUseCaseKey.self] = newValue }
     }
@@ -113,9 +118,20 @@ private enum LoadFrequentCurrenciesUseCaseKey: DependencyKey {
 private enum LoadQuickCalculationsUseCaseKey: DependencyKey {
 
     static let liveValue: LoadQuickCalculationsUseCase = LoadQuickCalculationsUseCase(
+        metadataRepository: DependencyValues._current.metadataRepository,
         quickCalculationRepository: DependencyValues._current.quickCalculationRepository,
-        currencyCalculationUseCase: DependencyValues._current.currencyCalculationUseCase,
-        metadataRepository: DependencyValues._current.metadataRepository
+        currencyCalculationUseCase: DependencyValues._current.currencyCalculationUseCase
+    )
+}
+
+// MARK: - SaveQuickCalculationUseCase
+
+private enum SaveQuickCalculationUseCaseKey: DependencyKey {
+
+    static let liveValue: SaveQuickCalculationUseCase = SaveQuickCalculationUseCase(
+        quickCalculationRepository: DependencyValues._current.quickCalculationRepository,
+        quickCalculationGroupRepository: DependencyValues._current.quickCalculationGroupRepository,
+        currencyStatisticRepository: DependencyValues._current.currencyStatisticRepository
     )
 }
 

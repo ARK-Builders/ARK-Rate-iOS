@@ -7,10 +7,13 @@ struct QuickFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
+        var hasContent = false
         var searchText = String.empty
+        var selectedGroupIndex = 0
         var selectedCalculation: QuickCalculationDisplayModel?
-        var pinnedCalculations: IdentifiedArrayOf<QuickCalculationDisplayModel> = []
-        var calculatedCalculations: IdentifiedArrayOf<QuickCalculationDisplayModel> = []
+        var calculationGroups: IdentifiedArrayOf<GroupDisplayModel> = []
+        var pinnedCalculations: [IdentifiedArrayOf<QuickCalculationDisplayModel>] = []
+        var calculatedCalculations: [IdentifiedArrayOf<QuickCalculationDisplayModel>] = []
         var allCurrencies: [CurrencyDisplayModel] = []
         var frequentCurrencies: [CurrencyDisplayModel] = []
         var displayingCurrencies: [CurrencyDisplayModel] = []
@@ -24,11 +27,11 @@ struct QuickFeature {
     }
 
     enum Action {
-        case loadListContent
-        case loadPinnedCalculations
-        case loadCalculatedCalculations
+        case addDefaultGroup
         case loadCurrencies
-        case loadFrequentCurrencies
+        case loadCalculations
+        case loadListContent
+        case selectGroupIndex(Int)
         case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
         case currencyCodeSelected(String)
@@ -38,7 +41,7 @@ struct QuickFeature {
         case deleteCalculationButtonTapped(id: UUID?)
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
-        case addDefaultQuickCalculationGroup
+        case reorderCalculationGroup(Int, Int)
         case showToastMessage(QuickToastContext)
         case clearToastMessage(QuickToastContext)
         case toastMessageActionButtonTapped(QuickToastContext)
@@ -49,25 +52,26 @@ struct QuickFeature {
 
     // MARK: - Properties
 
+    @Dependency(\.quickCalculationRepository) var quickCalculationRepository
+    @Dependency(\.quickCalculationGroupRepository) var quickCalculationGroupRepository
     @Dependency(\.loadQuickCalculationsUseCase) var loadQuickCalculationsUseCase
+    @Dependency(\.loadQuickCalculationGroupsUseCase) var loadQuickCalculationGroupsUseCase
     @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
     @Dependency(\.loadFrequentCurrenciesUseCase) var loadFrequentCurrenciesUseCase
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
     @Dependency(\.togglePinnedCalculationUseCase) var togglePinnedCalculationUseCase
-    @Dependency(\.quickCalculationRepository) var quickCalculationRepository
-    @Dependency(\.quickCalculationGroupRepository) var quickCalculationGroupRepository
 
     // MARK: - Reducer
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .loadListContent: loadListContent(&state)
-            case .loadPinnedCalculations: loadPinnedCalculations(&state)
-            case .loadCalculatedCalculations: loadCalculatedCalculations(&state)
+            case .addDefaultGroup: addDefaultGroup(&state)
             case .loadCurrencies: loadCurrencies(&state)
-            case .loadFrequentCurrencies: loadFrequentCurrencies(&state)
-            case .currenciesUpdated: .send(.loadPinnedCalculations)
+            case .loadCalculations: loadCalculations(&state)
+            case .loadListContent: loadListContent(&state)
+            case .selectGroupIndex(let index): selectGroupIndex(&state, index)
+            case .currenciesUpdated: loadCurrencies(&state)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .currencyCodeSelected(let code): currencyCodeSelected(&state, code)
             case .togglePinnedButtonTapped(let id): togglePinnedButtonTapped(&state, id)
@@ -76,7 +80,7 @@ struct QuickFeature {
             case .deleteCalculationButtonTapped(let id): deleteCalculationButtonTapped(&state, id)
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
-            case .addDefaultQuickCalculationGroup: addDefaultQuickCalculationGroup(&state)
+            case .reorderCalculationGroup(let sourceIndex, let targetIndex): reorderCalculationGroup(&state, sourceIndex, targetIndex)
             case .showToastMessage(let context): showToastMessage(&state, context)
             case .clearToastMessage(let context): clearToastMessage(&state, context)
             case .toastMessageActionButtonTapped(let context): toastMessageActionButtonTapped(&state, context)
@@ -92,38 +96,43 @@ struct QuickFeature {
 
 private extension QuickFeature {
 
-    func loadListContent(_ state: inout State) -> Effect<Action> {
-        state.pinnedCalculations = IdentifiedArrayOf(uniqueElements: getPinnedCalculations())
-        state.calculatedCalculations = IdentifiedArrayOf(uniqueElements: getCalculatedCalculations())
-        if !state.calculatedCalculations.isEmpty || !state.pinnedCalculations.isEmpty {
-            return Effect.merge(
-                .send(.loadCurrencies),
-                .send(.loadFrequentCurrencies)
-            )
-        } else {
-            return Effect.none
-        }
-    }
-
-    func loadPinnedCalculations(_ state: inout State) -> Effect<Action> {
-        state.pinnedCalculations = IdentifiedArrayOf(uniqueElements: getPinnedCalculations())
+    func addDefaultGroup(_ state: inout State) -> Effect<Action> {
+        let group = QuickCalculationGroup(
+            name: QuickCalculationGroup.defaultGroupName,
+            displayOrder: 0
+        )
+        try? quickCalculationGroupRepository.save(group)
         return Effect.none
     }
 
-    func loadCalculatedCalculations(_ state: inout State) -> Effect<Action> {
-        state.calculatedCalculations = IdentifiedArrayOf(uniqueElements: getCalculatedCalculations())
+    func loadCalculations(_ state: inout State) -> Effect<Action> {
+        let calculationGroups = loadQuickCalculationGroupsUseCase.execute()
+        state.calculationGroups = IdentifiedArrayOf(uniqueElements: calculationGroups.map(\.toGroupDisplayModel))
+        state.pinnedCalculations = loadQuickCalculationsUseCase.getPinnedCalculations(groupBy: calculationGroups)
+            .map { IdentifiedArrayOf(uniqueElements: $0.map(\.toQuickCalculationDisplayModel)) }
+        state.calculatedCalculations = loadQuickCalculationsUseCase.getCalculatedCalculations(groupBy: calculationGroups)
+            .map { IdentifiedArrayOf(uniqueElements: $0.map(\.toQuickCalculationDisplayModel)) }
+        state.hasContent = state.calculatedCalculations.contains(where: { !$0.isEmpty }) || state.pinnedCalculations.contains(where: { !$0.isEmpty })
         return Effect.none
     }
 
     func loadCurrencies(_ state: inout State) -> Effect<Action> {
         state.allCurrencies = loadCurrenciesUseCase.getLocal()
             .map(\.toCurrencyDisplayModel)
+        state.frequentCurrencies = loadFrequentCurrenciesUseCase.execute()
+            .map(\.toCurrencyDisplayModel)
         return Effect.none
     }
 
-    func loadFrequentCurrencies(_ state: inout State) -> Effect<Action> {
-        state.frequentCurrencies = loadFrequentCurrenciesUseCase.execute()
-            .map(\.toCurrencyDisplayModel)
+    func loadListContent(_ state: inout State) -> Effect<Action> {
+        return Effect.merge(
+            .send(.loadCurrencies),
+            .send(.loadCalculations)
+        )
+    }
+
+    func selectGroupIndex(_ state: inout State, _ index: Int) -> Effect<Action> {
+        state.selectedGroupIndex = index
         return Effect.none
     }
 
@@ -133,29 +142,31 @@ private extension QuickFeature {
     }
 
     func onAddQuickCalculationCallback(_ state: inout State, _ delegate: AddQuickCalculationFeature.Action.Delegate) -> Effect<Action> {
-        let isInitialCalculation = state.calculatedCalculations.isEmpty && state.pinnedCalculations.isEmpty
+        let groupIndex: Int
         let calculation: QuickCalculationDisplayModel
         let toastMessage: QuickToastContext
+        let isInitialCalculation = state.calculatedCalculations.isEmpty && state.pinnedCalculations.isEmpty
         switch delegate {
         case .added(let addedCalculation):
             calculation = addedCalculation.toQuickCalculationDisplayModel
             toastMessage = QuickToastContext.added(calculation)
+            groupIndex = state.calculationGroups.index(id: addedCalculation.group.id) ?? state.selectedGroupIndex
         case .edited(let editedCalculation):
             calculation = editedCalculation.toQuickCalculationDisplayModel
             toastMessage = QuickToastContext.edited(calculation)
+            groupIndex = state.calculationGroups.index(id: editedCalculation.group.id) ?? state.selectedGroupIndex
         case .reused(let reusedCalculation):
             calculation = reusedCalculation.toQuickCalculationDisplayModel
             toastMessage = QuickToastContext.reused(calculation)
+            groupIndex = state.calculationGroups.index(id: reusedCalculation.group.id) ?? state.selectedGroupIndex
         default: return Effect.none
         }
-        let reloadEffect: Effect<Action> = isInitialCalculation
-        ? .send(.loadListContent)
-        : Effect.merge(
-            .send(.loadPinnedCalculations),
-            .send(.loadCalculatedCalculations)
-        )
+        let reloadEffect: Effect<Action> = isInitialCalculation ?
+            .send(.loadListContent) :
+            .send(.loadCalculations)
         return Effect.merge(
             reloadEffect,
+            .send(.selectGroupIndex(groupIndex)),
             .run { send in
                 try? await Task.sleep(nanoseconds: Constants.toastAppearDelay)
                 await send(.showToastMessage(toastMessage))
@@ -172,10 +183,7 @@ private extension QuickFeature {
     func togglePinnedButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
         guard let id else { return Effect.none }
         togglePinnedCalculationUseCase.execute(id)
-        return Effect.merge(
-            .send(.loadPinnedCalculations),
-            .send(.loadCalculatedCalculations)
-        )
+        return .send(.loadCalculations)
     }
 
     func editCalculationButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
@@ -196,11 +204,12 @@ private extension QuickFeature {
         guard let id, let deletedCalculation = try? quickCalculationRepository.delete(where: id) else {
             return Effect.none
         }
-        state.pinnedCalculations.remove(id: id)
-        state.calculatedCalculations.remove(id: id)
         state.deletedCalculations.append(deletedCalculation)
         let calculation = deletedCalculation.toQuickCalculationDisplayModel
-        return .send(.showToastMessage(QuickToastContext.deleted(calculation)))
+        return Effect.merge(
+            .send(.loadCalculations),
+            .send(.showToastMessage(QuickToastContext.deleted(calculation)))
+        )
     }
 
     func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {
@@ -218,12 +227,17 @@ private extension QuickFeature {
         return Effect.none
     }
 
-    func addDefaultQuickCalculationGroup(_ state: inout State) -> Effect<Action> {
-        let group = QuickCalculationGroup(
-            name: StringResource.default.localized,
-            displayOrder: 0
+    func reorderCalculationGroup(_ state: inout State, _ sourceIndex: Int, _ targetIndex: Int) -> Effect<Action> {
+        guard sourceIndex != targetIndex,
+              state.calculationGroups.indices.contains(sourceIndex),
+              state.calculationGroups.indices.contains(targetIndex) else {
+            return Effect.none
+        }
+        let adjustedTargetIndex = targetIndex > sourceIndex ? targetIndex + 1 : targetIndex
+        state.calculationGroups.move(
+            fromOffsets: IndexSet(integer: sourceIndex),
+            toOffset: min(adjustedTargetIndex, state.calculationGroups.endIndex)
         )
-        try? quickCalculationGroupRepository.save(group)
         return Effect.none
     }
 
@@ -247,28 +261,12 @@ private extension QuickFeature {
             try? quickCalculationRepository.save(deletedCalculation)
             state.deletedCalculations = state.deletedCalculations.filter { $0.id != calculation.id }
             return Effect.merge(
-                .send(.loadPinnedCalculations),
-                .send(.loadCalculatedCalculations),
+                .send(.loadCalculations),
                 .send(.clearToastMessage(context))
             )
         default: break
         }
         return Effect.none
-    }
-}
-
-// MARK: - Helpers
-
-private extension QuickFeature {
-
-    func getPinnedCalculations() -> [QuickCalculationDisplayModel] {
-        loadQuickCalculationsUseCase.getPinnedCalculations()
-            .map(\.toQuickCalculationDisplayModel)
-    }
-
-    func getCalculatedCalculations() -> [QuickCalculationDisplayModel] {
-        loadQuickCalculationsUseCase.getCalculatedCalculations()
-            .map(\.toQuickCalculationDisplayModel)
     }
 }
 
@@ -293,13 +291,5 @@ private extension QuickFeature {
     enum Constants {
         static let toastAppearDelay: UInt64 = 350_000_000
         static let toastAutoClearDelay: UInt64 = 10_000_000_000
-    }
-
-    enum StringResource: String.LocalizationValue {
-        case `default`
-
-        var localized: String {
-            String(localized: rawValue)
-        }
     }
 }
