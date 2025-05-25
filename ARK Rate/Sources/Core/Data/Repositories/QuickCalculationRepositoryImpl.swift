@@ -12,12 +12,12 @@ struct QuickCalculationRepositoryImpl: QuickCalculationRepository {
         try localDataSource.get(where: id).map(\.toQuickCalculation)
     }
 
-    func get() throws -> [QuickCalculation] {
-        try localDataSource.get().map(\.toQuickCalculation)
+    func get(where groupId: UUID) throws -> [QuickCalculation] {
+        try localDataSource.get(where: groupId).map(\.toQuickCalculation)
     }
 
-    func getWherePinned() throws -> [QuickCalculation] {
-        try localDataSource.getWherePinned().map(\.toQuickCalculation)
+    func getPinned(where groupId: UUID) throws -> [QuickCalculation] {
+        try localDataSource.getPinned(where: groupId).map(\.toQuickCalculation)
     }
 
     func save(_ calculation: QuickCalculation) throws {

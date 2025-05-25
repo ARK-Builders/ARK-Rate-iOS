@@ -1,23 +1,33 @@
 # Configure key linting rules
-line_length: 150 # Maximum allowed characters per line
+line_length: 150    # Maximum allowed characters per line
 type_body_length:
-  warning: 300   # Show warning if class/struct body exceeds 300 lines
-  error: 400     # Show error if body exceeds 400 lines
+  warning: 300      # Show warning if class/struct body exceeds 300 lines
+  error: 400        # Show error if body exceeds 400 lines
+file_length: 1000
 identifier_name:
-  min_length: 2  # Variable and function names must have at least 2 characters
-  max_length: 40 # Maximum identifier length is 40 characters
+  min_length: 2     # Variable and function names must have at least 2 characters
+  max_length: 40    # Maximum identifier length is 40 characters
+function_parameter_count:
+  warning: 8
+  error: 10
+  ignores_default_parameters: true
+function_body_length:
+  warning: 80       # Warn if over 80 lines
+  error: 100        # Error if over 100 lines
+  ignores_comments: true        # Optional: don't count comments
+  ignores_empty_lines: true     # Optional: don't count blank lines
 
 # Enable rules that SwiftLint does not enforce by default
 opt_in_rules:
-  - empty_count       # Prefer `.isEmpty` instead of `.count == 0`
-  - closure_spacing   # Ensure proper spacing in closures
+  - empty_count      # Prefer `.isEmpty` instead of `.count == 0`
+  - closure_spacing  # Ensure proper spacing in closures
 
 # Disable specific rules
 disabled_rules:
-  - force_cast          # Do not warn about forced casting (as!)
-  - force_try           # Do not warn about force try (!)
+  - force_cast       # Do not warn about forced casting (as!)
+  - force_try        # Do not warn about force try (!)
   - nesting
 
 analyzer_rules:
-  - explicit_self     # Require `self.` when accessing instance properties
-  - unused_import     # Remove unused imports
+  - explicit_self    # Require `self.` when accessing instance properties
+  - unused_import    # Remove unused imports

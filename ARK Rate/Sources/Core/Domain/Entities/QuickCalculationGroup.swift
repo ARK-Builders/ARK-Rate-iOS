@@ -2,6 +2,8 @@ import Foundation
 
 struct QuickCalculationGroup: Equatable {
 
+    static let defaultGroupName = "default"
+
     // MARK: - Properties
 
     let id: UUID

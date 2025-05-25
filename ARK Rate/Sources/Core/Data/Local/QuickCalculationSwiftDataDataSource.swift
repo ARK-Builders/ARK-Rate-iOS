@@ -9,17 +9,25 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
         return model.map(\.toQuickCalculationDTO)
     }
 
-    func get() throws -> [QuickCalculationDTO] {
-        let models: [QuickCalculationModel] = try SwiftDataManager.shared.get(predicate: #Predicate { $0.pinnedDate == nil })
+    func get(where groupId: UUID) throws -> [QuickCalculationDTO] {
+        let models: [QuickCalculationModel] = try SwiftDataManager.shared.get(predicate: #Predicate {
+            $0.group.id == groupId &&
+            $0.pinnedDate == nil
+        })
         return models.map(\.toQuickCalculationDTO)
     }
 
-    func getWherePinned() throws -> [QuickCalculationDTO] {
-        let models: [QuickCalculationModel] = try SwiftDataManager.shared.get(predicate: #Predicate { $0.pinnedDate != nil })
+    func getPinned(where groupId: UUID) throws -> [QuickCalculationDTO] {
+        let models: [QuickCalculationModel] = try SwiftDataManager.shared.get(predicate: #Predicate {
+            $0.group.id == groupId &&
+            $0.pinnedDate != nil
+        })
         return models.map(\.toQuickCalculationDTO)
     }
 
     func save(_ calculation: QuickCalculationDTO) throws {
+        let groupId = calculation.group.id
+        guard let group: QuickCalculationGroupModel = try SwiftDataManager.shared.get(predicate: #Predicate { $0.id == groupId }) else { return }
         let id = calculation.id
         let model = calculation.toQuickCalculationModel
         if let fetchedModel: QuickCalculationModel = try SwiftDataManager.shared.get(predicate: #Predicate { $0.id == id }) {
@@ -29,9 +37,10 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
             fetchedModel.inputCurrencyAmount = model.inputCurrencyAmount
             fetchedModel.outputCurrencyCodes = model.outputCurrencyCodes
             fetchedModel.outputCurrencyAmounts = model.outputCurrencyAmounts
-            fetchedModel.group = model.group
+            fetchedModel.group = group
             try SwiftDataManager.shared.save()
         } else {
+            model.group = group
             try SwiftDataManager.shared.insert(model)
         }
     }

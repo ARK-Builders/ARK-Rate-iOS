@@ -10,9 +10,9 @@ struct AddQuickCalculationFeature {
         var canSave: Bool = false
         var usageMode: UsageMode
         var selectionMode: SelectionMode?
-        var selectedGroup: GroupDisplayModel?
-        var addingGroupName: String = String.empty
-        var groups: IdentifiedArrayOf<GroupDisplayModel> = []
+        var selectedCalculationGroup: GroupDisplayModel?
+        var addingCalculationGroupName: String = String.empty
+        var calculationGroups: IdentifiedArrayOf<GroupDisplayModel> = []
         var inputCurrency = AddingCurrencyDisplayModel(code: Constants.defaultInputCurrencyCode)
         var outputCurrencies: IdentifiedArrayOf<AddingCurrencyDisplayModel> = []
 
@@ -44,10 +44,10 @@ struct AddQuickCalculationFeature {
         case selectOutputCurrency(UUID)
         case addOutputCurrencyButtonTapped
         case deleteOutputCurrencyButtonTapped(UUID)
-        case loadGroups
-        case createGroup
-        case updateAddingGroupName(String)
-        case onSelectedGroup(GroupDisplayModel)
+        case loadCalculationGroups
+        case createCalculationGroup
+        case updateAddingCalculationGroupName(String)
+        case onSelectedCalculationGroup(GroupDisplayModel)
         case saveButtonTapped
         case backButtonTapped
         case delegate(Delegate)
@@ -66,9 +66,9 @@ struct AddQuickCalculationFeature {
     @Dependency(\.dismiss) var back
     @Dependency(\.quickCalculationRepository) var quickCalculationRepository
     @Dependency(\.quickCalculationGroupRepository) var quickCalculationGroupRepository
-    @Dependency(\.currencyStatisticRepository) var currencyStatisticRepository
     @Dependency(\.currencyCalculationUseCase) var currencyCalculationUseCase
-    @Dependency(\.loadQuickCalculationGroupsUseCaseKey) var loadQuickCalculationGroupsUseCaseKey
+    @Dependency(\.saveQuickCalculationUseCase) var saveQuickCalculationUseCase
+    @Dependency(\.loadQuickCalculationGroupsUseCase) var loadQuickCalculationGroupsUseCase
 
     // MARK: - Reducer
 
@@ -81,10 +81,10 @@ struct AddQuickCalculationFeature {
             case .selectOutputCurrency(let id): selectOutputCurrency(&state, id)
             case .addOutputCurrencyButtonTapped: addOutputCurrencyButtonTapped(&state)
             case .deleteOutputCurrencyButtonTapped(let id): deleteOutputCurrencyButtonTapped(&state, id)
-            case .loadGroups: loadGroups(&state)
-            case .createGroup: createGroup(&state)
-            case .updateAddingGroupName(let groupName): updateAddingGroupName(&state, groupName)
-            case .onSelectedGroup(let group): onSelectedGroup(&state, group)
+            case .loadCalculationGroups: loadCalculationGroups(&state)
+            case .createCalculationGroup: createCalculationGroup(&state)
+            case .updateAddingCalculationGroupName(let groupName): updateAddingCalculationGroupName(&state, groupName)
+            case .onSelectedCalculationGroup(let group): onSelectedCalculationGroup(&state, group)
             case .saveButtonTapped: saveButtonTapped(&state)
             case .backButtonTapped: backButtonTapped()
             case let .destination(.presented(.searchACurrency(.delegate(.currencyCodeDidSelect(code))))): currencyCodeDidSelect(&state, code)
@@ -103,6 +103,9 @@ private extension AddQuickCalculationFeature {
         switch state.usageMode {
         case .add(let code):
             state.inputCurrency = AddingCurrencyDisplayModel(code: code)
+            state.selectedCalculationGroup = try? quickCalculationGroupRepository
+                .get(where: QuickCalculationGroup.defaultGroupName)?
+                .toGroupDisplayModel
         case .edit(let id), .reuse(let id):
             guard let calculation = try? quickCalculationRepository.get(where: id) else { break }
             state.inputCurrency = AddingCurrencyDisplayModel(
@@ -113,9 +116,9 @@ private extension AddQuickCalculationFeature {
             state.outputCurrencies = IdentifiedArrayOf(uniqueElements: outputCurrencies)
             updateOutputCurrencyAmounts(&state)
             updateCanSave(&state)
-            state.selectedGroup = calculation.group?.toGroupDisplayModel
+            state.selectedCalculationGroup = calculation.group.toGroupDisplayModel
         }
-        state.groups = IdentifiedArrayOf(uniqueElements: getQuickCalculationGroups())
+        state.calculationGroups = IdentifiedArrayOf(uniqueElements: getCalculationGroups())
         return Effect.none
     }
 
@@ -169,56 +172,49 @@ private extension AddQuickCalculationFeature {
         return Effect.none
     }
 
-    func loadGroups(_ state: inout State) -> Effect<Action> {
-        state.groups = IdentifiedArrayOf(uniqueElements: getQuickCalculationGroups())
+    func loadCalculationGroups(_ state: inout State) -> Effect<Action> {
+        state.calculationGroups = IdentifiedArrayOf(uniqueElements: getCalculationGroups())
         return Effect.none
     }
 
-    func createGroup(_ state: inout State) -> Effect<Action> {
-        guard !state.addingGroupName.isTrimmedEmpty else { return Effect.none }
-        let group = QuickCalculationGroup(name: state.addingGroupName)
+    func createCalculationGroup(_ state: inout State) -> Effect<Action> {
+        guard !state.addingCalculationGroupName.isTrimmedEmpty else { return Effect.none }
+        let group = QuickCalculationGroup(name: state.addingCalculationGroupName)
         try? quickCalculationGroupRepository.save(group)
         return Effect.merge(
-            .send(.loadGroups),
-            .send(.updateAddingGroupName(String.empty)),
-            .send(.onSelectedGroup(group.toGroupDisplayModel)),
+            .send(.loadCalculationGroups),
+            .send(.updateAddingCalculationGroupName(String.empty)),
+            .send(.onSelectedCalculationGroup(group.toGroupDisplayModel)),
         )
     }
 
-    func updateAddingGroupName(_ state: inout State, _ groupName: String) -> Effect<Action> {
-        state.addingGroupName = groupName
+    func updateAddingCalculationGroupName(_ state: inout State, _ groupName: String) -> Effect<Action> {
+        state.addingCalculationGroupName = groupName
         return Effect.none
     }
 
-    func onSelectedGroup(_ state: inout State, _ group: GroupDisplayModel) -> Effect<Action> {
-        state.selectedGroup = group
+    func onSelectedCalculationGroup(_ state: inout State, _ group: GroupDisplayModel) -> Effect<Action> {
+        state.selectedCalculationGroup = group
+        updateCanSave(&state)
         return Effect.none
     }
 
     func saveButtonTapped(_ state: inout State) -> Effect<Action> {
-        guard state.canSave else { return Effect.none }
-        var calculationId = UUID()
-        var pinnedDate: Date?
+        guard state.canSave, let groupId = state.selectedCalculationGroup?.id else { return Effect.none }
+        var calculationId: UUID?
         if case .edit(let id) = state.usageMode {
-            let calculation = try? quickCalculationRepository.get(where: id)
             calculationId = id
-            pinnedDate = calculation?.pinnedDate
         }
-        let group = try? state.selectedGroup.flatMap {
-            try quickCalculationGroupRepository.get(where: $0.id)
-        }
-        let quickCalculation = QuickCalculation(
+        guard let quickCalculation = saveQuickCalculationUseCase.execute(
             id: calculationId,
-            pinnedDate: pinnedDate,
             inputCurrencyCode: state.inputCurrency.code,
             inputCurrencyAmount: state.inputCurrency.amount,
             outputCurrencyCodes: state.outputCurrencies.map(\.code),
             outputCurrencyAmounts: state.outputCurrencies.map(\.amount),
-            group: group
-        )
-        let currencyStatistics = quickCalculation.toCurrencyStatistics
-        try? quickCalculationRepository.save(quickCalculation)
-        try? currencyStatisticRepository.save(currencyStatistics)
+            groupId: groupId
+        ) else {
+            return .send(.backButtonTapped)
+        }
         let action: Action
         switch state.usageMode {
         case .add: action = .delegate(.added(quickCalculation))
@@ -254,13 +250,14 @@ private extension AddQuickCalculationFeature {
     }
 
     func updateCanSave(_ state: inout State) {
-        state.canSave = state.inputCurrency.isValid &&
+        state.canSave = state.selectedCalculationGroup != nil &&
+        state.inputCurrency.isValid &&
         !state.outputCurrencies.isEmpty &&
         state.outputCurrencies.allSatisfy { $0.isValid }
     }
 
-    func getQuickCalculationGroups() -> [GroupDisplayModel] {
-        loadQuickCalculationGroupsUseCaseKey.execute()
+    func getCalculationGroups() -> [GroupDisplayModel] {
+        loadQuickCalculationGroupsUseCase.execute()
             .map(\.toGroupDisplayModel)
     }
 }

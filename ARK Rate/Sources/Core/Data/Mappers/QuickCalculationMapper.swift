@@ -13,7 +13,7 @@ extension QuickCalculation {
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
             outputCurrencyAmounts: outputCurrencyAmounts,
-            group: group?.toQuickCalculationGroupDTO
+            group: group.toQuickCalculationGroupDTO
         )
     }
 
@@ -64,7 +64,7 @@ extension QuickCalculationDTO {
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
             outputCurrencyAmounts: outputCurrencyAmounts,
-            group: group?.toQuickCalculationGroup
+            group: group.toQuickCalculationGroup
         )
     }
 
@@ -77,7 +77,7 @@ extension QuickCalculationDTO {
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
             outputCurrencyAmounts: outputCurrencyAmounts,
-            group: group?.toQuickCalculationGroupModel
+            group: group.toQuickCalculationGroupModel
         )
     }
 }
@@ -95,7 +95,7 @@ extension QuickCalculationModel {
             inputCurrencyAmount: inputCurrencyAmount,
             outputCurrencyCodes: outputCurrencyCodes,
             outputCurrencyAmounts: outputCurrencyAmounts,
-            group: group?.toQuickCalculationGroupDTO
+            group: group.toQuickCalculationGroupDTO
         )
     }
 }

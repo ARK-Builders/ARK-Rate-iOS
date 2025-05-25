@@ -16,6 +16,10 @@ struct QuickCalculationGroupRepositoryImpl: QuickCalculationGroupRepository {
         try localDataSource.get(where: id).map(\.toQuickCalculationGroup)
     }
 
+    func get(where name: String) throws -> QuickCalculationGroup? {
+        try localDataSource.get(where: name).map(\.toQuickCalculationGroup)
+    }
+
     func save(_ group: QuickCalculationGroup) throws {
         try localDataSource.save(group.toQuickCalculationGroupDTO)
     }

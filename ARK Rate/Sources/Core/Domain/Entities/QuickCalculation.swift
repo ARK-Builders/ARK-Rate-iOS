@@ -11,7 +11,7 @@ struct QuickCalculation: Equatable {
     let inputCurrencyAmount: Decimal
     let outputCurrencyCodes: [String]
     let outputCurrencyAmounts: [Decimal]
-    let group: QuickCalculationGroup?
+    let group: QuickCalculationGroup
 
     // MARK: - Initialization
 
@@ -23,7 +23,7 @@ struct QuickCalculation: Equatable {
         inputCurrencyAmount: Decimal,
         outputCurrencyCodes: [String],
         outputCurrencyAmounts: [Decimal],
-        group: QuickCalculationGroup?
+        group: QuickCalculationGroup
     ) {
         self.id = id
         self.pinnedDate = pinnedDate

@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftUIX
 import ComposableArchitecture
+import UniformTypeIdentifiers
 
 struct QuickView: View {
 
@@ -29,11 +30,9 @@ struct QuickView: View {
             ) { store in
                 AddQuickCalculationView(store: store)
             }
-            .onAppearOnce {
-                store.send(.loadListContent)
-            }
             .onAppear {
                 store.send(.showTabbar)
+                store.send(.loadListContent)
             }
             .onDisappear {
                 if store.destination != nil {
@@ -50,9 +49,12 @@ private extension QuickView {
 
     @ViewBuilder
     var content: some View {
-        if !store.calculatedCalculations.isEmpty || !store.pinnedCalculations.isEmpty {
+        if store.hasContent {
             VStack(spacing: 0) {
                 searchBar
+                if !store.isSearching && store.calculationGroups.count > 1 {
+                    calculationGroups
+                }
                 contentListView
             }
         } else {
@@ -71,80 +73,51 @@ private extension QuickView {
         .padding(.horizontal, Constants.spacing)
     }
 
-    var contentListView: some View {
-        ZStack(alignment: .bottomTrailing) {
-            List {
-                if !store.isSearching {
-                    pinnedPairsSection
-                    calculatedCalculationsSection
-                    frequentCurrenciesSection
-                    allCurrenciesSection
-                } else {
-                    searchingCurrenciesSection
+    var calculationGroups: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 0) {
+                ForEach(store.calculationGroups.indices, id: \.self) { index in
+                    let isSelected = index == store.selectedGroupIndex
+                    makeCalculationGroupItem(
+                        isSelected: isSelected,
+                        group: store.calculationGroups[index],
+                        action: { store.send(.selectGroupIndex(index)) }
+                    )
                 }
             }
-            .listStyle(.plain)
+        }
+        .padding(.top, Constants.spacing)
+    }
+
+    var contentListView: some View {
+        ZStack(alignment: .bottomTrailing) {
+            TabView(
+                selection: Binding(
+                    get: { store.selectedGroupIndex },
+                    set: { newValue in store.send(.selectGroupIndex(newValue)) }
+                )
+            ) {
+                ForEach(store.calculationGroups.indices, id: \.self) { index in
+                    List {
+                        if !store.isSearching {
+                            makePinnedPairsSection(store.pinnedCalculations[index])
+                            makeCalculatedCalculationsSection(store.calculatedCalculations[index])
+                            frequentCurrenciesSection
+                            allCurrenciesSection
+                        } else {
+                            searchingCurrenciesSection
+                        }
+                    }
+                    .listStyle(.plain)
+                    .tag(index)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .animation(.easeInOut, value: store.selectedGroupIndex)
             if store.isSearching && store.displayingCurrencies.isEmpty {
                 CurrencyEmptyStateView()
             }
             addButton
-        }
-    }
-
-    @ViewBuilder
-    var pinnedPairsSection: some View {
-        if !store.pinnedCalculations.isEmpty {
-            ListSection(title: StringResource.pinnedCalculations.localized) {
-                ForEach(store.pinnedCalculations, id: \.id) { calculation in
-                    CurrencyCalculationRowView(
-                        input: calculation.input,
-                        outputs: calculation.outputs,
-                        elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
-                        action: { calculationItemAction(calculation) }
-                    )
-                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        makeTogglePinnedButton(for: calculation, action: {
-                            store.send(.togglePinnedButtonTapped(id: calculation.id))
-                        })
-                    }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        makeDeleteButton {
-                            store.send(.deleteCalculationButtonTapped(id: calculation.id))
-                        }
-                    }
-                    .modifier(PlainListRowModifier())
-                }
-            }
-        }
-    }
-
-    @ViewBuilder
-    var calculatedCalculationsSection: some View {
-        if !store.calculatedCalculations.isEmpty {
-            ListSection(title: StringResource.calculations.localized) {
-                ForEach(store.calculatedCalculations, id: \.id) { calculation in
-                    CurrencyCalculationRowView(
-                        input: calculation.input,
-                        outputs: calculation.outputs,
-                        elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
-                        action: { calculationItemAction(calculation) }
-                    )
-                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        makeTogglePinnedButton(
-                            for: calculation,
-                            action: {
-                                store.send(.togglePinnedButtonTapped(id: calculation.id))
-                            }
-                        )
-                    }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        makeDeleteButton {
-                            store.send(.deleteCalculationButtonTapped(id: calculation.id))
-                        }
-                    }
-                    .modifier(PlainListRowModifier())
-                }
-            }
         }
     }
 
@@ -277,6 +250,89 @@ private extension QuickView {
     func calculationItemAction(_ calculation: QuickCalculationDisplayModel) {
         isShowingCalculationOptions = true
         store.send(.calculationItemSelected(calculation))
+    }
+
+    func makeCalculationGroupItem(
+        isSelected: Bool,
+        group: GroupDisplayModel,
+        action: @escaping ButtonAction
+    ) -> some View {
+        Button(
+            action: action,
+            label: {
+                VStack(spacing: 12) {
+                    Text(group.displayName)
+                        .foregroundColor(Color.teal600)
+                        .font(Font.customInterSemiBold(size: 16))
+                        .padding(.horizontal, 26)
+                    VStack(spacing: 0) {
+                        if isSelected {
+                            Rectangle()
+                                .frame(height: 2)
+                                .foregroundColor(Color.teal600)
+                        }
+                        LineDivider()
+                    }
+                }
+            }
+        )
+    }
+
+    @ViewBuilder
+    func makePinnedPairsSection(_ calculations: IdentifiedArrayOf<QuickCalculationDisplayModel>) -> some View {
+        if !calculations.isEmpty {
+            ListSection(title: StringResource.pinnedCalculations.localized) {
+                ForEach(calculations, id: \.id) { calculation in
+                    CurrencyCalculationRowView(
+                        input: calculation.input,
+                        outputs: calculation.outputs,
+                        elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
+                        action: { calculationItemAction(calculation) }
+                    )
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        makeTogglePinnedButton(for: calculation, action: {
+                            store.send(.togglePinnedButtonTapped(id: calculation.id))
+                        })
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        makeDeleteButton {
+                            store.send(.deleteCalculationButtonTapped(id: calculation.id))
+                        }
+                    }
+                    .modifier(PlainListRowModifier())
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    func makeCalculatedCalculationsSection(_ calculations: IdentifiedArrayOf<QuickCalculationDisplayModel>) -> some View {
+        if !calculations.isEmpty {
+            ListSection(title: StringResource.calculations.localized) {
+                ForEach(calculations, id: \.id) { calculation in
+                    CurrencyCalculationRowView(
+                        input: calculation.input,
+                        outputs: calculation.outputs,
+                        elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
+                        action: { calculationItemAction(calculation) }
+                    )
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        makeTogglePinnedButton(
+                            for: calculation,
+                            action: {
+                                store.send(.togglePinnedButtonTapped(id: calculation.id))
+                            }
+                        )
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        makeDeleteButton {
+                            store.send(.deleteCalculationButtonTapped(id: calculation.id))
+                        }
+                    }
+                    .modifier(PlainListRowModifier())
+                }
+            }
+        }
     }
 
     func makeTogglePinnedButton(
