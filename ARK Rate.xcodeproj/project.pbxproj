@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,11 +19,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		9C7D5FE02D75D2CD008A4555 /* ARK Rate */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "ARK Rate";
-			sourceTree = "<group>";
-		};
+		9C7D5FE02D75D2CD008A4555 /* ARK Rate */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "ARK Rate"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +101,7 @@
 				};
 			};
 			buildConfigurationList = 9C7D5FD92D75D2CD008A4555 /* Build configuration list for PBXProject "ARK Rate" */;
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -120,7 +117,6 @@
 				9C7137882D79E51D00E5CAE9 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				9C71378B2D79E84000E5CAE9 /* XCRemoteSwiftPackageReference "FLEX" */,
 			);
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 9C7D5FDF2D75D2CD008A4555 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
