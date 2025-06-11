@@ -11,7 +11,7 @@ struct CryptoCurrenciesRateAPIClient: CryptoCurrenciesRateAPI {
 
     // MARK: - Constants
 
-    private let endpoint = "https://raw.githubusercontent.com/ARK-Builders/ark-exchange-rates/main/crypto-rates.json"
+    private let endpoint = AppConfig.cryptoRatesUrl
 
     // MARK: - Conformance
 
