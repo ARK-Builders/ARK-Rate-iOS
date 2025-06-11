@@ -131,6 +131,8 @@
 		9C7137872D79E37D00E5CAE9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7137862D79E37D00E5CAE9 /* ComposableArchitecture */; };
 		9C71378A2D79E51E00E5CAE9 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7137892D79E51E00E5CAE9 /* SwiftUIX */; };
 		9C71378D2D79E84000E5CAE9 /* FLEX in Frameworks */ = {isa = PBXBuildFile; productRef = 9C71378C2D79E84000E5CAE9 /* FLEX */; };
+		9CFCBAA42DF9A465008EFD9C /* AppConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */; };
+		9CFCBAA62DF9A529008EFD9C /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFCBAA52DF9A520008EFD9C /* AppConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -254,6 +256,8 @@
 		9C4AE1532DECAD2E00E6A8E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C4AE1542DECAD2E00E6A8E0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		9C7D5FDE2D75D2CD008A4555 /* ARK Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ARK Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
+		9CFCBAA52DF9A520008EFD9C /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +305,7 @@
 			children = (
 				9C4AE0C42DECAD2E00E6A8E0 /* CodeDataset.strings */,
 				9C4AE0C62DECAD2E00E6A8E0 /* CountryDataset.strings */,
+				9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 		9C4AE0CC2DECAD2E00E6A8E0 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				9CFCBAA52DF9A520008EFD9C /* AppConfig.swift */,
 				9C4AE0C82DECAD2E00E6A8E0 /* AppDependencies.swift */,
 				9C4AE0C92DECAD2E00E6A8E0 /* AppFeature.swift */,
 				9C4AE0CA2DECAD2E00E6A8E0 /* AppMainView.swift */,
@@ -785,6 +791,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C4AE1562DECAD2E00E6A8E0 /* inter.ttf in Resources */,
+				9CFCBAA42DF9A465008EFD9C /* AppConfig.xcconfig in Resources */,
 				9C4AE1572DECAD2E00E6A8E0 /* inter_black.ttf in Resources */,
 				9C4AE1582DECAD2E00E6A8E0 /* inter_bold.ttf in Resources */,
 				9C4AE1592DECAD2E00E6A8E0 /* inter_extrabold.ttf in Resources */,
@@ -845,6 +852,7 @@
 				9C4AE1702DECAD2E00E6A8E0 /* CurrencyStatisticDTO.swift in Sources */,
 				9C4AE1712DECAD2E00E6A8E0 /* QuickCalculationDTO.swift in Sources */,
 				9C4AE1722DECAD2E00E6A8E0 /* QuickCalculationGroupDTO.swift in Sources */,
+				9CFCBAA62DF9A529008EFD9C /* AppConfig.swift in Sources */,
 				9C4AE1732DECAD2E00E6A8E0 /* CurrencyModel.swift in Sources */,
 				9C4AE1742DECAD2E00E6A8E0 /* CurrencyStatisticModel.swift in Sources */,
 				9C4AE1752DECAD2E00E6A8E0 /* QuickCalculationGroupModel.swift in Sources */,
@@ -1083,6 +1091,7 @@
 		};
 		9C7D5FED2D75D2CF008A4555 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1115,6 +1124,7 @@
 		};
 		9C7D5FEE2D75D2CF008A4555 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
