@@ -15,7 +15,6 @@ struct AppFeature {
     enum Action {
         case didFinishLaunching
         case tabIndexChanged(UInt)
-        case tabbarIsHiddenToggled(Bool)
         case currenciesAction(CurrenciesFeature.Action)
         case quickAction(QuickFeature.Action)
         case settingsAction(SettingsFeature.Action)
@@ -41,7 +40,6 @@ struct AppFeature {
             switch action {
             case .didFinishLaunching: return didFinishLaunching(&state)
             case .tabIndexChanged(let tabIndex): return tabIndexChanged(&state, tabIndex)
-            case .tabbarIsHiddenToggled(let isHidden): return tabbarIsHiddenToggled(&state, isHidden)
             case .currenciesAction(.currenciesUpdated(let currencies)): return .send(.quickAction(.currenciesUpdated(currencies)))
             case .quickAction(.hideTabbar), .settingsAction(.hideTabbar): return tabbarIsHiddenToggled(&state, true)
             case .quickAction(.showTabbar), .settingsAction(.showTabbar): return tabbarIsHiddenToggled(&state, false)

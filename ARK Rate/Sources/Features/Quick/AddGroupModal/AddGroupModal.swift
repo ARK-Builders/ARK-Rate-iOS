@@ -18,9 +18,8 @@ struct AddGroupModal: View {
                 .aspectRatio(contentMode: .fit)
             content
         }
-        .background(Color.backgroundPrimary)
-        .cornerRadius(12)
-        .padding(.horizontal, Constants.horizontalSpacing)
+        .modifier(ModalBackgroundModifier())
+        .padding(.horizontal, 16)
     }
 }
 
@@ -48,7 +47,7 @@ private extension AddGroupModal {
                     label: Image.close
                         .font(.system(size: 18))
                         .foregroundColor(Color.foregroundQuarterary)
-                        .contentShape(Rectangle())
+                        .tappableArea()
                 )
             }
             Text(StringResource.createGroup.localized)
@@ -62,34 +61,17 @@ private extension AddGroupModal {
         }
     }
 
-    @ViewBuilder
     var groupIcon: some View {
-        if colorScheme == .dark {
-            Image(ImageResource.group)
-                .renderingMode(.template)
-                .foregroundColor(Color.white)
-                .aspectRatio(contentMode: .fit)
-        } else {
-            Image(ImageResource.group)
-                .aspectRatio(contentMode: .fit)
-        }
+        Image(ImageResource.group)
+            .adaptToColorScheme(colorScheme)
     }
 
     var textField: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(StringResource.groupName.localized)
-                .foregroundColor(Color.textSecondary)
-                .font(Font.customInterMedium(size: 14))
-            ZStack {
-                TextField(StringResource.createGroupPlaceholder.localized, text: $groupName)
-                    .multilineTextAlignment(.leading)
-                    .foregroundColor(Color.textPrimary)
-                    .font(Font.customInterRegular(size: 16))
-                    .padding(.horizontal, 14)
-            }
-            .frame(height: Constants.textFieldHeight)
-            .modifier(RoundedBorderModifier())
-        }
+        InputView(
+            title: StringResource.groupName.localized,
+            placeholder: StringResource.createGroupPlaceholder.localized,
+            input: $groupName
+        )
         .padding(.bottom, 4)
     }
 
@@ -118,7 +100,6 @@ private extension AddGroupModal {
     enum Constants {
         static let verticalSpacing: CGFloat = 20
         static let horizontalSpacing: CGFloat = 16
-        static let textFieldHeight: CGFloat = 48
     }
 
     enum StringResource: String.LocalizationValue {

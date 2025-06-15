@@ -9,6 +9,7 @@ struct QuickFeature {
         @Presents var destination: Destination.State?
         var hasContent = false
         var searchText = String.empty
+        var editingGroupName = String.empty
         var selectedGroupIndex = 0
         var selectedCalculation: QuickCalculationDisplayModel?
         var calculationGroups: IdentifiedArrayOf<GroupDisplayModel> = []
@@ -32,6 +33,7 @@ struct QuickFeature {
         case loadCalculations
         case loadListContent
         case selectGroupIndex(Int)
+        case editingGroupNameUpdated(String)
         case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
         case currencyCodeSelected(String)
@@ -71,7 +73,7 @@ struct QuickFeature {
             case .loadCalculations: loadCalculations(&state)
             case .loadListContent: loadListContent(&state)
             case .selectGroupIndex(let index): selectGroupIndex(&state, index)
-            case .currenciesUpdated: loadCurrencies(&state)
+            case .editingGroupNameUpdated(let groupName): editingGroupNameUpdated(&state, groupName)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .currencyCodeSelected(let code): currencyCodeSelected(&state, code)
             case .togglePinnedButtonTapped(let id): togglePinnedButtonTapped(&state, id)
@@ -133,6 +135,11 @@ private extension QuickFeature {
 
     func selectGroupIndex(_ state: inout State, _ index: Int) -> Effect<Action> {
         state.selectedGroupIndex = index
+        return Effect.none
+    }
+
+    func editingGroupNameUpdated(_ state: inout State, _ groupName: String) -> Effect<Action> {
+        state.editingGroupName = groupName
         return Effect.none
     }
 

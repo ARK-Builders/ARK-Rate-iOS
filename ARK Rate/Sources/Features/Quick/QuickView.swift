@@ -7,8 +7,11 @@ struct QuickView: View {
 
     // MARK: - Properties
 
+    @State var isGroupEditing = false
     @State var isSearchBarEditing = false
+    @State var isShowingRenameGroupModal = false
     @State var isShowingCalculationOptions = false
+    @Environment(\.colorScheme) var colorScheme
     @Bindable var store: StoreOf<QuickFeature>
 
     // MARK: - Body
@@ -18,6 +21,7 @@ struct QuickView: View {
             ZStack(alignment: .bottom) {
                 content
                 toastView
+                renameGroupModal
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.backgroundPrimary)
@@ -74,18 +78,30 @@ private extension QuickView {
     }
 
     var calculationGroups: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 0) {
-                ForEach(store.calculationGroups.indices, id: \.self) { index in
-                    let isSelected = index == store.selectedGroupIndex
-                    makeCalculationGroupItem(
-                        isSelected: isSelected,
-                        group: store.calculationGroups[index],
-                        action: { store.send(.selectGroupIndex(index)) }
-                    )
+        ZStack(alignment: .topTrailing) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 0) {
+                    ForEach(store.calculationGroups.indices, id: \.self) { index in
+                        let isSelected = index == store.selectedGroupIndex
+                        makeCalculationGroupItem(
+                            isSelected: isSelected,
+                            group: store.calculationGroups[index],
+                            action: { store.send(.selectGroupIndex(index)) }
+                        )
+                    }
                 }
             }
+            Button(
+                action: { isGroupEditing.toggle() },
+                label: {
+                    Image(.edit)
+                        .adaptToColorScheme(colorScheme)
+                        .tappableArea()
+                }
+            )
+            .padding(.trailing, Constants.spacing)
         }
+        .frame(maxWidth: .infinity)
         .padding(.top, Constants.spacing)
     }
 
@@ -213,6 +229,36 @@ private extension QuickView {
         }
     }
 
+    var renameGroupModal: some View {
+        func closeAction() {
+            isShowingRenameGroupModal = false
+        }
+        return Group {
+            Color.backgroundOverlay
+                .ignoresSafeArea()
+                .zIndex(Constants.modalBackgroundZIndex)
+            RenameGroupModal(
+                groupName: Binding(
+                    get: { store.editingGroupName },
+                    set: { newValue in store.send(.editingGroupNameUpdated(newValue)) }
+                ),
+                closeButtonAction: closeAction,
+                saveButtonAction: {
+                    closeAction()
+                    
+                }
+            )
+            .zIndex(Constants.modalZIndex)
+            .onAppear {
+                store.send(.hideTabbar)
+            }
+            .onDisappear {
+                store.send(.showTabbar)
+            }
+        }
+        .isVisible(isShowingRenameGroupModal)
+    }
+
     var calculationOptionsBottomSheet: some View {
         func closeAction() {
             isShowingCalculationOptions = false
@@ -260,17 +306,42 @@ private extension QuickView {
         Button(
             action: action,
             label: {
-                VStack(spacing: 12) {
-                    Text(group.displayName)
-                        .foregroundColor(Color.teal600)
-                        .font(Font.customInterSemiBold(size: 16))
-                        .padding(.horizontal, 26)
+                ZStack(alignment: .bottom) {
                     VStack(spacing: 0) {
-                        if isSelected {
-                            Rectangle()
-                                .frame(height: 2)
+                        HStack {
+                            Text(group.displayName)
                                 .foregroundColor(Color.teal600)
+                                .font(Font.customInterSemiBold(size: 16))
+                            Menu {
+                                MenuEntryButton(
+                                    icon: Image(ImageResource.edit),
+                                    title: StringResource.rename.localized,
+                                    action: {
+                                        store.send(.editingGroupNameUpdated(group.displayName))
+                                        isShowingRenameGroupModal = true
+                                    }
+                                )
+                                MenuEntryButton(
+                                    icon: Image(ImageResource.trash),
+                                    title: StringResource.delete.localized,
+                                    isDestructive: true,
+                                    action: {}
+                                )
+                            } label: {
+                                Image(ImageResource.more)
+                                    .tappableArea()
+                            }
+                            .isVisible(isGroupEditing)
                         }
+                        .padding(.bottom, 12)
+                        .padding(.horizontal, Constants.spacing)
+                    }
+                    if isSelected {
+                        Rectangle()
+                            .frame(height: 2)
+                            .foregroundColor(Color.teal600)
+                            .isVisible(isSelected)
+                    } else {
                         LineDivider()
                     }
                 }
@@ -369,6 +440,8 @@ private extension QuickView {
 
     enum Constants {
         static let spacing: CGFloat = 16
+        static let modalZIndex: Double = 2
+        static let modalBackgroundZIndex: Double = 1
     }
 
     enum StringResource: String.LocalizationValue {
@@ -381,6 +454,7 @@ private extension QuickView {
         case allCurrencies = "all_currencies"
         case frequentCurrencies = "frequent_currencies"
         case topResults = "top_results"
+        case rename
         case delete
 
         var localized: String {
