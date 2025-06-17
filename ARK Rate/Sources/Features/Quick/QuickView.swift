@@ -83,11 +83,13 @@ private extension QuickView {
                 HStack(spacing: 0) {
                     ForEach(store.calculationGroups.indices, id: \.self) { index in
                         let isSelected = index == store.selectedGroupIndex
-                        makeCalculationGroupItem(
-                            isSelected: isSelected,
-                            group: store.calculationGroups[index],
-                            action: { store.send(.selectGroupIndex(index)) }
-                        )
+                        if store.calculationGroups.indices.contains(index) {
+                            makeCalculationGroupItem(
+                                isSelected: isSelected,
+                                group: store.calculationGroups[index],
+                                action: { store.send(.selectGroupIndex(index)) }
+                            )
+                        }
                     }
                 }
             }
@@ -120,8 +122,12 @@ private extension QuickView {
                 ForEach(store.calculationGroups.indices, id: \.self) { index in
                     List {
                         if !store.isSearching {
-                            makePinnedPairsSection(store.pinnedCalculations[index])
-                            makeCalculatedCalculationsSection(store.calculatedCalculations[index])
+                            if store.pinnedCalculations.indices.contains(index) {
+                                makePinnedPairsSection(store.pinnedCalculations[index])
+                            }
+                            if store.calculatedCalculations.indices.contains(index) {
+                                makeCalculatedCalculationsSection(store.calculatedCalculations[index])
+                            }
                             frequentCurrenciesSection
                             allCurrenciesSection
                         } else {
@@ -249,6 +255,7 @@ private extension QuickView {
                 closeButtonAction: closeAction,
                 saveButtonAction: {
                     closeAction()
+                    isGroupEditing = false
                     store.send(.renameGroupButtonTapped(id: store.selectedEditingGroup?.id))
                 }
             )
@@ -331,6 +338,7 @@ private extension QuickView {
                                     title: StringResource.delete.localized,
                                     isDestructive: true,
                                     action: {
+                                        isGroupEditing = false
                                         store.send(.editingGroupSelected(group))
                                         store.send(.deleteGroupButtonTapped(id: group.id))
                                     }
