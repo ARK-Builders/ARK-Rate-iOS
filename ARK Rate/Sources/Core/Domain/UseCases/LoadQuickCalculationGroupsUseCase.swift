@@ -10,7 +10,7 @@ struct LoadQuickCalculationGroupsUseCase {
         (try? quickCalculationGroupRepository.get().sorted {
             switch ($0.displayOrder, $1.displayOrder) {
             case (nil, nil):
-                return $0.addedDate > $1.addedDate
+                return $0.addedDate < $1.addedDate
             case (nil, _):
                 return false
             case (_, nil):

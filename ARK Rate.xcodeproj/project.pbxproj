@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C3D8FF22DFEFE930067C59F /* RenameGroupModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */; };
+		9C3D8FF42DFF01300067C59F /* ModalBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */; };
+		9C3D8FF62DFF18710067C59F /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF52DFF18430067C59F /* InputView.swift */; };
 		9C4AE1562DECAD2E00E6A8E0 /* inter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C4AE0B72DECAD2E00E6A8E0 /* inter.ttf */; };
 		9C4AE1572DECAD2E00E6A8E0 /* inter_black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C4AE0B82DECAD2E00E6A8E0 /* inter_black.ttf */; };
 		9C4AE1582DECAD2E00E6A8E0 /* inter_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C4AE0B92DECAD2E00E6A8E0 /* inter_bold.ttf */; };
@@ -131,11 +134,16 @@
 		9C7137872D79E37D00E5CAE9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7137862D79E37D00E5CAE9 /* ComposableArchitecture */; };
 		9C71378A2D79E51E00E5CAE9 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7137892D79E51E00E5CAE9 /* SwiftUIX */; };
 		9C71378D2D79E84000E5CAE9 /* FLEX in Frameworks */ = {isa = PBXBuildFile; productRef = 9C71378C2D79E84000E5CAE9 /* FLEX */; };
+		9CA5C04C2DFE82B700CDED3A /* MenuEntryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA5C04B2DFE82AB00CDED3A /* MenuEntryButton.swift */; };
+		9CA6DAA92DFE8E7F004D3B7A /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6DAA82DFE8E7F004D3B7A /* Image+Extensions.swift */; };
 		9CFCBAA42DF9A465008EFD9C /* AppConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */; };
 		9CFCBAA62DF9A529008EFD9C /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFCBAA52DF9A520008EFD9C /* AppConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameGroupModal.swift; sourceTree = "<group>"; };
+		9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalBackgroundModifier.swift; sourceTree = "<group>"; };
+		9C3D8FF52DFF18430067C59F /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		9C4AE0B72DECAD2E00E6A8E0 /* inter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = inter.ttf; sourceTree = "<group>"; };
 		9C4AE0B82DECAD2E00E6A8E0 /* inter_black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = inter_black.ttf; sourceTree = "<group>"; };
 		9C4AE0B92DECAD2E00E6A8E0 /* inter_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = inter_bold.ttf; sourceTree = "<group>"; };
@@ -256,6 +264,8 @@
 		9C4AE1532DECAD2E00E6A8E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C4AE1542DECAD2E00E6A8E0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		9C7D5FDE2D75D2CD008A4555 /* ARK Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ARK Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CA5C04B2DFE82AB00CDED3A /* MenuEntryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEntryButton.swift; sourceTree = "<group>"; };
+		9CA6DAA82DFE8E7F004D3B7A /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		9CFCBAA52DF9A520008EFD9C /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -276,6 +286,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C3D8FF02DFEFDFA0067C59F /* RenameGroupModal */ = {
+			isa = PBXGroup;
+			children = (
+				9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */,
+			);
+			path = RenameGroupModal;
+			sourceTree = "<group>";
+		};
 		9C4AE0C02DECAD2E00E6A8E0 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,6 +514,7 @@
 			isa = PBXGroup;
 			children = (
 				9C4AE1102DECAD2E00E6A8E0 /* ActionButton.swift */,
+				9CA5C04B2DFE82AB00CDED3A /* MenuEntryButton.swift */,
 				9C4AE1112DECAD2E00E6A8E0 /* PrimaryButton.swift */,
 				9C4AE1122DECAD2E00E6A8E0 /* SecondaryButton.swift */,
 			);
@@ -510,6 +529,7 @@
 				9C4AE1152DECAD2E00E6A8E0 /* CurrencyInputView.swift */,
 				9C4AE1162DECAD2E00E6A8E0 /* CurrencyRowView.swift */,
 				9C4AE1172DECAD2E00E6A8E0 /* GroupMenuView.swift */,
+				9C3D8FF52DFF18430067C59F /* InputView.swift */,
 				9C4AE1182DECAD2E00E6A8E0 /* LineDivider.swift */,
 				9C4AE1192DECAD2E00E6A8E0 /* ListSection.swift */,
 				9C4AE11A2DECAD2E00E6A8E0 /* ToastView.swift */,
@@ -526,6 +546,7 @@
 				9C4AE11F2DECAD2E00E6A8E0 /* Dictionary+Extensions.swift */,
 				9C4AE1202DECAD2E00E6A8E0 /* Font+Custom.swift */,
 				9C4AE1212DECAD2E00E6A8E0 /* Image+Asset.swift */,
+				9CA6DAA82DFE8E7F004D3B7A /* Image+Extensions.swift */,
 				9C4AE1222DECAD2E00E6A8E0 /* Image+SFSymbols.swift */,
 				9C4AE1232DECAD2E00E6A8E0 /* NSItemProvider+Extensions.swift */,
 				9C4AE1242DECAD2E00E6A8E0 /* String+Extensions.swift */,
@@ -544,6 +565,7 @@
 				9C4AE12B2DECAD2E00E6A8E0 /* DisabledModifier.swift */,
 				9C4AE12C2DECAD2E00E6A8E0 /* HideKeyboardModifier.swift */,
 				9C4AE12D2DECAD2E00E6A8E0 /* LoadingOverlayModifier.swift */,
+				9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */,
 				9C4AE12E2DECAD2E00E6A8E0 /* NavigationBarModifier.swift */,
 				9C4AE12F2DECAD2E00E6A8E0 /* PlainListRowModifier.swift */,
 				9C4AE1302DECAD2E00E6A8E0 /* RoundedBorderModifier.swift */,
@@ -648,6 +670,7 @@
 				9C4AE1402DECAD2E00E6A8E0 /* CalculationEmptyStateView */,
 				9C4AE1422DECAD2E00E6A8E0 /* CalculationOptionsView */,
 				9C4AE1442DECAD2E00E6A8E0 /* CurrencyEmptyStateView */,
+				9C3D8FF02DFEFDFA0067C59F /* RenameGroupModal */,
 				9C4AE1472DECAD2E00E6A8E0 /* SearchACurrency */,
 				9C4AE1482DECAD2E00E6A8E0 /* GroupDisplayModel.swift */,
 				9C4AE1492DECAD2E00E6A8E0 /* QuickCalculationDisplayModel.swift */,
@@ -840,6 +863,7 @@
 				9C4AE1642DECAD2E00E6A8E0 /* AppDependencies.swift in Sources */,
 				9C4AE1652DECAD2E00E6A8E0 /* AppFeature.swift in Sources */,
 				9C4AE1662DECAD2E00E6A8E0 /* AppMainView.swift in Sources */,
+				9C3D8FF22DFEFE930067C59F /* RenameGroupModal.swift in Sources */,
 				9C4AE1672DECAD2E00E6A8E0 /* ARKRateApp.swift in Sources */,
 				9C4AE1682DECAD2E00E6A8E0 /* CryptoCurrencyDataSource.swift in Sources */,
 				9C4AE1692DECAD2E00E6A8E0 /* CurrencyLocalDataSource.swift in Sources */,
@@ -866,6 +890,7 @@
 				9C4AE17D2DECAD2E00E6A8E0 /* CurrencyStatisticMapper.swift in Sources */,
 				9C4AE17E2DECAD2E00E6A8E0 /* QuickCalculationGroupMapper.swift in Sources */,
 				9C4AE17F2DECAD2E00E6A8E0 /* QuickCalculationMapper.swift in Sources */,
+				9C3D8FF62DFF18710067C59F /* InputView.swift in Sources */,
 				9C4AE1802DECAD2E00E6A8E0 /* CryptoCurrenciesRateAPI.swift in Sources */,
 				9C4AE1812DECAD2E00E6A8E0 /* FiatCurrenciesRateAPI.swift in Sources */,
 				9C4AE1822DECAD2E00E6A8E0 /* CryptoCurrencyRateResponse.swift in Sources */,
@@ -876,6 +901,7 @@
 				9C4AE1872DECAD2E00E6A8E0 /* QuickCalculationGroupRepositoryImpl.swift in Sources */,
 				9C4AE1882DECAD2E00E6A8E0 /* QuickCalculationRepositoryImpl.swift in Sources */,
 				9C4AE1892DECAD2E00E6A8E0 /* Currency.swift in Sources */,
+				9CA5C04C2DFE82B700CDED3A /* MenuEntryButton.swift in Sources */,
 				9C4AE18A2DECAD2E00E6A8E0 /* CurrencyStatistic.swift in Sources */,
 				9C4AE18B2DECAD2E00E6A8E0 /* QuickCalculation.swift in Sources */,
 				9C4AE18C2DECAD2E00E6A8E0 /* QuickCalculationGroup.swift in Sources */,
@@ -887,6 +913,7 @@
 				9C4AE1922DECAD2E00E6A8E0 /* MetadataRepository.swift in Sources */,
 				9C4AE1932DECAD2E00E6A8E0 /* QuickCalculationGroupRepository.swift in Sources */,
 				9C4AE1942DECAD2E00E6A8E0 /* QuickCalculationRepository.swift in Sources */,
+				9C3D8FF42DFF01300067C59F /* ModalBackgroundModifier.swift in Sources */,
 				9C4AE1952DECAD2E00E6A8E0 /* CurrencyCalculationUseCase.swift in Sources */,
 				9C4AE1962DECAD2E00E6A8E0 /* LoadCurrenciesUseCase.swift in Sources */,
 				9C4AE1972DECAD2E00E6A8E0 /* LoadFrequentCurrenciesUseCase.swift in Sources */,
@@ -899,6 +926,7 @@
 				9C4AE19E2DECAD2E00E6A8E0 /* SecondaryButton.swift in Sources */,
 				9C4AE19F2DECAD2E00E6A8E0 /* CurrencyCalculationRowView.swift in Sources */,
 				9C4AE1A02DECAD2E00E6A8E0 /* CurrencyInputView.swift in Sources */,
+				9CA6DAA92DFE8E7F004D3B7A /* Image+Extensions.swift in Sources */,
 				9C4AE1A12DECAD2E00E6A8E0 /* CurrencyRowView.swift in Sources */,
 				9C4AE1A22DECAD2E00E6A8E0 /* GroupMenuView.swift in Sources */,
 				9C4AE1A32DECAD2E00E6A8E0 /* LineDivider.swift in Sources */,

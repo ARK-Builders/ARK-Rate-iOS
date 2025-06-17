@@ -34,4 +34,9 @@ struct QuickCalculationGroupSwiftDataDataSource: QuickCalculationGroupLocalDataS
             try SwiftDataManager.shared.insert(model)
         }
     }
+
+    func delete(where id: UUID) throws {
+        guard let model: QuickCalculationGroupModel = try SwiftDataManager.shared.get(predicate: #Predicate { $0.id == id }) else { return }
+        try SwiftDataManager.shared.delete(model)
+    }
 }

@@ -8,7 +8,7 @@ extension Image {
     private static var _cache = [String: Bool]()
     private static var cache: [String: Bool] {
         get { cacheQueue.sync { _cache } }
-        set { cacheQueue.async(flags: .barrier) { _cache = newValue } }
+        set { cacheQueue.sync(flags: .barrier) { _cache = newValue } }
     }
 
     // MARK: - Methods

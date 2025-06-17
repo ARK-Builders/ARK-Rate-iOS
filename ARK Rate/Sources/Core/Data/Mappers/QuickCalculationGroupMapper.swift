@@ -10,6 +10,15 @@ extension QuickCalculationGroup {
             displayOrder: displayOrder
         )
     }
+
+    func toQuickCalculation(name: String) -> QuickCalculationGroup {
+        QuickCalculationGroup(
+            id: id,
+            name: name,
+            addedDate: addedDate,
+            displayOrder: displayOrder
+        )
+    }
 }
 
 // MARK: -
