@@ -11,6 +11,7 @@ struct QuickFeature {
         var searchText = String.empty
         var editingGroupName = String.empty
         var selectedGroupIndex = 0
+        var selectedEditingGroup: GroupDisplayModel?
         var selectedCalculation: QuickCalculationDisplayModel?
         var calculationGroups: IdentifiedArrayOf<GroupDisplayModel> = []
         var pinnedCalculations: [IdentifiedArrayOf<QuickCalculationDisplayModel>] = []
@@ -34,6 +35,8 @@ struct QuickFeature {
         case loadListContent
         case selectGroupIndex(Int)
         case editingGroupNameUpdated(String)
+        case renameGroupButtonTapped(id: UUID?)
+        case deleteGroupButtonTapped(id: UUID?)
         case currenciesUpdated([Currency])
         case addNewCalculationButtonTapped
         case currencyCodeSelected(String)
@@ -41,6 +44,7 @@ struct QuickFeature {
         case editCalculationButtonTapped(id: UUID?)
         case reuseCalculationButtonTapped(id: UUID?)
         case deleteCalculationButtonTapped(id: UUID?)
+        case editingGroupSelected(GroupDisplayModel?)
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
         case reorderCalculationGroup(Int, Int)
@@ -74,12 +78,15 @@ struct QuickFeature {
             case .loadListContent: loadListContent(&state)
             case .selectGroupIndex(let index): selectGroupIndex(&state, index)
             case .editingGroupNameUpdated(let groupName): editingGroupNameUpdated(&state, groupName)
+            case .renameGroupButtonTapped(let id): renameGroupButtonTapped(&state, id)
+            case .deleteGroupButtonTapped(let id): deleteGroupButtonTapped(&state, id)
             case .addNewCalculationButtonTapped: addNewCalculationButtonTapped(&state)
             case .currencyCodeSelected(let code): currencyCodeSelected(&state, code)
             case .togglePinnedButtonTapped(let id): togglePinnedButtonTapped(&state, id)
             case .editCalculationButtonTapped(let id): editCalculationButtonTapped(&state, id)
             case .reuseCalculationButtonTapped(let id): reuseCalculationButtonTapped(&state, id)
             case .deleteCalculationButtonTapped(let id): deleteCalculationButtonTapped(&state, id)
+            case .editingGroupSelected(let group): editingGroupSelected(&state, group)
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
             case .reorderCalculationGroup(let sourceIndex, let targetIndex): reorderCalculationGroup(&state, sourceIndex, targetIndex)
@@ -141,6 +148,25 @@ private extension QuickFeature {
     func editingGroupNameUpdated(_ state: inout State, _ groupName: String) -> Effect<Action> {
         state.editingGroupName = groupName
         return Effect.none
+    }
+
+    func renameGroupButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
+        guard let id, let group = try? quickCalculationGroupRepository.get(where: id) else { return Effect.none }
+        let editedGroup = group.toQuickCalculation(name: state.editingGroupName)
+        try? quickCalculationGroupRepository.save(editedGroup)
+        return Effect.merge(
+            .send(.loadListContent),
+            .send(.editingGroupSelected(nil))
+        )
+    }
+
+    func deleteGroupButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
+        guard let id else { return Effect.none }
+        try? quickCalculationGroupRepository.delete(where: id)
+        return Effect.merge(
+            .send(.loadListContent),
+            .send(.editingGroupSelected(nil))
+        )
     }
 
     func addNewCalculationButtonTapped(_ state: inout State) -> Effect<Action> {
@@ -217,6 +243,11 @@ private extension QuickFeature {
             .send(.loadCalculations),
             .send(.showToastMessage(QuickToastContext.deleted(calculation)))
         )
+    }
+
+    func editingGroupSelected(_ state: inout State, _ group: GroupDisplayModel?) -> Effect<Action> {
+        state.selectedEditingGroup = group
+        return Effect.none
     }
 
     func calculationItemSelected(_ state: inout State, _ calculation: QuickCalculationDisplayModel?) -> Effect<Action> {

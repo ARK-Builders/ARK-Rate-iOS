@@ -91,15 +91,19 @@ private extension QuickView {
                     }
                 }
             }
+            .padding(.trailing, Constants.spacing + 20)
             Button(
                 action: { isGroupEditing.toggle() },
                 label: {
-                    Image(.edit)
-                        .adaptToColorScheme(colorScheme)
-                        .tappableArea()
+                    HStack {
+                        Image(.edit)
+                            .adaptToColorScheme(colorScheme)
+                            .tappableArea()
+                            .padding(.trailing, Constants.spacing)
+                    }
+                    .background(Color.backgroundPrimary)
                 }
             )
-            .padding(.trailing, Constants.spacing)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, Constants.spacing)
@@ -245,7 +249,7 @@ private extension QuickView {
                 closeButtonAction: closeAction,
                 saveButtonAction: {
                     closeAction()
-                    
+                    store.send(.renameGroupButtonTapped(id: store.selectedEditingGroup?.id))
                 }
             )
             .zIndex(Constants.modalZIndex)
@@ -317,6 +321,7 @@ private extension QuickView {
                                     icon: Image(ImageResource.edit),
                                     title: StringResource.rename.localized,
                                     action: {
+                                        store.send(.editingGroupSelected(group))
                                         store.send(.editingGroupNameUpdated(group.displayName))
                                         isShowingRenameGroupModal = true
                                     }
@@ -325,7 +330,10 @@ private extension QuickView {
                                     icon: Image(ImageResource.trash),
                                     title: StringResource.delete.localized,
                                     isDestructive: true,
-                                    action: {}
+                                    action: {
+                                        store.send(.editingGroupSelected(group))
+                                        store.send(.deleteGroupButtonTapped(id: group.id))
+                                    }
                                 )
                             } label: {
                                 Image(ImageResource.more)

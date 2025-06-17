@@ -23,4 +23,8 @@ struct QuickCalculationGroupRepositoryImpl: QuickCalculationGroupRepository {
     func save(_ group: QuickCalculationGroup) throws {
         try localDataSource.save(group.toQuickCalculationGroupDTO)
     }
+
+    func delete(where id: UUID) throws {
+        try localDataSource.delete(where: id)
+    }
 }
