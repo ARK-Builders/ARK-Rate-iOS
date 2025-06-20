@@ -141,6 +141,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C190FB52E059287009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CodeDataset.strings; sourceTree = "<group>"; };
+		9C190FB62E0592E1009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CountryDataset.strings; sourceTree = "<group>"; };
 		9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameGroupModal.swift; sourceTree = "<group>"; };
 		9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalBackgroundModifier.swift; sourceTree = "<group>"; };
 		9C3D8FF52DFF18430067C59F /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
@@ -789,6 +791,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 9C7D5FD52D75D2CD008A4555;
 			minimizedProjectReferenceProxies = 1;
@@ -981,6 +984,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9C4AE0C32DECAD2E00E6A8E0 /* en */,
+				9C190FB52E059287009FF7D6 /* ru */,
 			);
 			name = CodeDataset.strings;
 			sourceTree = "<group>";
@@ -989,6 +993,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9C4AE0C52DECAD2E00E6A8E0 /* en */,
+				9C190FB62E0592E1009FF7D6 /* ru */,
 			);
 			name = CountryDataset.strings;
 			sourceTree = "<group>";
