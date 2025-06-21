@@ -1,370 +1,339 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "+%lld": {},
-    "add_group": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add Folder"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "+%lld" : {
+
+    },
+    "add_group" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Folder"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Добавить папку"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить папку"
           }
         }
       }
     },
-    "add_new_calculation": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add new calculation"
+    "add_new_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add new calculation"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Добавить новый расчёт"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить новый расчёт"
           }
         }
       }
     },
-    "all_currencies": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All currencies"
+    "all_currencies" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All currencies"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Все валюты"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все валюты"
           }
         }
       }
     },
-    "and": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "and"
+    "and" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "and"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "и"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "и"
           }
         }
       }
     },
-    "back": {},
-    "calculate": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Calculate"
+    "back" : {
+
+    },
+    "calculate" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculate"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Рассчитать"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рассчитать"
           }
         }
       }
     },
-    "calculated_on_ago": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Calculated on %@ ago"
+    "calculated_on_ago" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculated on %@ ago"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Рассчитано %@ назад"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рассчитано %@ назад"
           }
         }
       }
     },
-    "calculation_has_been_edited": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Calculation has been edited"
+    "calculation_has_been_edited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculation has been edited"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Расчёт был отредактирован"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расчёт был отредактирован"
           }
         }
       }
     },
-    "calculation_has_been_reused": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Calculation has been reused"
+    "calculation_has_been_reused" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculation has been reused"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Расчёт был повторно использован"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расчёт был повторно использован"
           }
         }
       }
     },
-    "calculations": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Calculations"
+    "calculations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculations"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Расчёты"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расчёты"
           }
         }
       }
     },
-    "cancel": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
+    "cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Отмена"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмена"
           }
         }
       }
     },
-    "confirm": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Confirm"
+    "confirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Подтвердить"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подтвердить"
           }
         }
       }
     },
-    "create_group": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create Folder"
+    "create_group" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Folder"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Создать папку"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать папку"
           }
         }
       }
     },
-    "create_group_description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Please enter a name for this folder."
+    "create_group_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter a name for this folder."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Пожалуйста, введите имя для этой папки."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста, введите имя для этой папки."
           }
         }
       }
     },
-    "create_group_placeholder": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "e.g. Folder 1"
+    "create_group_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Folder 1"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "например, Папка 1"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "например, Папка 1"
           }
         }
       }
     },
-    "default": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Default"
+    "default" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "По умолчанию"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По умолчанию"
           }
         }
       }
     },
-    "delete": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete"
+    "delete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Удалить"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
           }
         }
       }
     },
-    "edit": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit"
+    "edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Редактировать"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактировать"
           }
         }
       }
     },
-    "elapsed_day": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld day"
+    "elapsed_day" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld day"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "new",
-                  "value": "%lld days"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld days"
                 }
               }
             }
           }
         },
-        "ru": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld день"
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld день"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld дней"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "elapsed_hour": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld hour"
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld дня"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld hours"
-                }
-              }
-            }
-          }
-        },
-        "ru": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld час"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld часов"
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld дней"
                 }
               }
             }
@@ -372,81 +341,46 @@
         }
       }
     },
-    "elapsed_minute": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld minute"
+    "elapsed_hour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld hour"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld minutes"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld hours"
                 }
               }
             }
           }
         },
-        "ru": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld минута"
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld час"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld минут"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "elapsed_second": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld second"
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld часа"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld seconds"
-                }
-              }
-            }
-          }
-        },
-        "ru": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld секунда"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld секунд"
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld часов"
                 }
               }
             }
@@ -454,538 +388,644 @@
         }
       }
     },
-    "frequent_currencies": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Frequent currencies"
+    "elapsed_minute" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld minute"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld minutes"
+                }
+              }
+            }
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Часто используемые валюты"
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld минута"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld минуты"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld минут"
+                }
+              }
+            }
           }
         }
       }
     },
-    "from": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "From"
+    "elapsed_second" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld second"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld seconds"
+                }
+              }
+            }
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Из"
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld секунда"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld секунды"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld секунд"
+                }
+              }
+            }
           }
         }
       }
     },
-    "group_name": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Folder name"
+    "frequent_currencies" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frequent currencies"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Имя папки"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Часто используемые валюты"
           }
         }
       }
     },
-    "input_value": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Input Value"
+    "from" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Введите значение"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из"
           }
         }
       }
     },
-    "last_refreshed_ago": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Last refreshed %@ ago"
+    "group_name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folder name"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Последнее обновление %@ назад"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя папки"
           }
         }
       }
     },
-    "new_calculation_has_been_created": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New calculation has been created"
+    "input_value" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input Value"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Новый расчёт был создан"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите значение"
           }
         }
       }
     },
-    "new_currency": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New Currency"
+    "last_refreshed_ago" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last refreshed %@ ago"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Новая валюта"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последнее обновление %@ назад"
           }
         }
       }
     },
-    "new_group": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New Folder"
+    "new_calculation_has_been_created" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New calculation has been created"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Новая папка"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новый расчёт был создан"
           }
         }
       }
     },
-    "no_result": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No result"
+    "new_currency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Currency"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Нет результата"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая валюта"
           }
         }
       }
     },
-    "options": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Options"
+    "new_group" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Folder"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Параметры"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая папка"
           }
         }
       }
     },
-    "pin": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pin"
+    "no_result" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No result"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Закрепить"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет результата"
           }
         }
       }
     },
-    "pinned_calculations": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pinned calculations"
+    "options" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Options"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Закреплённые расчёты"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Параметры"
           }
         }
       }
     },
-    "quick_title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quick"
+    "pin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Быстрые"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрепить"
           }
         }
       }
     },
-    "ready_for_calculation": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ready for calculation!"
+    "pinned_calculations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinned calculations"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Новая папка"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закреплённые расчёты"
           }
         }
       }
     },
-    "ready_for_calculation_description": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select your currencies and enter an amount to start converting. Your exchange results will appear here."
+    "quick_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выберите валюты и введите сумму для начала конвертации. Результаты обмена появятся здесь."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Быстрые"
           }
         }
       }
     },
-    "rename": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rename"
-          }
-        }
-      }
-    },
-    "rename_group": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rename Folder"
-          }
-        }
-      }
-    },
-    "result": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Result"
+    "ready_for_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready for calculation!"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Результат"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая папка"
           }
         }
       }
     },
-    "reuse": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Re-use"
+    "ready_for_calculation_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select your currencies and enter an amount to start converting. Your exchange results will appear here."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Повторно использовать"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите валюты и введите сумму для начала конвертации. Результаты обмена появятся здесь."
           }
         }
       }
     },
-    "save": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save"
+    "rename" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Сохранить"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать"
           }
         }
       }
     },
-    "search": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search"
+    "rename_group" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename Folder"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Поиск"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать папку"
           }
         }
       }
     },
-    "search_a_currency": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search a currency"
+    "result" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Result"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Поиск валюты"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Результат"
           }
         }
       }
     },
-    "settings_title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
+    "reuse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Re-use"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Настройки"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторно использовать"
           }
         }
       }
     },
-    "the_calculation_has_been_deleted": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The calculation has been deleted"
+    "save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Расчёт был удалён"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
           }
         }
       }
     },
-    "to": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "to"
+    "search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "в"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск"
           }
         }
       }
     },
-    "top_results": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Top results"
+    "search_a_currency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search a currency"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Топ результатов"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск валюты"
           }
         }
       }
     },
-    "undo": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Undo"
+    "settings_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Отменить"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки"
           }
         }
       }
     },
-    "unpin": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unpin"
+    "the_calculation_has_been_deleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The calculation has been deleted"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Открепить"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расчёт был удалён"
           }
         }
       }
     },
-    "you_added_calculation": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You added %@ calculation"
+    "to" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "to"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вы добавили расчёт %@"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "в"
           }
         }
       }
     },
-    "you_deleted_calculation": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You deleted %@ calculation"
+    "top_results" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top results"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вы удалили расчёт %@"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Топ результатов"
           }
         }
       }
     },
-    "you_edited_calculation": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You edited %@ calculation"
+    "undo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вы отредактировали расчёт %@"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отменить"
           }
         }
       }
     },
-    "you_reused_calculation": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You reused %@ calculation"
+    "unpin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpin"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вы повторно использовали расчёт %@"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открепить"
+          }
+        }
+      }
+    },
+    "you_added_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You added %@ calculation"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы добавили расчёт %@"
+          }
+        }
+      }
+    },
+    "you_deleted_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You deleted %@ calculation"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы удалили расчёт %@"
+          }
+        }
+      }
+    },
+    "you_edited_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You edited %@ calculation"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы отредактировали расчёт %@"
+          }
+        }
+      }
+    },
+    "you_reused_calculation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You reused %@ calculation"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы повторно использовали расчёт %@"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
