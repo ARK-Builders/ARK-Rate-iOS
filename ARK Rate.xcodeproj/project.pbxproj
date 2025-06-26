@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C15E3C82E07A50D007BF418 /* SettingItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3C72E07A507007BF418 /* SettingItemType.swift */; };
+		9C15E3CD2E07BCBC007BF418 /* AboutFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3CC2E07BCB9007BF418 /* AboutFeature.swift */; };
+		9C15E3CF2E0D8D33007BF418 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3CE2E0D8D30007BF418 /* AboutView.swift */; };
 		9C3D8FF22DFEFE930067C59F /* RenameGroupModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */; };
 		9C3D8FF42DFF01300067C59F /* ModalBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */; };
 		9C3D8FF62DFF18710067C59F /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF52DFF18430067C59F /* InputView.swift */; };
@@ -141,6 +144,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C15E3C72E07A507007BF418 /* SettingItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItemType.swift; sourceTree = "<group>"; };
+		9C15E3CC2E07BCB9007BF418 /* AboutFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutFeature.swift; sourceTree = "<group>"; };
+		9C15E3CE2E0D8D30007BF418 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		9C190FB52E059287009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CodeDataset.strings; sourceTree = "<group>"; };
 		9C190FB62E0592E1009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CountryDataset.strings; sourceTree = "<group>"; };
 		9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameGroupModal.swift; sourceTree = "<group>"; };
@@ -288,6 +294,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C15E3CB2E07BCB1007BF418 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				9C15E3CC2E07BCB9007BF418 /* AboutFeature.swift */,
+				9C15E3CE2E0D8D30007BF418 /* AboutView.swift */,
+			);
+			path = About;
+			sourceTree = "<group>";
+		};
 		9C3D8FF02DFEFDFA0067C59F /* RenameGroupModal */ = {
 			isa = PBXGroup;
 			children = (
@@ -686,6 +701,8 @@
 		9C4AE1502DECAD2E00E6A8E0 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9C15E3CB2E07BCB1007BF418 /* About */,
+				9C15E3C72E07A507007BF418 /* SettingItemType.swift */,
 				9C4AE14E2DECAD2E00E6A8E0 /* SettingsFeature.swift */,
 				9C4AE14F2DECAD2E00E6A8E0 /* SettingsView.swift */,
 			);
@@ -879,7 +896,9 @@
 				9C4AE1702DECAD2E00E6A8E0 /* CurrencyStatisticDTO.swift in Sources */,
 				9C4AE1712DECAD2E00E6A8E0 /* QuickCalculationDTO.swift in Sources */,
 				9C4AE1722DECAD2E00E6A8E0 /* QuickCalculationGroupDTO.swift in Sources */,
+				9C15E3CF2E0D8D33007BF418 /* AboutView.swift in Sources */,
 				9CFCBAA62DF9A529008EFD9C /* AppConfig.swift in Sources */,
+				9C15E3CD2E07BCBC007BF418 /* AboutFeature.swift in Sources */,
 				9C4AE1732DECAD2E00E6A8E0 /* CurrencyModel.swift in Sources */,
 				9C4AE1742DECAD2E00E6A8E0 /* CurrencyStatisticModel.swift in Sources */,
 				9C4AE1752DECAD2E00E6A8E0 /* QuickCalculationGroupModel.swift in Sources */,
@@ -942,6 +961,7 @@
 				9C4AE1AA2DECAD2E00E6A8E0 /* Font+Custom.swift in Sources */,
 				9C4AE1AB2DECAD2E00E6A8E0 /* Image+Asset.swift in Sources */,
 				9C4AE1AC2DECAD2E00E6A8E0 /* Image+SFSymbols.swift in Sources */,
+				9C15E3C82E07A50D007BF418 /* SettingItemType.swift in Sources */,
 				9C4AE1AD2DECAD2E00E6A8E0 /* NSItemProvider+Extensions.swift in Sources */,
 				9C4AE1AE2DECAD2E00E6A8E0 /* String+Extensions.swift in Sources */,
 				9C4AE1AF2DECAD2E00E6A8E0 /* TypeAliases.swift in Sources */,

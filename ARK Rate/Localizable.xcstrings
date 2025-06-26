@@ -4,6 +4,28 @@
     "+%lld" : {
 
     },
+    "about" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
+          }
+        }
+      }
+    },
+    "about_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
+          }
+        }
+      }
+    },
     "add_group" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -176,6 +198,17 @@
         }
       }
     },
+    "change_app_language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change app language"
+          }
+        }
+      }
+    },
     "confirm" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -318,12 +351,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld день"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -334,6 +361,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld дней"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld день"
                 }
               }
             }
@@ -365,12 +398,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld час"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -381,6 +408,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld часов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld час"
                 }
               }
             }
@@ -412,12 +445,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld минута"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -428,6 +455,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld минут"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld минута"
                 }
               }
             }
@@ -459,12 +492,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld секунда"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -475,6 +502,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld секунд"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld секунда"
                 }
               }
             }

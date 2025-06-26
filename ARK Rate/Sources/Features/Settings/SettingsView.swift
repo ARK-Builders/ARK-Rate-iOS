@@ -10,13 +10,40 @@ struct SettingsView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack {
-            Text(StringResource.title.localized)
+        NavigationStack {
+            List {
+                ForEach(store.types, id: \.self) { type in
+                    switch type {
+                    case .changeAppLanguage: makeSettingItem(from: type, action: { store.send(.goToSettings) })
+                    case .about: makeSettingItem(from: type, action: { store.send(.showAboutScreen) })
+                    }
+                }
+            }
+            .listStyle(.plain)
+            .background(Color.backgroundPrimary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(StringResource.title.localized)
+            .navigationDestination(
+                item: $store.scope(state: \.destination?.about, action: \.destination.about)
+            ) { store in
+                AboutView(store: store)
+            }
+            .onAppear {
+                store.send(.showTabbar)
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.backgroundPrimary)
-        .onAppear {
-            store.send(.showTabbar)
+    }
+}
+
+// MARK: -
+
+private extension SettingsView {
+
+    func makeSettingItem(from type: SettingItemType, action: @escaping ButtonAction) -> some View {
+        Button(action: action) {
+            Text(type.title)
+                .padding(.vertical, Constants.spacing)
         }
     }
 }
@@ -24,6 +51,10 @@ struct SettingsView: View {
 // MARK: - Constants
 
 private extension SettingsView {
+
+    enum Constants {
+        static let spacing: CGFloat = 8
+    }
 
     enum StringResource: String.LocalizationValue {
         case title = "settings_title"
