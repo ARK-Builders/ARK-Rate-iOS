@@ -15,7 +15,7 @@ private extension SettingItemType {
 
     enum StringResource: String.LocalizationValue {
         case changeAppLanguage = "change_app_language"
-        case about
+        case about = "about_title"
 
         var localized: String {
             String(localized: rawValue)
