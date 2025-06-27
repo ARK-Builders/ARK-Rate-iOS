@@ -4,17 +4,6 @@
     "+%lld" : {
 
     },
-    "about" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About"
-          }
-        }
-      }
-    },
     "about_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -22,6 +11,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "About"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "О приложении"
           }
         }
       }
@@ -205,6 +200,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Change app language"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сменить язык приложения"
           }
         }
       }
