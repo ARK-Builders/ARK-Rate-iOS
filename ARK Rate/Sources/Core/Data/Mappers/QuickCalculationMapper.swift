@@ -80,6 +80,19 @@ extension QuickCalculationDTO {
             group: group.toQuickCalculationGroupModel
         )
     }
+
+    func toQuickCalculationModel(group: QuickCalculationGroupModel) -> QuickCalculationModel {
+        QuickCalculationModel(
+            id: id,
+            pinnedDate: pinnedDate,
+            calculatedDate: calculatedDate,
+            inputCurrencyCode: inputCurrencyCode,
+            inputCurrencyAmount: inputCurrencyAmount,
+            outputCurrencyCodes: outputCurrencyCodes,
+            outputCurrencyAmounts: outputCurrencyAmounts,
+            group: group
+        )
+    }
 }
 
 // MARK: -

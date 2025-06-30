@@ -29,7 +29,7 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
         let groupId = calculation.group.id
         guard let group: QuickCalculationGroupModel = try SwiftDataManager.shared.get(predicate: #Predicate { $0.id == groupId }) else { return }
         let id = calculation.id
-        let model = calculation.toQuickCalculationModel
+        let model = calculation.toQuickCalculationModel(group: group)
         if let fetchedModel: QuickCalculationModel = try SwiftDataManager.shared.get(predicate: #Predicate { $0.id == id }) {
             fetchedModel.pinnedDate = model.pinnedDate
             fetchedModel.calculatedDate = model.calculatedDate
@@ -40,7 +40,6 @@ struct QuickCalculationSwiftDataDataSource: QuickCalculationLocalDataSource {
             fetchedModel.group = group
             try SwiftDataManager.shared.save()
         } else {
-            model.group = group
             try SwiftDataManager.shared.insert(model)
         }
     }
