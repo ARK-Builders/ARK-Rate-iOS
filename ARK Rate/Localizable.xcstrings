@@ -108,6 +108,23 @@
         }
       }
     },
+    "calculated_on" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculated on %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рассчитано %@"
+          }
+        }
+      }
+    },
     "calculated_on_ago" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -580,6 +597,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Введите значение"
+          }
+        }
+      }
+    },
+    "last_refreshed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last refreshed %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последнее обновление %@"
           }
         }
       }

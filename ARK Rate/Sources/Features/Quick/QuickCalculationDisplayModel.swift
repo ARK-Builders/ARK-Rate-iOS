@@ -7,6 +7,7 @@ struct QuickCalculationDisplayModel: Identifiable, Equatable {
     let id: UUID
     let pinned: Bool
     let elapsedTime: String
+    let calculatedDate: Date
     let input: CurrencyDisplayModel
     let outputs: [CurrencyDisplayModel]
 
@@ -39,6 +40,7 @@ struct QuickCalculationDisplayModel: Identifiable, Equatable {
     ) {
         self.id = id
         self.pinned = pinnedDate != nil
+        self.calculatedDate = calculatedDate
         self.elapsedTime = calculatedDate.formattedElapsedTime
         self.input = input
         self.outputs = outputs
