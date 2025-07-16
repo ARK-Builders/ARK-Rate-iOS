@@ -373,7 +373,9 @@ private extension QuickView {
                     CurrencyCalculationRowView(
                         input: calculation.input,
                         outputs: calculation.outputs,
-                        elapsedTime: StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
+                        elapsedTime: calculation.calculatedDate.hasElapsedOneWeek ?
+                            StringResource.lastRefreshed.localizedFormat(calculation.elapsedTime) :
+                            StringResource.lastRefreshedAgo.localizedFormat(calculation.elapsedTime),
                         action: { calculationItemAction(calculation) }
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
@@ -400,7 +402,9 @@ private extension QuickView {
                     CurrencyCalculationRowView(
                         input: calculation.input,
                         outputs: calculation.outputs,
-                        elapsedTime: StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
+                        elapsedTime: calculation.calculatedDate.hasElapsedOneWeek ?
+                            StringResource.calculatedOn.localizedFormat(calculation.elapsedTime) :
+                            StringResource.calculatedOnAgo.localizedFormat(calculation.elapsedTime),
                         action: { calculationItemAction(calculation) }
                     )
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
@@ -465,7 +469,9 @@ private extension QuickView {
         case search
         case pinnedCalculations = "pinned_calculations"
         case calculations
+        case lastRefreshed = "last_refreshed"
         case lastRefreshedAgo = "last_refreshed_ago"
+        case calculatedOn = "calculated_on"
         case calculatedOnAgo = "calculated_on_ago"
         case allCurrencies = "all_currencies"
         case frequentCurrencies = "frequent_currencies"

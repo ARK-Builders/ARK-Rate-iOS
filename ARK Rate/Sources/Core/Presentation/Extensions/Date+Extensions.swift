@@ -10,11 +10,16 @@ extension Date {
         return formatter
     }()
 
+    var hasElapsedOneWeek: Bool {
+        let components = Calendar.current.dateComponents([.day], from: self, to: Date())
+        return (components.day ?? 0) >= 7
+    }
+
     var formattedElapsedTime: String {
-        let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: self, to: Date())
-        if let days = components.day, days >= 4 {
+        if hasElapsedOneWeek {
             return Date.formatter.string(from: self)
         }
+        let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: self, to: Date())
         switch (
             components.day ?? 0,
             components.hour ?? 0,
