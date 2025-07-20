@@ -131,7 +131,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Calculated on %@ ago"
+            "value" : "Calculated %@ ago"
           }
         },
         "ru" : {
