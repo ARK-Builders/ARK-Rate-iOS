@@ -15,8 +15,21 @@ extension View {
         }
     }
 
+    @ViewBuilder
+    func wiggle(isEnabled: Bool, amount: Double = 5) -> some View {
+        if isEnabled {
+            modifier(WiggleViewModifier(amount: amount))
+        } else {
+            self
+        }
+    }
+
     func tappableArea() -> some View {
         contentShape(Rectangle())
+    }
+
+    func onDropCompleted(perform action: @escaping ButtonAction) -> some View {
+        onDrop(of: [.plainText], delegate: OutsideDropDelegate(action))
     }
 
     var hasExtendedTopArea: Bool {

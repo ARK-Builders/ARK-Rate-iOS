@@ -323,6 +323,7 @@ private extension QuickView {
                             Text(group.displayName)
                                 .foregroundColor(Color.teal600)
                                 .font(Font.customInterSemiBold(size: 16))
+                                .wiggle(isEnabled: isGroupEditing)
                             Menu {
                                 MenuEntryButton(
                                     icon: Image(ImageResource.edit),

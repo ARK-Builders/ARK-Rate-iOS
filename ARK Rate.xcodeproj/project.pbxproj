@@ -10,6 +10,10 @@
 		9C15E3C82E07A50D007BF418 /* SettingItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3C72E07A507007BF418 /* SettingItemType.swift */; };
 		9C15E3CD2E07BCBC007BF418 /* AboutFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3CC2E07BCB9007BF418 /* AboutFeature.swift */; };
 		9C15E3CF2E0D8D33007BF418 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3CE2E0D8D30007BF418 /* AboutView.swift */; };
+		9C357FE42E2B442D00D2094C /* ReorderableForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FE32E2B441E00D2094C /* ReorderableForEach.swift */; };
+		9C357FE72E2B453C00D2094C /* HoverDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FE62E2B453500D2094C /* HoverDropDelegate.swift */; };
+		9C357FE92E2B468700D2094C /* OutsideDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FE82E2B467800D2094C /* OutsideDropDelegate.swift */; };
+		9C357FEB2E2B553A00D2094C /* WiggleViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FEA2E2B552E00D2094C /* WiggleViewModifier.swift */; };
 		9C3D8FF22DFEFE930067C59F /* RenameGroupModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */; };
 		9C3D8FF42DFF01300067C59F /* ModalBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */; };
 		9C3D8FF62DFF18710067C59F /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF52DFF18430067C59F /* InputView.swift */; };
@@ -149,6 +153,10 @@
 		9C15E3CE2E0D8D30007BF418 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		9C190FB52E059287009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CodeDataset.strings; sourceTree = "<group>"; };
 		9C190FB62E0592E1009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CountryDataset.strings; sourceTree = "<group>"; };
+		9C357FE32E2B441E00D2094C /* ReorderableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderableForEach.swift; sourceTree = "<group>"; };
+		9C357FE62E2B453500D2094C /* HoverDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverDropDelegate.swift; sourceTree = "<group>"; };
+		9C357FE82E2B467800D2094C /* OutsideDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutsideDropDelegate.swift; sourceTree = "<group>"; };
+		9C357FEA2E2B552E00D2094C /* WiggleViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiggleViewModifier.swift; sourceTree = "<group>"; };
 		9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameGroupModal.swift; sourceTree = "<group>"; };
 		9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalBackgroundModifier.swift; sourceTree = "<group>"; };
 		9C3D8FF52DFF18430067C59F /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
@@ -301,6 +309,16 @@
 				9C15E3CE2E0D8D30007BF418 /* AboutView.swift */,
 			);
 			path = About;
+			sourceTree = "<group>";
+		};
+		9C357FE22E2B440D00D2094C /* Reordering */ = {
+			isa = PBXGroup;
+			children = (
+				9C357FE62E2B453500D2094C /* HoverDropDelegate.swift */,
+				9C357FE82E2B467800D2094C /* OutsideDropDelegate.swift */,
+				9C357FE32E2B441E00D2094C /* ReorderableForEach.swift */,
+			);
+			path = Reordering;
 			sourceTree = "<group>";
 		};
 		9C3D8FF02DFEFDFA0067C59F /* RenameGroupModal */ = {
@@ -542,6 +560,7 @@
 			isa = PBXGroup;
 			children = (
 				9C4AE1132DECAD2E00E6A8E0 /* Buttons */,
+				9C357FE22E2B440D00D2094C /* Reordering */,
 				9C4AE1142DECAD2E00E6A8E0 /* CurrencyCalculationRowView.swift */,
 				9C4AE1152DECAD2E00E6A8E0 /* CurrencyInputView.swift */,
 				9C4AE1162DECAD2E00E6A8E0 /* CurrencyRowView.swift */,
@@ -586,6 +605,7 @@
 				9C4AE12E2DECAD2E00E6A8E0 /* NavigationBarModifier.swift */,
 				9C4AE12F2DECAD2E00E6A8E0 /* PlainListRowModifier.swift */,
 				9C4AE1302DECAD2E00E6A8E0 /* RoundedBorderModifier.swift */,
+				9C357FEA2E2B552E00D2094C /* WiggleViewModifier.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -921,6 +941,7 @@
 				9C4AE1852DECAD2E00E6A8E0 /* CurrencyStatisticRepositoryImpl.swift in Sources */,
 				9C4AE1862DECAD2E00E6A8E0 /* MetadataRepositoryImpl.swift in Sources */,
 				9C4AE1872DECAD2E00E6A8E0 /* QuickCalculationGroupRepositoryImpl.swift in Sources */,
+				9C357FE42E2B442D00D2094C /* ReorderableForEach.swift in Sources */,
 				9C4AE1882DECAD2E00E6A8E0 /* QuickCalculationRepositoryImpl.swift in Sources */,
 				9C4AE1892DECAD2E00E6A8E0 /* Currency.swift in Sources */,
 				9CA5C04C2DFE82B700CDED3A /* MenuEntryButton.swift in Sources */,
@@ -941,6 +962,7 @@
 				9C4AE1972DECAD2E00E6A8E0 /* LoadFrequentCurrenciesUseCase.swift in Sources */,
 				9C4AE1982DECAD2E00E6A8E0 /* LoadQuickCalculationGroupsUseCase.swift in Sources */,
 				9C4AE1992DECAD2E00E6A8E0 /* LoadQuickCalculationsUseCase.swift in Sources */,
+				9C357FE72E2B453C00D2094C /* HoverDropDelegate.swift in Sources */,
 				9C4AE19A2DECAD2E00E6A8E0 /* SaveQuickCalculationUseCase.swift in Sources */,
 				9C4AE19B2DECAD2E00E6A8E0 /* TogglePinnedCalculationUseCase.swift in Sources */,
 				9C4AE19C2DECAD2E00E6A8E0 /* ActionButton.swift in Sources */,
@@ -973,6 +995,7 @@
 				9C4AE1B52DECAD2E00E6A8E0 /* HideKeyboardModifier.swift in Sources */,
 				9C4AE1B62DECAD2E00E6A8E0 /* LoadingOverlayModifier.swift in Sources */,
 				9C4AE1B72DECAD2E00E6A8E0 /* NavigationBarModifier.swift in Sources */,
+				9C357FE92E2B468700D2094C /* OutsideDropDelegate.swift in Sources */,
 				9C4AE1B82DECAD2E00E6A8E0 /* PlainListRowModifier.swift in Sources */,
 				9C4AE1B92DECAD2E00E6A8E0 /* RoundedBorderModifier.swift in Sources */,
 				9C4AE1BA2DECAD2E00E6A8E0 /* Storybook.swift in Sources */,
@@ -993,6 +1016,7 @@
 				9C4AE1C92DECAD2E00E6A8E0 /* QuickToastContext.swift in Sources */,
 				9C4AE1CA2DECAD2E00E6A8E0 /* QuickView.swift in Sources */,
 				9C4AE1CB2DECAD2E00E6A8E0 /* SettingsFeature.swift in Sources */,
+				9C357FEB2E2B553A00D2094C /* WiggleViewModifier.swift in Sources */,
 				9C4AE1CC2DECAD2E00E6A8E0 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
