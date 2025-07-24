@@ -14,6 +14,7 @@
 		9C357FE72E2B453C00D2094C /* HoverDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FE62E2B453500D2094C /* HoverDropDelegate.swift */; };
 		9C357FE92E2B468700D2094C /* OutsideDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FE82E2B467800D2094C /* OutsideDropDelegate.swift */; };
 		9C357FEB2E2B553A00D2094C /* WiggleViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FEA2E2B552E00D2094C /* WiggleViewModifier.swift */; };
+		9C357FED2E3257E500D2094C /* IdentifiedArray+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FEC2E3257DF00D2094C /* IdentifiedArray+Extensions.swift */; };
 		9C3D8FF22DFEFE930067C59F /* RenameGroupModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */; };
 		9C3D8FF42DFF01300067C59F /* ModalBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */; };
 		9C3D8FF62DFF18710067C59F /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3D8FF52DFF18430067C59F /* InputView.swift */; };
@@ -157,6 +158,7 @@
 		9C357FE62E2B453500D2094C /* HoverDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverDropDelegate.swift; sourceTree = "<group>"; };
 		9C357FE82E2B467800D2094C /* OutsideDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutsideDropDelegate.swift; sourceTree = "<group>"; };
 		9C357FEA2E2B552E00D2094C /* WiggleViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiggleViewModifier.swift; sourceTree = "<group>"; };
+		9C357FEC2E3257DF00D2094C /* IdentifiedArray+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdentifiedArray+Extensions.swift"; sourceTree = "<group>"; };
 		9C3D8FF12DFEFE8B0067C59F /* RenameGroupModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameGroupModal.swift; sourceTree = "<group>"; };
 		9C3D8FF32DFF00B90067C59F /* ModalBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalBackgroundModifier.swift; sourceTree = "<group>"; };
 		9C3D8FF52DFF18430067C59F /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 				9C4AE11E2DECAD2E00E6A8E0 /* Decimal+FinancialRate.swift */,
 				9C4AE11F2DECAD2E00E6A8E0 /* Dictionary+Extensions.swift */,
 				9C4AE1202DECAD2E00E6A8E0 /* Font+Custom.swift */,
+				9C357FEC2E3257DF00D2094C /* IdentifiedArray+Extensions.swift */,
 				9C4AE1212DECAD2E00E6A8E0 /* Image+Asset.swift */,
 				9CA6DAA82DFE8E7F004D3B7A /* Image+Extensions.swift */,
 				9C4AE1222DECAD2E00E6A8E0 /* Image+SFSymbols.swift */,
@@ -959,6 +962,7 @@
 				9C3D8FF42DFF01300067C59F /* ModalBackgroundModifier.swift in Sources */,
 				9C4AE1952DECAD2E00E6A8E0 /* CurrencyCalculationUseCase.swift in Sources */,
 				9C4AE1962DECAD2E00E6A8E0 /* LoadCurrenciesUseCase.swift in Sources */,
+				9C357FED2E3257E500D2094C /* IdentifiedArray+Extensions.swift in Sources */,
 				9C4AE1972DECAD2E00E6A8E0 /* LoadFrequentCurrenciesUseCase.swift in Sources */,
 				9C4AE1982DECAD2E00E6A8E0 /* LoadQuickCalculationGroupsUseCase.swift in Sources */,
 				9C4AE1992DECAD2E00E6A8E0 /* LoadQuickCalculationsUseCase.swift in Sources */,

@@ -7,3 +7,5 @@ typealias ReorderingAction = (Int, Int) -> Void
 typealias Reorderable = Identifiable & Equatable
 typealias TitleSubtitlePair = (title: String, subtitle: String)
 typealias ButtonConfiguration = (title: String, action: ButtonAction)
+
+func noop() {}

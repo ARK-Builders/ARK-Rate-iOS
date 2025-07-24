@@ -16,7 +16,7 @@ extension View {
     }
 
     @ViewBuilder
-    func wiggle(isEnabled: Bool, amount: Double = 5) -> some View {
+    func wiggle(isEnabled: Bool, amount: Double = 3) -> some View {
         if isEnabled {
             modifier(WiggleViewModifier(amount: amount))
         } else {

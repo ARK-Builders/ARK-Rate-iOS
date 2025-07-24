@@ -26,6 +26,10 @@ struct QuickFeature {
         var isSearching: Bool {
             !searchText.isTrimmedEmpty
         }
+
+        var selectedGroup: GroupDisplayModel? {
+            calculationGroups[safe: selectedGroupIndex]
+        }
     }
 
     enum Action {
@@ -33,7 +37,7 @@ struct QuickFeature {
         case loadCurrencies
         case loadCalculations
         case loadListContent
-        case selectGroupIndex(Int)
+        case selectGroup(GroupDisplayModel)
         case editingGroupNameUpdated(String)
         case renameGroupButtonTapped(id: UUID?)
         case deleteGroupButtonTapped(id: UUID?)
@@ -47,7 +51,7 @@ struct QuickFeature {
         case editingGroupSelected(GroupDisplayModel?)
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
-        case reorderCalculationGroup(Int, Int)
+        case reorderGroup(GroupDisplayModel, GroupDisplayModel)
         case showToastMessage(QuickToastContext)
         case clearToastMessage(QuickToastContext)
         case toastMessageActionButtonTapped(QuickToastContext)
@@ -76,7 +80,7 @@ struct QuickFeature {
             case .loadCurrencies: loadCurrencies(&state)
             case .loadCalculations: loadCalculations(&state)
             case .loadListContent: loadListContent(&state)
-            case .selectGroupIndex(let index): selectGroupIndex(&state, index)
+            case .selectGroup(let group): selectGroup(&state, group)
             case .editingGroupNameUpdated(let groupName): editingGroupNameUpdated(&state, groupName)
             case .renameGroupButtonTapped(let id): renameGroupButtonTapped(&state, id)
             case .deleteGroupButtonTapped(let id): deleteGroupButtonTapped(&state, id)
@@ -89,7 +93,7 @@ struct QuickFeature {
             case .editingGroupSelected(let group): editingGroupSelected(&state, group)
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
-            case .reorderCalculationGroup(let sourceIndex, let targetIndex): reorderCalculationGroup(&state, sourceIndex, targetIndex)
+            case .reorderGroup(let source, let destination): reorderGroup(&state, source, destination)
             case .showToastMessage(let context): showToastMessage(&state, context)
             case .clearToastMessage(let context): clearToastMessage(&state, context)
             case .toastMessageActionButtonTapped(let context): toastMessageActionButtonTapped(&state, context)
@@ -140,8 +144,10 @@ private extension QuickFeature {
         )
     }
 
-    func selectGroupIndex(_ state: inout State, _ index: Int) -> Effect<Action> {
-        state.selectedGroupIndex = index
+    func selectGroup(_ state: inout State, _ group: GroupDisplayModel) -> Effect<Action> {
+        if let groupIndex = state.calculationGroups.index(id: group.id) {
+            state.selectedGroupIndex = groupIndex
+        }
         return Effect.none
     }
 
@@ -175,23 +181,23 @@ private extension QuickFeature {
     }
 
     func onAddQuickCalculationCallback(_ state: inout State, _ delegate: AddQuickCalculationFeature.Action.Delegate) -> Effect<Action> {
-        let groupIndex: Int
+        let group: GroupDisplayModel
         let calculation: QuickCalculationDisplayModel
         let toastMessage: QuickToastContext
         let isInitialCalculation = state.calculatedCalculations.isEmpty && state.pinnedCalculations.isEmpty
         switch delegate {
         case .added(let addedCalculation):
+            group = addedCalculation.group.toGroupDisplayModel
             calculation = addedCalculation.toQuickCalculationDisplayModel
             toastMessage = QuickToastContext.added(calculation)
-            groupIndex = state.calculationGroups.index(id: addedCalculation.group.id) ?? state.selectedGroupIndex
         case .edited(let editedCalculation):
+            group = editedCalculation.group.toGroupDisplayModel
             calculation = editedCalculation.toQuickCalculationDisplayModel
             toastMessage = QuickToastContext.edited(calculation)
-            groupIndex = state.calculationGroups.index(id: editedCalculation.group.id) ?? state.selectedGroupIndex
         case .reused(let reusedCalculation):
+            group = reusedCalculation.group.toGroupDisplayModel
             calculation = reusedCalculation.toQuickCalculationDisplayModel
             toastMessage = QuickToastContext.reused(calculation)
-            groupIndex = state.calculationGroups.index(id: reusedCalculation.group.id) ?? state.selectedGroupIndex
         default: return Effect.none
         }
         let reloadEffect: Effect<Action> = isInitialCalculation ?
@@ -199,7 +205,7 @@ private extension QuickFeature {
             .send(.loadCalculations)
         return Effect.merge(
             reloadEffect,
-            .send(.selectGroupIndex(groupIndex)),
+            .send(.selectGroup(group)),
             .run { send in
                 try? await Task.sleep(nanoseconds: Constants.toastAppearDelay)
                 await send(.showToastMessage(toastMessage))
@@ -265,13 +271,13 @@ private extension QuickFeature {
         return Effect.none
     }
 
-    func reorderCalculationGroup(_ state: inout State, _ sourceIndex: Int, _ targetIndex: Int) -> Effect<Action> {
-        guard sourceIndex != targetIndex,
-              state.calculationGroups.indices.contains(sourceIndex),
-              state.calculationGroups.indices.contains(targetIndex) else {
+    func reorderGroup(_ state: inout State, _ source: GroupDisplayModel, _ destination: GroupDisplayModel) -> Effect<Action> {
+        guard source != destination,
+              let sourceIndex = state.calculationGroups.index(id: source.id),
+              let destinationIndex = state.calculationGroups.index(id: destination.id) else {
             return Effect.none
         }
-        let adjustedTargetIndex = targetIndex > sourceIndex ? targetIndex + 1 : targetIndex
+        let adjustedTargetIndex = destinationIndex > sourceIndex ? destinationIndex + 1 : destinationIndex
         state.calculationGroups.move(
             fromOffsets: IndexSet(integer: sourceIndex),
             toOffset: min(adjustedTargetIndex, state.calculationGroups.endIndex)

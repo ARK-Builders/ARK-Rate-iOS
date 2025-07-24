@@ -8,6 +8,7 @@ struct QuickView: View {
     // MARK: - Properties
 
     @State var isGroupEditing = false
+    @State var isGroupReordering = false
     @State var isSearchBarEditing = false
     @State var isShowingRenameGroupModal = false
     @State var isShowingCalculationOptions = false
@@ -33,6 +34,10 @@ struct QuickView: View {
                 item: $store.scope(state: \.destination?.addQuickCalculation, action: \.destination.addQuickCalculation)
             ) { store in
                 AddQuickCalculationView(store: store)
+            }
+            .onDropCompleted {
+                isGroupReordering = false
+                store.send(.editingGroupSelected(nil))
             }
             .onAppear {
                 store.send(.showTabbar)
@@ -81,16 +86,30 @@ private extension QuickView {
         ZStack(alignment: .topTrailing) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 0) {
-                    ForEach(store.calculationGroups.indices, id: \.self) { index in
-                        let isSelected = index == store.selectedGroupIndex
-                        if store.calculationGroups.indices.contains(index) {
+                    ReorderableForEach(
+                        store.calculationGroups,
+                        isDragging: $isGroupReordering,
+                        draggingItem: Binding(
+                            get: { store.selectedEditingGroup },
+                            set: { newValue in store.send(.editingGroupSelected(newValue)) }
+                        ),
+                        content: { group in
                             makeCalculationGroupItem(
-                                isSelected: isSelected,
-                                group: store.calculationGroups[index],
-                                action: { store.send(.selectGroupIndex(index)) }
+                                group: group,
+                                isSelected: group == store.selectedGroup,
+                                action: { store.send(.selectGroup(group)) }
                             )
+                        },
+                        preview: { group in
+                            makeCalculationGroupItem(
+                                group: group,
+                                isPreviewing: true
+                            )
+                        },
+                        reorderingAction: { source, destination in
+                            store.send(.reorderGroup(source, destination))
                         }
-                    }
+                    )
                 }
             }
             .padding(.trailing, Constants.spacing + 20)
@@ -116,7 +135,11 @@ private extension QuickView {
             TabView(
                 selection: Binding(
                     get: { store.selectedGroupIndex },
-                    set: { newValue in store.send(.selectGroupIndex(newValue)) }
+                    set: { newValue in
+                        if let group = store.calculationGroups[safe: newValue] {
+                            store.send(.selectGroup(group))
+                        }
+                    }
                 )
             ) {
                 ForEach(store.calculationGroups.indices, id: \.self) { index in
@@ -136,6 +159,7 @@ private extension QuickView {
                     }
                     .listStyle(.plain)
                     .tag(index)
+                    .allowsHitTesting(!isGroupReordering)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
@@ -310,9 +334,10 @@ private extension QuickView {
     }
 
     func makeCalculationGroupItem(
-        isSelected: Bool,
         group: GroupDisplayModel,
-        action: @escaping ButtonAction
+        isSelected: Bool = false,
+        isPreviewing: Bool = false,
+        action: @escaping ButtonAction = noop
     ) -> some View {
         Button(
             action: action,
@@ -348,7 +373,7 @@ private extension QuickView {
                                 Image(ImageResource.more)
                                     .tappableArea()
                             }
-                            .isVisible(isGroupEditing)
+                            .isVisible(!isPreviewing && isGroupEditing)
                         }
                         .padding(.bottom, 12)
                         .padding(.horizontal, Constants.spacing)
