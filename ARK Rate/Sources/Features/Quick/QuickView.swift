@@ -112,7 +112,7 @@ private extension QuickView {
                     )
                 }
             }
-            .padding(.trailing, Constants.spacing + 20)
+            .padding(.trailing, 48)
             Button(
                 action: { isGroupEditing.toggle() },
                 label: {
@@ -225,7 +225,7 @@ private extension QuickView {
                     .font(Font.customInterBold(size: 24))
                     .frame(width: 56, height: 56)
                     .modifier(CircleBorderModifier(color: Color.teal700, backgroundColor: Color.teal600))
-                    .padding(16)
+                    .padding(Constants.spacing)
             }
         )
     }
