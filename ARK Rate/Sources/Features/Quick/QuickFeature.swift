@@ -52,6 +52,7 @@ struct QuickFeature {
         case calculationItemSelected(QuickCalculationDisplayModel?)
         case searchTextUpdated(String)
         case reorderGroup(GroupDisplayModel, GroupDisplayModel)
+        case commitGroupsOrdering
         case showToastMessage(QuickToastContext)
         case clearToastMessage(QuickToastContext)
         case toastMessageActionButtonTapped(QuickToastContext)
@@ -94,6 +95,7 @@ struct QuickFeature {
             case .calculationItemSelected(let calculation): calculationItemSelected(&state, calculation)
             case .searchTextUpdated(let searchText): searchTextUpdated(&state, searchText)
             case .reorderGroup(let source, let destination): reorderGroup(&state, source, destination)
+            case .commitGroupsOrdering: commitGroupsOrdering(&state)
             case .showToastMessage(let context): showToastMessage(&state, context)
             case .clearToastMessage(let context): clearToastMessage(&state, context)
             case .toastMessageActionButtonTapped(let context): toastMessageActionButtonTapped(&state, context)
@@ -158,7 +160,7 @@ private extension QuickFeature {
 
     func renameGroupButtonTapped(_ state: inout State, _ id: UUID?) -> Effect<Action> {
         guard let id, let group = try? quickCalculationGroupRepository.get(where: id) else { return Effect.none }
-        let editedGroup = group.toQuickCalculation(name: state.editingGroupName)
+        let editedGroup = group.toQuickCalculationGroup(name: state.editingGroupName)
         try? quickCalculationGroupRepository.save(editedGroup)
         return Effect.merge(
             .send(.loadListContent),
@@ -283,6 +285,16 @@ private extension QuickFeature {
             toOffset: min(adjustedTargetIndex, state.calculationGroups.endIndex)
         )
         return Effect.none
+    }
+
+    func commitGroupsOrdering(_ state: inout State) -> Effect<Action> {
+        let calculationGroups = loadQuickCalculationGroupsUseCase.execute()
+        let indexMap = Dictionary(uniqueKeysWithValues: state.calculationGroups.enumerated().map { offset, group in (group.id, offset) })
+        let editedGroups = calculationGroups.map { editedGroup in
+            editedGroup.toQuickCalculationGroup(displayOrder: indexMap[editedGroup.id]!)
+        }
+        try? quickCalculationGroupRepository.save(editedGroups)
+        return .send(.loadCalculations)
     }
 
     func showToastMessage(_ state: inout State, _ context: QuickToastContext) -> Effect<Action> {

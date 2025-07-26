@@ -6,5 +6,6 @@ protocol QuickCalculationGroupLocalDataSource {
     func get(where id: UUID) throws -> QuickCalculationGroupDTO?
     func get(where name: String) throws -> QuickCalculationGroupDTO?
     func save(_ group: QuickCalculationGroupDTO) throws
+    func save(_ groups: [QuickCalculationGroupDTO]) throws
     func delete(where id: UUID) throws
 }

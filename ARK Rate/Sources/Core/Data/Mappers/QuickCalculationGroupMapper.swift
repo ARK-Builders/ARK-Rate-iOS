@@ -11,7 +11,16 @@ extension QuickCalculationGroup {
         )
     }
 
-    func toQuickCalculation(name: String) -> QuickCalculationGroup {
+    func toQuickCalculationGroup(name: String) -> QuickCalculationGroup {
+        QuickCalculationGroup(
+            id: id,
+            name: name,
+            addedDate: addedDate,
+            displayOrder: displayOrder
+        )
+    }
+
+    func toQuickCalculationGroup(displayOrder: Int) -> QuickCalculationGroup {
         QuickCalculationGroup(
             id: id,
             name: name,

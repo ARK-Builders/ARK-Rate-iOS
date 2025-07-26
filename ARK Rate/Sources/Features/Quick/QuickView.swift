@@ -47,6 +47,7 @@ struct QuickView: View {
             .onDropCompleted {
                 if isGroupReordering, let selectedEditingGroup = store.selectedEditingGroup {
                     isGroupReordering = false
+                    store.send(.commitGroupsOrdering)
                     store.send(.selectGroup(selectedEditingGroup))
                     store.send(.editingGroupSelected(nil))
                 }
