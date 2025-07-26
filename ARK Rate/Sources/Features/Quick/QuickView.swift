@@ -35,10 +35,6 @@ struct QuickView: View {
             ) { store in
                 AddQuickCalculationView(store: store)
             }
-            .onDropCompleted {
-                isGroupReordering = false
-                store.send(.editingGroupSelected(nil))
-            }
             .onAppear {
                 store.send(.showTabbar)
                 store.send(.loadListContent)
@@ -46,6 +42,13 @@ struct QuickView: View {
             .onDisappear {
                 if store.destination != nil {
                     store.send(.hideTabbar)
+                }
+            }
+            .onDropCompleted {
+                if isGroupReordering, let selectedEditingGroup = store.selectedEditingGroup {
+                    isGroupReordering = false
+                    store.send(.selectGroup(selectedEditingGroup))
+                    store.send(.editingGroupSelected(nil))
                 }
             }
         }
@@ -61,10 +64,12 @@ private extension QuickView {
         if store.hasContent {
             VStack(spacing: 0) {
                 searchBar
+                    .disabled(isGroupEditing)
                 if !store.isSearching && store.calculationGroups.count > 1 {
-                    calculationGroups
+                    titlesBar
                 }
                 contentListView
+                    .disabled(isGroupEditing)
             }
         } else {
             emptyStateView
@@ -82,34 +87,15 @@ private extension QuickView {
         .padding(.horizontal, Constants.spacing)
     }
 
-    var calculationGroups: some View {
+    var titlesBar: some View {
         ZStack(alignment: .topTrailing) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 0) {
-                    ReorderableForEach(
-                        store.calculationGroups,
-                        isDragging: $isGroupReordering,
-                        draggingItem: Binding(
-                            get: { store.selectedEditingGroup },
-                            set: { newValue in store.send(.editingGroupSelected(newValue)) }
-                        ),
-                        content: { group in
-                            makeCalculationGroupItem(
-                                group: group,
-                                isSelected: group == store.selectedGroup,
-                                action: { store.send(.selectGroup(group)) }
-                            )
-                        },
-                        preview: { group in
-                            makeCalculationGroupItem(
-                                group: group,
-                                isPreviewing: true
-                            )
-                        },
-                        reorderingAction: { source, destination in
-                            store.send(.reorderGroup(source, destination))
-                        }
-                    )
+                    if !isGroupEditing {
+                        groupTitles
+                    } else {
+                        reorderableGroupTitles
+                    }
                 }
             }
             .padding(.trailing, 48)
@@ -125,6 +111,7 @@ private extension QuickView {
                     .background(Color.backgroundPrimary)
                 }
             )
+            .isDisabled(isGroupReordering)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, Constants.spacing)
@@ -159,7 +146,6 @@ private extension QuickView {
                     }
                     .listStyle(.plain)
                     .tag(index)
-                    .allowsHitTesting(!isGroupReordering)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
@@ -169,6 +155,43 @@ private extension QuickView {
             }
             addButton
         }
+    }
+
+    var groupTitles: some View {
+        ForEach(store.calculationGroups, id: \.id) { group in
+            makeGroupItem(
+                group: group,
+                isSelected: group == store.selectedGroup,
+                action: { store.send(.selectGroup(group)) }
+            )
+        }
+    }
+
+    var reorderableGroupTitles: some View {
+        ReorderableForEach(
+            store.calculationGroups,
+            isDragging: $isGroupReordering,
+            draggingItem: Binding(
+                get: { store.selectedEditingGroup },
+                set: { newValue in store.send(.editingGroupSelected(newValue)) }
+            ),
+            content: { group in
+                makeGroupItem(
+                    group: group,
+                    isSelected: group == store.selectedGroup,
+                    action: { store.send(.selectGroup(group)) }
+                )
+            },
+            preview: { group in
+                makeGroupItem(
+                    group: group,
+                    isPreviewing: true
+                )
+            },
+            reorderingAction: { source, destination in
+                store.send(.reorderGroup(source, destination))
+            }
+        )
     }
 
     @ViewBuilder
@@ -333,7 +356,7 @@ private extension QuickView {
         store.send(.calculationItemSelected(calculation))
     }
 
-    func makeCalculationGroupItem(
+    func makeGroupItem(
         group: GroupDisplayModel,
         isSelected: Bool = false,
         isPreviewing: Bool = false,

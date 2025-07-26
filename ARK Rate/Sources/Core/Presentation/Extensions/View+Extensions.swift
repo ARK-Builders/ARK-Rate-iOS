@@ -16,6 +16,16 @@ extension View {
     }
 
     @ViewBuilder
+    func isDisabled(_ disabled: Bool) -> some View {
+        if disabled {
+            self
+                .highPriorityGesture(DragGesture(), including: .all)
+        } else {
+            self
+        }
+    }
+
+    @ViewBuilder
     func wiggle(isEnabled: Bool, amount: Double = 3) -> some View {
         if isEnabled {
             modifier(WiggleViewModifier(amount: amount))
