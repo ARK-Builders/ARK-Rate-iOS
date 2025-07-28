@@ -1,6 +1,6 @@
 import Foundation
 
-struct GroupDisplayModel: Identifiable, Equatable {
+struct GroupDisplayModel: Reorderable {
 
     // MARK: - Properties
 

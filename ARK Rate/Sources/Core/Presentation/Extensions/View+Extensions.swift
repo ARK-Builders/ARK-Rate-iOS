@@ -15,8 +15,31 @@ extension View {
         }
     }
 
+    @ViewBuilder
+    func isDisabled(_ disabled: Bool) -> some View {
+        if disabled {
+            self
+                .highPriorityGesture(DragGesture(), including: .all)
+        } else {
+            self
+        }
+    }
+
+    @ViewBuilder
+    func wiggle(isEnabled: Bool, amount: Double = 3) -> some View {
+        if isEnabled {
+            modifier(WiggleViewModifier(amount: amount))
+        } else {
+            self
+        }
+    }
+
     func tappableArea() -> some View {
         contentShape(Rectangle())
+    }
+
+    func onDropCompleted(perform action: @escaping ButtonAction) -> some View {
+        onDrop(of: [.plainText], delegate: OutsideDropDelegate(action))
     }
 
     var hasExtendedTopArea: Bool {
