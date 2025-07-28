@@ -402,7 +402,6 @@ private extension QuickView {
                                     .tappableArea()
                             }
                             .isVisible(!isPreviewing && isGroupEditing)
-                            .allowsHitTesting(!isGroupReordering)
                         }
                         .padding(.bottom, 12)
                         .padding(.horizontal, Constants.spacing)
