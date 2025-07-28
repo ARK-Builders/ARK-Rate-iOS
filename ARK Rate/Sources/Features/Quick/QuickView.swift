@@ -101,7 +101,11 @@ private extension QuickView {
             }
             .padding(.trailing, 48)
             Button(
-                action: { isGroupEditing.toggle() },
+                action: {
+                    isGroupEditing.toggle()
+                    isGroupReordering = false
+                    store.send(.editingGroupSelected(nil))
+                },
                 label: {
                     HStack {
                         Image(.edit)
@@ -397,7 +401,7 @@ private extension QuickView {
                                 Image(ImageResource.more)
                                     .tappableArea()
                             }
-                            .isVisible(!isPreviewing && isGroupEditing)
+                            .isVisible(!isPreviewing && isGroupEditing && !isGroupReordering)
                         }
                         .padding(.bottom, 12)
                         .padding(.horizontal, Constants.spacing)
@@ -411,8 +415,10 @@ private extension QuickView {
                         LineDivider()
                     }
                 }
+                .contentShape(Rectangle())
             }
         )
+        .buttonStyle(.plain)
     }
 
     @ViewBuilder

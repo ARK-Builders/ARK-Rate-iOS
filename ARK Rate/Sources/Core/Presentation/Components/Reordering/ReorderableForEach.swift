@@ -36,9 +36,10 @@ struct ReorderableForEach<Item: Reorderable, Content: View, Preview: View>: View
     var body: some View {
         ForEach(items) { item in
             content(item)
+            .contentShape(Rectangle())
             .onDrag {
                 draggingItem = item
-                return NSItemProvider()
+                return NSItemProvider(object: "\(item.id)" as NSString)
             }
             preview: { preview(item) }
             .onDrop(
