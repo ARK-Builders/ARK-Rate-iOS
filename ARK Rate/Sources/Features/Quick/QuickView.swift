@@ -401,7 +401,8 @@ private extension QuickView {
                                 Image(ImageResource.more)
                                     .tappableArea()
                             }
-                            .isVisible(!isPreviewing && isGroupEditing && !isGroupReordering)
+                            .isVisible(!isPreviewing && isGroupEditing)
+                            .allowsHitTesting(!isGroupReordering)
                         }
                         .padding(.bottom, 12)
                         .padding(.horizontal, Constants.spacing)
