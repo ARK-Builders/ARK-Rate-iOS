@@ -154,6 +154,8 @@
 		9C15E3CE2E0D8D30007BF418 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		9C190FB52E059287009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CodeDataset.strings; sourceTree = "<group>"; };
 		9C190FB62E0592E1009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CountryDataset.strings; sourceTree = "<group>"; };
+		9C2348132E38ED8400BF3437 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/CodeDataset.strings; sourceTree = "<group>"; };
+		9C2348142E38ED9300BF3437 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/CountryDataset.strings; sourceTree = "<group>"; };
 		9C357FE32E2B441E00D2094C /* ReorderableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderableForEach.swift; sourceTree = "<group>"; };
 		9C357FE62E2B453500D2094C /* HoverDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverDropDelegate.swift; sourceTree = "<group>"; };
 		9C357FE82E2B467800D2094C /* OutsideDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutsideDropDelegate.swift; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 				en,
 				Base,
 				ru,
+				vi,
 			);
 			mainGroup = 9C7D5FD52D75D2CD008A4555;
 			minimizedProjectReferenceProxies = 1;
@@ -1033,6 +1036,7 @@
 			children = (
 				9C4AE0C32DECAD2E00E6A8E0 /* en */,
 				9C190FB52E059287009FF7D6 /* ru */,
+				9C2348132E38ED8400BF3437 /* vi */,
 			);
 			name = CodeDataset.strings;
 			sourceTree = "<group>";
@@ -1042,6 +1046,7 @@
 			children = (
 				9C4AE0C52DECAD2E00E6A8E0 /* en */,
 				9C190FB62E0592E1009FF7D6 /* ru */,
+				9C2348142E38ED9300BF3437 /* vi */,
 			);
 			name = CountryDataset.strings;
 			sourceTree = "<group>";

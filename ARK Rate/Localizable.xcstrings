@@ -18,6 +18,12 @@
             "state" : "translated",
             "value" : "О приложении"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Về chúng tôi"
+          }
         }
       }
     },
@@ -34,6 +40,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Добавить папку"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thêm Thư mục"
           }
         }
       }
@@ -52,6 +64,12 @@
             "state" : "translated",
             "value" : "Добавить новый расчёт"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thêm Phép tính"
+          }
         }
       }
     },
@@ -69,6 +87,12 @@
             "state" : "translated",
             "value" : "Все валюты"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tất cả"
+          }
         }
       }
     },
@@ -85,6 +109,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "и"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "và"
           }
         }
       }
@@ -105,6 +135,12 @@
             "state" : "translated",
             "value" : "Рассчитать"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lưu kết quả"
+          }
         }
       }
     },
@@ -121,6 +157,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Рассчитано %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã chuyển đổi vào %@"
           }
         }
       }
@@ -139,6 +181,12 @@
             "state" : "translated",
             "value" : "Рассчитано %@ назад"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã chuyển đổi %@ trước"
+          }
         }
       }
     },
@@ -155,6 +203,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Расчёт был отредактирован"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phép tính đã được cập nhật"
           }
         }
       }
@@ -173,6 +227,12 @@
             "state" : "translated",
             "value" : "Расчёт был повторно использован"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phép tính đã được sử dụng lại"
+          }
         }
       }
     },
@@ -189,6 +249,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Расчёты"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các phép tính"
           }
         }
       }
@@ -207,6 +273,12 @@
             "state" : "translated",
             "value" : "Отмена"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Huỷ"
+          }
         }
       }
     },
@@ -223,6 +295,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сменить язык приложения"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thay đổi ngôn ngữ ứng dụng"
           }
         }
       }
@@ -241,6 +319,12 @@
             "state" : "translated",
             "value" : "Подтвердить"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xác nhận"
+          }
         }
       }
     },
@@ -257,6 +341,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Создать папку"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tạo Thư mục"
           }
         }
       }
@@ -275,6 +365,12 @@
             "state" : "translated",
             "value" : "Пожалуйста, введите имя для этой папки."
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vui lòng nhập tên cho thư mục này."
+          }
         }
       }
     },
@@ -291,6 +387,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "например, Папка 1"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ví dụ như Thư mục 1"
           }
         }
       }
@@ -309,6 +411,12 @@
             "state" : "translated",
             "value" : "По умолчанию"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mặc định"
+          }
         }
       }
     },
@@ -324,6 +432,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xoá"
           }
         }
       }
@@ -341,6 +455,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Редактировать"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sửa"
           }
         }
       }
@@ -385,6 +505,18 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld день"
+                }
+              }
+            }
+          }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ngày"
                 }
               }
             }
@@ -436,6 +568,18 @@
               }
             }
           }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld giờ"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -479,6 +623,18 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld минута"
+                }
+              }
+            }
+          }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld phút"
                 }
               }
             }
@@ -530,6 +686,18 @@
               }
             }
           }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld giây"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -546,6 +714,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Часто используемые валюты"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thường dùng"
           }
         }
       }
@@ -564,6 +738,12 @@
             "state" : "translated",
             "value" : "Из"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Từ"
+          }
         }
       }
     },
@@ -580,6 +760,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Имя папки"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tên Thư mục"
           }
         }
       }
@@ -598,6 +784,12 @@
             "state" : "translated",
             "value" : "Введите значение"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhập giá trị"
+          }
         }
       }
     },
@@ -614,6 +806,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Последнее обновление %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã cập nhật vào %@"
           }
         }
       }
@@ -632,6 +830,12 @@
             "state" : "translated",
             "value" : "Последнее обновление %@ назад"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã cập nhật vào %@ trước"
+          }
         }
       }
     },
@@ -648,6 +852,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Новый расчёт был создан"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phép tính đã được lưu"
           }
         }
       }
@@ -666,6 +876,12 @@
             "state" : "translated",
             "value" : "Новая валюта"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thêm loại Tiền tệ"
+          }
         }
       }
     },
@@ -682,6 +898,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Новая папка"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thư mục mới"
           }
         }
       }
@@ -700,6 +922,12 @@
             "state" : "translated",
             "value" : "Нет результата"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không có kết quả"
+          }
         }
       }
     },
@@ -716,6 +944,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Параметры"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các tuỳ chọn"
           }
         }
       }
@@ -734,6 +968,12 @@
             "state" : "translated",
             "value" : "Закрепить"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ghim"
+          }
         }
       }
     },
@@ -750,6 +990,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Закреплённые расчёты"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã ghim"
           }
         }
       }
@@ -768,6 +1014,12 @@
             "state" : "translated",
             "value" : "Быстрые"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đổi Nhanh"
+          }
         }
       }
     },
@@ -784,6 +1036,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Новая папка"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sẵn sàng để tính toán!"
           }
         }
       }
@@ -802,6 +1060,12 @@
             "state" : "translated",
             "value" : "Выберите валюты и введите сумму для начала конвертации. Результаты обмена появятся здесь."
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn loại tiền tệ và nhập số để bắt đầu chuyển đổi. Kết quả sẽ hiển thị ở đây."
+          }
         }
       }
     },
@@ -818,6 +1082,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переименовать"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đổi tên"
           }
         }
       }
@@ -836,6 +1106,12 @@
             "state" : "translated",
             "value" : "Переименовать папку"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đổi tên Thư mục"
+          }
         }
       }
     },
@@ -852,6 +1128,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Результат"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kết quả"
           }
         }
       }
@@ -870,6 +1152,12 @@
             "state" : "translated",
             "value" : "Повторно использовать"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sử dụng lại"
+          }
         }
       }
     },
@@ -886,6 +1174,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сохранить"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lưu"
           }
         }
       }
@@ -904,6 +1198,12 @@
             "state" : "translated",
             "value" : "Поиск"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tìm kiếm"
+          }
         }
       }
     },
@@ -920,6 +1220,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Поиск валюты"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tìm loại Tiền tệ"
           }
         }
       }
@@ -938,6 +1244,12 @@
             "state" : "translated",
             "value" : "Настройки"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cài Đặt"
+          }
         }
       }
     },
@@ -954,6 +1266,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Расчёт был удалён"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phép tính đã được xóa"
           }
         }
       }
@@ -972,6 +1290,12 @@
             "state" : "translated",
             "value" : "в"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ra"
+          }
         }
       }
     },
@@ -988,6 +1312,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Топ результатов"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kết quả hàng đầu"
           }
         }
       }
@@ -1006,6 +1336,12 @@
             "state" : "translated",
             "value" : "Отменить"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoàn tác"
+          }
         }
       }
     },
@@ -1022,6 +1358,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Открепить"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bỏ ghim"
           }
         }
       }
@@ -1040,6 +1382,12 @@
             "state" : "translated",
             "value" : "Вы добавили расчёт %@"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn đã thêm phép tính %@"
+          }
         }
       }
     },
@@ -1056,6 +1404,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы удалили расчёт %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn đã xoá phép tính %@"
           }
         }
       }
@@ -1074,6 +1428,12 @@
             "state" : "translated",
             "value" : "Вы отредактировали расчёт %@"
           }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn đã sửa phép tính %@"
+          }
         }
       }
     },
@@ -1090,6 +1450,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы повторно использовали расчёт %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn đã sử dụng lại phép tính %@"
           }
         }
       }
