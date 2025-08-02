@@ -35,6 +35,7 @@ struct SearchACurrencyFeature {
     @Dependency(\.dismiss) var back
     @Dependency(\.loadCurrenciesUseCase) var loadCurrenciesUseCase
     @Dependency(\.loadFrequentCurrenciesUseCase) var loadFrequentCurrenciesUseCase
+    @Dependency(\.searchCurrenciesUseCase) var searchCurrenciesUseCase
 
     // MARK: - Reducer
 
@@ -75,11 +76,12 @@ private extension SearchACurrencyFeature {
 
     func searchTextUpdated(_ state: inout State, _ searchText: String) -> Effect<Action> {
         state.searchText = searchText
-        state.displayingCurrencies = state.isSearching ? state.allCurrencies.filter {
-            $0.id.localizedCaseInsensitiveContains(searchText) ||
-            $0.name.localizedCaseInsensitiveContains(searchText) ||
-            $0.countries.contains { $0.localizedCaseInsensitiveContains(searchText) }
-        } : []
+        state.displayingCurrencies = state.isSearching ?
+            searchCurrenciesUseCase.execute(
+                query: searchText,
+                allCurrencies: state.allCurrencies,
+                frequentCurrencies: state.frequentCurrencies
+            ) : []
         return Effect.none
     }
 

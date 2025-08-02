@@ -10,6 +10,7 @@
 		9C15E3C82E07A50D007BF418 /* SettingItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3C72E07A507007BF418 /* SettingItemType.swift */; };
 		9C15E3CD2E07BCBC007BF418 /* AboutFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3CC2E07BCB9007BF418 /* AboutFeature.swift */; };
 		9C15E3CF2E0D8D33007BF418 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C15E3CE2E0D8D30007BF418 /* AboutView.swift */; };
+		9C2348172E3BA93400BF3437 /* SearchCurrenciesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2348162E3BA92800BF3437 /* SearchCurrenciesUseCase.swift */; };
 		9C357FE42E2B442D00D2094C /* ReorderableForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FE32E2B441E00D2094C /* ReorderableForEach.swift */; };
 		9C357FE72E2B453C00D2094C /* HoverDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FE62E2B453500D2094C /* HoverDropDelegate.swift */; };
 		9C357FE92E2B468700D2094C /* OutsideDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C357FE82E2B467800D2094C /* OutsideDropDelegate.swift */; };
@@ -156,6 +157,7 @@
 		9C190FB62E0592E1009FF7D6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CountryDataset.strings; sourceTree = "<group>"; };
 		9C2348132E38ED8400BF3437 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/CodeDataset.strings; sourceTree = "<group>"; };
 		9C2348142E38ED9300BF3437 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/CountryDataset.strings; sourceTree = "<group>"; };
+		9C2348162E3BA92800BF3437 /* SearchCurrenciesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCurrenciesUseCase.swift; sourceTree = "<group>"; };
 		9C357FE32E2B441E00D2094C /* ReorderableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderableForEach.swift; sourceTree = "<group>"; };
 		9C357FE62E2B453500D2094C /* HoverDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverDropDelegate.swift; sourceTree = "<group>"; };
 		9C357FE82E2B467800D2094C /* OutsideDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutsideDropDelegate.swift; sourceTree = "<group>"; };
@@ -533,6 +535,7 @@
 				9C4AE10A2DECAD2E00E6A8E0 /* LoadQuickCalculationGroupsUseCase.swift */,
 				9C4AE10B2DECAD2E00E6A8E0 /* LoadQuickCalculationsUseCase.swift */,
 				9C4AE10C2DECAD2E00E6A8E0 /* SaveQuickCalculationUseCase.swift */,
+				9C2348162E3BA92800BF3437 /* SearchCurrenciesUseCase.swift */,
 				9C4AE10D2DECAD2E00E6A8E0 /* TogglePinnedCalculationUseCase.swift */,
 			);
 			path = UseCases;
@@ -964,6 +967,7 @@
 				9C4AE1942DECAD2E00E6A8E0 /* QuickCalculationRepository.swift in Sources */,
 				9C3D8FF42DFF01300067C59F /* ModalBackgroundModifier.swift in Sources */,
 				9C4AE1952DECAD2E00E6A8E0 /* CurrencyCalculationUseCase.swift in Sources */,
+				9C2348172E3BA93400BF3437 /* SearchCurrenciesUseCase.swift in Sources */,
 				9C4AE1962DECAD2E00E6A8E0 /* LoadCurrenciesUseCase.swift in Sources */,
 				9C357FED2E3257E500D2094C /* IdentifiedArray+Extensions.swift in Sources */,
 				9C4AE1972DECAD2E00E6A8E0 /* LoadFrequentCurrenciesUseCase.swift in Sources */,
