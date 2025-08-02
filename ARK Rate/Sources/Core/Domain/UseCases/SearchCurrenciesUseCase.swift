@@ -21,26 +21,14 @@ struct SearchCurrenciesUseCase {
                     return lhsIsCommon && !rhsIsCommon
                 }
 
-                let lhsIsExact = lhs.id.isExactMatchCaseInsensitive(to: query) ||
-                lhs.name.isExactMatchCaseInsensitive(to: query) ||
-                lhs.countries.contains { $0.isExactMatchCaseInsensitive(to: query) }
-                let rhsIsExact = rhs.id.isExactMatchCaseInsensitive(to: query) ||
-                rhs.name.isExactMatchCaseInsensitive(to: query) ||
-                rhs.countries.contains { $0.isExactMatchCaseInsensitive(to: query) }
+                let lhsIsExact = isExactMatch(of: lhs, to: query)
+                let rhsIsExact = isExactMatch(of: rhs, to: query)
                 guard lhsIsExact == rhsIsExact else {
                     return lhsIsExact && !rhsIsExact
                 }
 
-                let lhsPrefixLength = max(
-                    lhs.id.prefixMatchLength(with: query),
-                    lhs.name.prefixMatchLength(with: query),
-                    lhs.countries.map { $0.prefixMatchLength(with: query) }.max() ?? 0
-                )
-                let rhsPrefixLength = max(
-                    rhs.id.prefixMatchLength(with: query),
-                    rhs.name.prefixMatchLength(with: query),
-                    rhs.countries.map { $0.prefixMatchLength(with: query) }.max() ?? 0
-                )
+                let lhsPrefixLength = prefixMatchLength(of: lhs, with: query)
+                let rhsPrefixLength = prefixMatchLength(of: rhs, with: query)
                 guard lhsPrefixLength == rhsPrefixLength else {
                     return lhsPrefixLength > rhsPrefixLength
                 }
@@ -60,12 +48,18 @@ struct SearchCurrenciesUseCase {
 
 private extension SearchCurrenciesUseCase {
 
-    func rank(of currency: CurrencyDisplayModel, with query: String) -> Int {
-        let codeMatchLength = query.prefixMatchLength(with: currency.id)
-        let nameMatchLength = query.prefixMatchLength(with: currency.name)
-        let countryMatchLength = currency.countries.map { query.prefixMatchLength(with: $0) }.max() ?? 0
-        let maxMatchLength = max(codeMatchLength, nameMatchLength, countryMatchLength)
-        return maxMatchLength
+    func isExactMatch(of currency: CurrencyDisplayModel, to query: String) -> Bool {
+        currency.id.isExactMatchCaseInsensitive(to: query) ||
+        currency.name.isExactMatchCaseInsensitive(to: query) ||
+        currency.countries.contains { $0.isExactMatchCaseInsensitive(to: query) }
+    }
+
+    func prefixMatchLength(of currency: CurrencyDisplayModel, with query: String) -> Int {
+        max(
+            currency.id.prefixMatchLength(with: query),
+            currency.name.prefixMatchLength(with: query),
+            currency.countries.map { $0.prefixMatchLength(with: query) }.max() ?? 0
+        )
     }
 }
 
