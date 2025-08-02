@@ -12,6 +12,11 @@ extension DependencyValues {
         set { self[LoadFrequentCurrenciesUseCaseKey.self] = newValue }
     }
 
+    var searchCurrenciesUseCase: SearchCurrenciesUseCase {
+        get { self[SearchCurrenciesUseCaseKey.self] }
+        set { self[SearchCurrenciesUseCaseKey.self] = newValue }
+    }
+
     var loadQuickCalculationsUseCase: LoadQuickCalculationsUseCase {
         get { self[LoadQuickCalculationsUseCaseKey.self] }
         set { self[LoadQuickCalculationsUseCaseKey.self] = newValue }
@@ -111,6 +116,13 @@ private enum LoadFrequentCurrenciesUseCaseKey: DependencyKey {
         currencyRepository: DependencyValues._current.currencyRepository,
         currencyStatisticRepository: DependencyValues._current.currencyStatisticRepository
     )
+}
+
+// MARK: - SearchCurrenciesUseCase
+
+private enum SearchCurrenciesUseCaseKey: DependencyKey {
+
+    static let liveValue = SearchCurrenciesUseCase()
 }
 
 // MARK: - LoadQuickCalculationsUseCase
