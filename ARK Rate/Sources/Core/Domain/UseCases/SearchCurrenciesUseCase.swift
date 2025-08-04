@@ -68,6 +68,28 @@ private extension SearchCurrenciesUseCase {
 private extension SearchCurrenciesUseCase {
 
     enum Constants {
-        static let commonCodes: Set<String> = ["BTC", "ETH", "USD"]
+        static let commonCodes: Set<String> = [
+            "BTC",      // Bitcoin
+            "ETH",      // Ethereum
+            "XRP",      // XRP
+            "USDT",     // Tether
+            "BNB",      // BNB
+            "SOL",      // Solana
+            "USDC",     // USD Coin
+            "STETH",    // Lido Staked Ether
+            "TRX",      // TRON
+            "DOGE",     // Dogecoin
+            "ADA",      // Cardano
+            "WBTC",     // Wrapped Bitcoin
+            "WSTETH",   // Wrapped stETH
+            "XLM",      // Stellar
+            "HYPE",     // Hyperliquid
+            "SUI",      // Sui
+            "WBETH",    // Wrapped Beacon ETH
+            "LINK",     // Chainlink
+            "BCH",      // Bitcoin Cash
+            "HBAR",     // Hedera
+            "USD"
+        ]
     }
 }
