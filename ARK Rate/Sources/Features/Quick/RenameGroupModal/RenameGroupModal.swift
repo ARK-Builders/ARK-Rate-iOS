@@ -46,12 +46,13 @@ private extension RenameGroupModal {
                 .foregroundColor(Color.textPrimary)
                 .font(Font.customInterSemiBold(size: 18))
             Spacer()
-            Button(
+            PlainButton(
                 action: closeButtonAction,
-                label: Image.close
-                    .font(.system(size: 18))
-                    .foregroundColor(Color.foregroundQuarterary)
-                    .tappableArea()
+                label: {
+                    Image.close
+                        .font(.system(size: 18))
+                        .foregroundColor(Color.foregroundQuarterary)
+                }
             )
         }
     }

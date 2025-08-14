@@ -100,7 +100,7 @@ private extension QuickView {
                 }
             }
             .padding(.trailing, 48)
-            Button(
+            PlainButton(
                 action: {
                     isGroupEditing.toggle()
                     isGroupReordering = false
@@ -110,7 +110,6 @@ private extension QuickView {
                     HStack {
                         Image(.edit)
                             .adaptToColorScheme(colorScheme)
-                            .tappableArea()
                             .padding(.trailing, Constants.spacing)
                     }
                     .background(Color.backgroundPrimary)
@@ -135,7 +134,7 @@ private extension QuickView {
                 )
             ) {
                 ForEach(store.calculationGroups.indices, id: \.self) { index in
-                    List {
+                    PlainList {
                         if !store.isSearching {
                             if store.pinnedCalculations.indices.contains(index) {
                                 makePinnedPairsSection(store.pinnedCalculations[index])
@@ -149,7 +148,6 @@ private extension QuickView {
                             searchingCurrenciesSection
                         }
                     }
-                    .listStyle(.plain)
                     .tag(index)
                 }
             }
@@ -209,7 +207,7 @@ private extension QuickView {
                         name: currency.name,
                         action: { store.send(.currencyCodeSelected(currency.id)) }
                     )
-                    .modifier(PlainListRowModifier())
+                    .listRowPlainStyle()
                 }
             }
         }
@@ -223,7 +221,7 @@ private extension QuickView {
                     name: currency.name,
                     action: { store.send(.currencyCodeSelected(currency.id)) }
                 )
-                .modifier(PlainListRowModifier())
+                .listRowPlainStyle()
             }
         }
     }
@@ -238,7 +236,7 @@ private extension QuickView {
                         name: currency.name,
                         action: { store.send(.currencyCodeSelected(currency.id)) }
                     )
-                    .modifier(PlainListRowModifier())
+                    .listRowPlainStyle()
                 }
             }
         }
@@ -399,7 +397,6 @@ private extension QuickView {
                                 )
                             } label: {
                                 Image(ImageResource.more)
-                                    .tappableArea()
                             }
                             .isVisible(!isPreviewing && isGroupEditing)
                         }
@@ -444,7 +441,7 @@ private extension QuickView {
                             store.send(.deleteCalculationButtonTapped(id: calculation.id))
                         }
                     }
-                    .modifier(PlainListRowModifier())
+                    .listRowPlainStyle()
                 }
             }
         }
@@ -476,7 +473,7 @@ private extension QuickView {
                             store.send(.deleteCalculationButtonTapped(id: calculation.id))
                         }
                     }
-                    .modifier(PlainListRowModifier())
+                    .listRowPlainStyle()
                 }
             }
         }

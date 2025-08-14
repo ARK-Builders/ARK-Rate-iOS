@@ -56,7 +56,7 @@ private extension CurrencyInputView {
 
     var textField: some View {
         HStack(spacing: 12) {
-            Button(action: action) {
+            PlainButton(action: action) {
                 HStack(spacing: 4) {
                     Text(name)
                         .foregroundColor(Color.textSecondary)
@@ -76,20 +76,20 @@ private extension CurrencyInputView {
                 .padding(.trailing, Constants.horizontalSpacing)
         }
         .frame(maxHeight: .infinity)
-        .modifier(RoundedBorderModifier())
+        .roundedBorder()
     }
 
     @ViewBuilder
     var deleteButton: some View {
         if let deleteButtonAction {
-            Button(action: deleteButtonAction) {
+            PlainButton(action: deleteButtonAction) {
                 Image(ImageResource.trash)
                     .aspectRatio(contentMode: .fit)
                     .padding(.vertical, Constants.verticalSpacing)
                     .padding(.horizontal, 16)
             }
             .frame(maxHeight: .infinity)
-            .modifier(RoundedBorderModifier(color: Color.error))
+            .roundedBorder(color: Color.error)
         }
     }
 }

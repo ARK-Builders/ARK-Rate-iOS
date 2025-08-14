@@ -23,7 +23,7 @@ struct InputView: View {
                     .padding(.horizontal, 14)
             }
             .frame(height: 48)
-            .modifier(RoundedBorderModifier())
+            .roundedBorder()
         }
     }
 }

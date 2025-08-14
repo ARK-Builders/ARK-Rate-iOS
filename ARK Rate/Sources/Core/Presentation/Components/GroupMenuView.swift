@@ -28,7 +28,7 @@ struct GroupMenuView: View {
             }
             .padding(.vertical, Constants.verticalSpacing)
             .padding(.horizontal, Constants.horizontalSpacing)
-            .modifier(RoundedBorderModifier())
+            .roundedBorder()
         }
     }
 }

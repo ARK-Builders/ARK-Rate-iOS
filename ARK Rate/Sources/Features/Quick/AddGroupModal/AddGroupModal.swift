@@ -42,12 +42,13 @@ private extension AddGroupModal {
             HStack(alignment: .top) {
                 groupIcon
                 Spacer()
-                Button(
+                PlainButton(
                     action: closeButtonAction,
-                    label: Image.close
-                        .font(.system(size: 18))
-                        .foregroundColor(Color.foregroundQuarterary)
-                        .tappableArea()
+                    label: {
+                        Image.close
+                            .font(.system(size: 18))
+                            .foregroundColor(Color.foregroundQuarterary)
+                    }
                 )
             }
             Text(StringResource.createGroup.localized)
@@ -82,7 +83,7 @@ private extension AddGroupModal {
                 expandHorizontally: true,
                 action: confirmButtonAction
             )
-            .modifier(DisabledModifier(disabled: groupName.isEmpty))
+            .disabledWithOpacity(groupName.isEmpty)
             SecondaryButton(
                 title: StringResource.cancel.localized,
                 expandHorizontally: true,

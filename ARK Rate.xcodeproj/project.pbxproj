@@ -145,6 +145,8 @@
 		9C71378D2D79E84000E5CAE9 /* FLEX in Frameworks */ = {isa = PBXBuildFile; productRef = 9C71378C2D79E84000E5CAE9 /* FLEX */; };
 		9CA5C04C2DFE82B700CDED3A /* MenuEntryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA5C04B2DFE82AB00CDED3A /* MenuEntryButton.swift */; };
 		9CA6DAA92DFE8E7F004D3B7A /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA6DAA82DFE8E7F004D3B7A /* Image+Extensions.swift */; };
+		9CB5A3492E40EE2400326F4A /* PlainList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB5A3482E40EE1C00326F4A /* PlainList.swift */; };
+		9CB5A34B2E461FF000326F4A /* PlainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB5A34A2E461FDC00326F4A /* PlainButton.swift */; };
 		9CFCBAA42DF9A465008EFD9C /* AppConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */; };
 		9CFCBAA62DF9A529008EFD9C /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFCBAA52DF9A520008EFD9C /* AppConfig.swift */; };
 /* End PBXBuildFile section */
@@ -288,6 +290,8 @@
 		9C7D5FDE2D75D2CD008A4555 /* ARK Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ARK Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CA5C04B2DFE82AB00CDED3A /* MenuEntryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEntryButton.swift; sourceTree = "<group>"; };
 		9CA6DAA82DFE8E7F004D3B7A /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
+		9CB5A3482E40EE1C00326F4A /* PlainList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainList.swift; sourceTree = "<group>"; };
+		9CB5A34A2E461FDC00326F4A /* PlainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainButton.swift; sourceTree = "<group>"; };
 		9CFCBAA32DF9A465008EFD9C /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		9CFCBAA52DF9A520008EFD9C /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -557,6 +561,7 @@
 			children = (
 				9C4AE1102DECAD2E00E6A8E0 /* ActionButton.swift */,
 				9CA5C04B2DFE82AB00CDED3A /* MenuEntryButton.swift */,
+				9CB5A34A2E461FDC00326F4A /* PlainButton.swift */,
 				9C4AE1112DECAD2E00E6A8E0 /* PrimaryButton.swift */,
 				9C4AE1122DECAD2E00E6A8E0 /* SecondaryButton.swift */,
 			);
@@ -575,6 +580,7 @@
 				9C3D8FF52DFF18430067C59F /* InputView.swift */,
 				9C4AE1182DECAD2E00E6A8E0 /* LineDivider.swift */,
 				9C4AE1192DECAD2E00E6A8E0 /* ListSection.swift */,
+				9CB5A3482E40EE1C00326F4A /* PlainList.swift */,
 				9C4AE11A2DECAD2E00E6A8E0 /* ToastView.swift */,
 			);
 			path = Components;
@@ -911,6 +917,7 @@
 			files = (
 				9C4AE1642DECAD2E00E6A8E0 /* AppDependencies.swift in Sources */,
 				9C4AE1652DECAD2E00E6A8E0 /* AppFeature.swift in Sources */,
+				9CB5A34B2E461FF000326F4A /* PlainButton.swift in Sources */,
 				9C4AE1662DECAD2E00E6A8E0 /* AppMainView.swift in Sources */,
 				9C3D8FF22DFEFE930067C59F /* RenameGroupModal.swift in Sources */,
 				9C4AE1672DECAD2E00E6A8E0 /* ARKRateApp.swift in Sources */,
@@ -964,6 +971,7 @@
 				9C4AE1912DECAD2E00E6A8E0 /* CurrencyStatisticRepository.swift in Sources */,
 				9C4AE1922DECAD2E00E6A8E0 /* MetadataRepository.swift in Sources */,
 				9C4AE1932DECAD2E00E6A8E0 /* QuickCalculationGroupRepository.swift in Sources */,
+				9CB5A3492E40EE2400326F4A /* PlainList.swift in Sources */,
 				9C4AE1942DECAD2E00E6A8E0 /* QuickCalculationRepository.swift in Sources */,
 				9C3D8FF42DFF01300067C59F /* ModalBackgroundModifier.swift in Sources */,
 				9C4AE1952DECAD2E00E6A8E0 /* CurrencyCalculationUseCase.swift in Sources */,

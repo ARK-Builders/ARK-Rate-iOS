@@ -36,12 +36,7 @@ struct ToastView: View {
         }
         .padding(Constants.spacing)
         .background(Color.backgroundPrimary)
-        .modifier(
-            RoundedBorderModifier(
-                lineWidth: 2,
-                cornerRadius: 12
-            )
-        )
+        .roundedBorder(lineWidth: 2, cornerRadius: 12)
     }
 }
 

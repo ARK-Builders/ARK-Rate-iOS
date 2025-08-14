@@ -54,7 +54,7 @@ struct ActionButton: View {
     // MARK: - Body
 
     var body: some View {
-        Button(action: action) {
+        PlainButton(action: action) {
             HStack(spacing: 6) {
                 if let icon = icon {
                     icon
@@ -68,15 +68,10 @@ struct ActionButton: View {
             }
             .frame(height: Constants.height)
             .frame(maxWidth: expandHorizontally ? .infinity : nil)
-            .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
         .padding(.horizontal, Constants.horizontalSpacing)
-        .background(style.backgroundColor)
-        .clipShape(
-            RoundedRectangle(cornerRadius: 8)
-        )
-        .modifier(DisabledModifier(disabled: disabled))
+        .background(style.backgroundColor, in: RoundedRectangle(cornerRadius: 8))
+        .disabledWithOpacity(disabled)
     }
 }
 

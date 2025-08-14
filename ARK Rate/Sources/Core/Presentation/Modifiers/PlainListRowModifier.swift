@@ -6,7 +6,8 @@ struct PlainListRowModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .listRowInsets(EdgeInsets())
             .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
     }
 }

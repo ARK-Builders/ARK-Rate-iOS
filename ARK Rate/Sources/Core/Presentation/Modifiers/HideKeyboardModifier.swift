@@ -6,8 +6,11 @@ struct HideKeyboardModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .onTapGesture {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
+            .simultaneousGesture(
+                TapGesture().onEnded {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                },
+                including: .all
+            )
     }
 }

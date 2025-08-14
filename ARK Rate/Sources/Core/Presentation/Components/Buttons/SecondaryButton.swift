@@ -37,6 +37,6 @@ struct SecondaryButton: View {
             expandHorizontally: expandHorizontally,
             action: action
         )
-        .modifier(RoundedBorderModifier())
+        .roundedBorder()
     }
 }

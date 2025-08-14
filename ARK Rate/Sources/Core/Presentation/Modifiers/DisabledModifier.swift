@@ -5,15 +5,16 @@ struct DisabledModifier: ViewModifier {
     // MARK: - Properties
 
     let disabled: Bool
-    let disabledOpacity: Double
+    let opacity: Double
 
     // MARK: - Initialiaztion
 
     init(
         disabled: Bool,
-        disabledOpacity: Double = 0.5) {
+        opacity: Double
+    ) {
         self.disabled = disabled
-        self.disabledOpacity = disabledOpacity
+        self.opacity = opacity
     }
 
     // MARK: - Body
@@ -21,6 +22,6 @@ struct DisabledModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .disabled(disabled)
-            .opacity(!disabled ? 1 : disabledOpacity)
+            .opacity(!disabled ? 1 : opacity)
     }
 }

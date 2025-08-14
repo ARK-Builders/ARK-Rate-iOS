@@ -11,7 +11,7 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
-            List {
+            PlainList {
                 ForEach(store.types, id: \.self) { type in
                     switch type {
                     case .changeAppLanguage: makeSettingItem(from: type, action: { store.send(.goToSettings) })
@@ -19,7 +19,6 @@ struct SettingsView: View {
                     }
                 }
             }
-            .listStyle(.plain)
             .background(Color.backgroundPrimary)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBarTitleDisplayMode(.inline)

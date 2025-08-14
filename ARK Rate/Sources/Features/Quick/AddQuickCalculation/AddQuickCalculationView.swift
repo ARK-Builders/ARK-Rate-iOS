@@ -13,9 +13,7 @@ struct AddQuickCalculationView: View {
 
     var body: some View {
         ZStack {
-            ScrollView {
-                content
-            }
+            content
             .safeAreaInset(edge: .bottom) {
                 footer
             }
@@ -29,7 +27,7 @@ struct AddQuickCalculationView: View {
                 backButtonAction: { store.send(.backButtonTapped) }
             )
         )
-        .modifier(HideKeyboardModifier())
+        .dismissKeyboardOnTap()
         .navigationDestination(
             item: $store.scope(state: \.destination?.searchACurrency, action: \.destination.searchACurrency)
         ) { store in
@@ -46,25 +44,13 @@ struct AddQuickCalculationView: View {
 private extension AddQuickCalculationView {
 
     var content: some View {
-        VStack(alignment: .leading, spacing: Constants.spacing) {
+        PlainList {
             inputCurrencyView
             LineDivider()
+                .listRowPlainStyle()
             outputCurrenciesView
-            SecondaryButton(
-                title: StringResource.newCurrency.localized,
-                icon: Image.plus,
-                action: { store.send(.addOutputCurrencyButtonTapped) }
-            )
-            GroupMenuView(
-                groupName: .constant(store.selectedCalculationGroup?.displayName ?? StringResource.newGroup.localized),
-                groups: store.calculationGroups.elements,
-                addGroupAction: {
-                    isShowingAddGroupModal = true
-                },
-                onSelectedGroupAction: { group in
-                    store.send(.onSelectedCalculationGroup(group))
-                }
-            )
+            addNewCurrencyButton
+            groupMenuView
         }
         .padding(Constants.spacing)
     }
@@ -80,6 +66,7 @@ private extension AddQuickCalculationView {
             placeHolder: StringResource.inputValue.localized,
             action: { store.send(.selectInputCurrency) }
         )
+        .listRowPlainStyle()
     }
 
     var outputCurrenciesView: some View {
@@ -94,7 +81,33 @@ private extension AddQuickCalculationView {
                 action: { store.send(.selectOutputCurrency(currency.id)) },
                 deleteButtonAction: { store.send(.deleteOutputCurrencyButtonTapped(currency.id)) }
             )
+            .listRowPlainStyle()
+            .padding(.bottom, Constants.spacing)
         }
+    }
+
+    var addNewCurrencyButton: some View {
+        SecondaryButton(
+            title: StringResource.newCurrency.localized,
+            icon: Image.plus,
+            action: { store.send(.addOutputCurrencyButtonTapped) }
+        )
+        .listRowPlainStyle()
+        .padding(.bottom, Constants.spacing)
+    }
+
+    var groupMenuView: some View {
+        GroupMenuView(
+            groupName: .constant(store.selectedCalculationGroup?.displayName ?? StringResource.newGroup.localized),
+            groups: store.calculationGroups.elements,
+            addGroupAction: {
+                isShowingAddGroupModal = true
+            },
+            onSelectedGroupAction: { group in
+                store.send(.onSelectedCalculationGroup(group))
+            }
+        )
+        .listRowPlainStyle()
     }
 
     var footer: some View {
@@ -107,7 +120,6 @@ private extension AddQuickCalculationView {
             )
             .padding(Constants.spacing)
         }
-        .background(Color.backgroundPrimary)
     }
 
     var addGroupModal: some View {

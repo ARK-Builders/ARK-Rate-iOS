@@ -25,13 +25,11 @@ struct CircleBorderModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .clipShape(Circle())
-            .background(
-                Circle()
-                    .fill(backgroundColor)
-            )
+            .background(Circle().fill(backgroundColor))
             .overlay(
                 Circle()
-                    .stroke(color, lineWidth: lineWidth)
+                    .strokeBorder(color, lineWidth: lineWidth)
+                    .allowsHitTesting(false)
             )
     }
 }

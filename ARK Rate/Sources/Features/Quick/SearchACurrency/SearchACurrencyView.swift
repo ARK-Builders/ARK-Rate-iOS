@@ -51,7 +51,7 @@ private extension SearchACurrencyView {
 
     var contentListView: some View {
         ZStack {
-            List {
+            PlainList {
                 if !store.isSearching {
                     frequentCurrenciesSection
                     allCurrenciesSection
@@ -59,7 +59,6 @@ private extension SearchACurrencyView {
                     searchingCurrenciesSection
                 }
             }
-            .listStyle(.plain)
             if store.isSearching && store.displayingCurrencies.isEmpty {
                 CurrencyEmptyStateView()
             }
@@ -76,8 +75,8 @@ private extension SearchACurrencyView {
                         name: currency.name,
                         action: { store.send(.currencyCodeSelected(currency.id)) }
                     )
-                    .modifier(PlainListRowModifier())
-                    .modifier(DisabledModifier(disabled: currency.disabled))
+                    .listRowPlainStyle()
+                    .disabledWithOpacity(currency.disabled)
                 }
             }
         }
@@ -91,8 +90,8 @@ private extension SearchACurrencyView {
                     name: currency.name,
                     action: { store.send(.currencyCodeSelected(currency.id)) }
                 )
-                .modifier(PlainListRowModifier())
-                .modifier(DisabledModifier(disabled: currency.disabled))
+                .listRowPlainStyle()
+                .disabledWithOpacity(currency.disabled)
             }
         }
     }
@@ -107,8 +106,8 @@ private extension SearchACurrencyView {
                         name: currency.name,
                         action: { store.send(.currencyCodeSelected(currency.id)) }
                     )
-                    .modifier(PlainListRowModifier())
-                    .modifier(DisabledModifier(disabled: currency.disabled))
+                    .listRowPlainStyle()
+                    .disabledWithOpacity(currency.disabled)
                 }
             }
         }

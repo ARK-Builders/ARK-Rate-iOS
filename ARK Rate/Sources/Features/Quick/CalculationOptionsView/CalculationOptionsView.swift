@@ -74,7 +74,7 @@ private extension CalculationOptionsView {
                 expandHorizontally: true,
                 action: deleteButtonAction
             )
-            .modifier(RoundedBorderModifier(color: Color.error))
+            .roundedBorder(color: Color.error)
         }
         .padding(.bottom, Constants.optionSpacing)
         .padding(.horizontal, Constants.spacing)
